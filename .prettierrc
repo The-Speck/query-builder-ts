@@ -1,5 +1,11 @@
-tabWidth: 2
-singleQuote: true
-bracketSpacing: true
-printWidth: 80
-trailingComma: es5
+{
+  "printWidth": 80,
+  "tabWidth": 2,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "semi": true,
+  "newline-before-return": true,
+  "no-duplicate-variable": [true, "check-parameters"],
+  "no-var-keyword": true,
+  "jsxBracketSameLine": true
+}
