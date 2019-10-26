@@ -1,7 +1,9 @@
 import { IRule } from '.';
 
+export type Condition = IRule | IRuleGroup;
+
 export interface IRuleGroup {
-  conditions: Array<IRule | IRuleGroup>;
+  conditions: Condition[];
   combinator: string;
 }
 

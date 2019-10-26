@@ -1,4 +1,4 @@
-import isEmpty from 'lodash/isEmpty';
+import classnames from 'classnames';
 import merge from 'lodash/merge';
 import React from 'react';
 import Defaults from './defaults';
@@ -9,6 +9,8 @@ import {
   RuleElements,
   RuleGroupElements,
 } from './models';
+import { RuleGroup } from './RuleGroup';
+import { isRuleGroup } from './utils';
 
 export interface IQueryBuilderProps {
   rules?: RuleElements;
@@ -35,12 +37,18 @@ export class QueryBuilder extends React.Component<
     this.state = this.initializeState();
   }
 
-  render(): React.ReactElement {}
+  render(): React.ReactElement {
+    return (
+      <div className={classnames(this.state.classNames.queryBuilder)}>
+        <RuleGroup group={this.state.query} level={0} {...this.state} />;
+      </div>
+    );
+  }
 
   private initializeState(): IQueryBuilderState {
-    const classNames = this.createClassNames();
-    const rules = this.createRuleElements();
-    const ruleGroups = this.createRuleGroupElements();
+    const classNames = this.createInitialClassNames();
+    const rules = this.createInitialRuleElements();
+    const ruleGroups = this.createInitialRuleGroupElements();
     const query = this.createInitialQuery(ruleGroups);
 
     return {
@@ -51,14 +59,14 @@ export class QueryBuilder extends React.Component<
     };
   }
 
-  private createClassNames(): ClassNames {
+  private createInitialClassNames(): ClassNames {
     const userClassNames = this.props.classNames || {};
     const defaultClasNames = Defaults.classNames;
 
     return merge({}, defaultClasNames, userClassNames);
   }
 
-  private createRuleElements(): RuleElements {
+  private createInitialRuleElements(): RuleElements {
     const userRuleElements = this.props.rules || {};
     const defaultRuleElements = Defaults.ruleElements;
 
@@ -67,7 +75,7 @@ export class QueryBuilder extends React.Component<
     return merge({}, defaultRuleElements, userRuleElements);
   }
 
-  private createRuleGroupElements(): RuleGroupElements {
+  private createInitialRuleGroupElements(): RuleGroupElements {
     const userRuleGroupElements = this.props.ruleGroups || {};
     const defaultRuleGroupElements = Defaults.ruleGroupElements;
 
@@ -76,13 +84,7 @@ export class QueryBuilder extends React.Component<
 
   private createInitialQuery(ruleGroups: RuleGroupElements): IRuleGroup {
     const query = this.props.query;
-    return (
-      (this.isRuleGroup(query) && query) || this.createRuleGroup(ruleGroups)
-    );
-  }
-
-  private isRuleGroup(query: IRuleGroup): boolean {
-    return !(isEmpty(query.combinator) && isEmpty(query.conditions));
+    return (isRuleGroup(query) && query) || this.createRuleGroup(ruleGroups);
   }
 
   private createRuleGroup(ruleGroups: RuleGroupElements): IRuleGroup {
