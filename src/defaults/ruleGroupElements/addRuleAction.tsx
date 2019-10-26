@@ -1,12 +1,12 @@
 import ActionButton from '../../controls/ActionButton';
 import { ControlElement } from '../../models';
-import defaultControlClassNames from '../elementOptions/classNames';
+import ruleGroupElementsClassNames from './ruleGroupElementsClassNames';
 
 export const defaultAddRuleAction: ControlElement = {
   component: ActionButton,
   name: 'addRule',
   label: '+Rule',
-  className: defaultControlClassNames.addRule,
+  className: ruleGroupElementsClassNames.addRule,
   position: 97,
 };
 

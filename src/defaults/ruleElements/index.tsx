@@ -1,4 +1,4 @@
-import RuleElements from '../../models/RuleElements';
+import RuleElements from '../../models/RuleElementsInterface';
 import defaultColumnSelector from './columnSelector';
 import defaultOperatorSelector from './operatorSelector';
 import defaultRemoveRuleAction from './removeRuleAction';

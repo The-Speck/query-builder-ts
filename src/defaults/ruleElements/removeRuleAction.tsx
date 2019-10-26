@@ -1,12 +1,12 @@
 import ActionButton from '../../controls/ActionButton';
 import { ControlElement } from '../../models';
-import defaultControlClassNames from '../elementOptions/classNames';
+import ruleElementsClassNames from './ruleElementsClassNames';
 
 export const defaultRemoveRuleAction: ControlElement = {
   component: ActionButton,
   name: 'removeRule',
   label: 'x',
-  className: defaultControlClassNames.removeRule,
+  className: ruleElementsClassNames.removeRule,
   position: 99,
 };
 

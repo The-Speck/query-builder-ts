@@ -1,4 +1,4 @@
-import { RuleGroupElements } from '../../models/RuleGroupElements';
+import { RuleGroupElements } from '../../models/RuleGroupElementsInterface';
 import defaultAddGroupAction from './AddGroupAction';
 import defaultAddRuleAction from './addRuleAction';
 import defaultCombinatorSelector from './combinatorSelector';

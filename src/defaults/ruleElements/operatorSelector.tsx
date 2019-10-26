@@ -1,13 +1,13 @@
 import ValueDropDown from '../../controls/ValueDropDown';
 import { ControlElement } from '../../models';
-import defaultControlClassNames from '../elementOptions/classNames';
 import defaultOperators from '../elementOptions/operators';
+import ruleElementsClassNames from './ruleElementsClassNames';
 
 export const defaultOperatorSelector: ControlElement = {
   component: ValueDropDown,
   name: 'op',
   options: defaultOperators,
-  className: defaultControlClassNames.operators,
+  className: ruleElementsClassNames.operators,
   position: 2,
   defaultValue: '=',
 };

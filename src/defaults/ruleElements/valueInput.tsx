@@ -1,11 +1,11 @@
 import ValueInput from '../../controls/ValueInput';
 import { ControlElement } from '../../models';
-import defaultControlClassNames from '../elementOptions/classNames';
+import ruleElementsClassNames from './ruleElementsClassNames';
 
 export const defaultValueInput: ControlElement = {
   component: ValueInput,
   name: 'value',
-  className: defaultControlClassNames.value,
+  className: ruleElementsClassNames.value,
   label: 'Value',
   position: 3,
   defaultValue: '',

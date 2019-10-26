@@ -22,6 +22,7 @@ export interface IQueryBuilderState {
   rules: RuleElements;
   ruleGroups: RuleGroupElements;
   query: IRuleGroup;
+  classNames: ClassNames;
 }
 
 export class QueryBuilder extends React.Component<
@@ -34,7 +35,7 @@ export class QueryBuilder extends React.Component<
     this.state = this.initializeState();
   }
 
-  // render(): React.ReactElement {}
+  render(): React.ReactElement {}
 
   private initializeState(): IQueryBuilderState {
     const classNames = this.createClassNames();
@@ -46,6 +47,7 @@ export class QueryBuilder extends React.Component<
       rules,
       ruleGroups,
       query,
+      classNames,
     };
   }
 

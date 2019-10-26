@@ -1,20 +1,12 @@
-import ClassNames from '../../models/ClassNames';
+import ClassNames from '../../models/ClassNamesInterface';
 
 export const defaultClassNames: ClassNames = {
   queryBuilder: '',
 
   ruleGroup: '',
-  ruleRowGroup: '',
-  combinators: '',
-  addRule: '',
-  addGroup: '',
-  removeGroup: '',
+  ruleGroupRow: '',
 
-  rule: '',
-  columns: '',
-  operators: '',
-  value: '',
-  removeRule: '',
+  ruleRow: '',
 };
 
 export default defaultClassNames;
