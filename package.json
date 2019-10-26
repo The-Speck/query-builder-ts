@@ -1,0 +1,43 @@
+{
+  "name": "query-builder",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "Speck",
+  "main": "dist/index.js",
+  "module": "dist/query-builder.esm.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test --env=jsdom",
+    "lint": "tsdx lint"
+  },
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.20",
+    "@types/react": "^16.9.11",
+    "@types/react-dom": "^16.9.3",
+    "husky": "^3.0.9",
+    "prettier": "1.18.2",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "tsdx": "^0.10.5",
+    "tslib": "^1.10.0",
+    "tslint": "^5.20.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.6.4"
+  },
+  "dependencies": {
+    "uuid": "^3.3.3"
+  }
+}

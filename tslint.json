@@ -1,0 +1,15 @@
+{
+  "extends": ["tslint:latest", "tslint-config-prettier"],
+  "rules": {
+    "max-line-length": {
+      "options": [120]
+    },
+    "no-console": {
+      "severity": "warning",
+      "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
+    },
+    "quotemark": [true, "single", "jsx-double"],
+    "trailing-comma": [true, { "multiline": "always", "singleline": "never" }],
+    "object-literal-sort-keys": false
+  }
+}
