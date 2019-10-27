@@ -37,10 +37,10 @@ export class QueryBuilder extends React.Component<
     this.state = this.initializeState();
   }
 
-  render(): React.ReactElement {
+  render(): React.ReactNode {
     return (
       <div className={classnames(this.state.classNames.queryBuilder)}>
-        <RuleGroup group={this.state.query} level={0} {...this.state} />;
+        <RuleGroup group={this.state.query} level={0} {...this.state} />
       </div>
     );
   }
