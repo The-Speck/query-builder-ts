@@ -1,5 +1,5 @@
 {
-  "include": ["src", "types", "test", "old"],
+  "include": ["src", "types", "test", "_old"],
   "compilerOptions": {
     "target": "es5",
     "module": "esnext",
@@ -28,5 +28,5 @@
     "esModuleInterop": true
   },
   "plugins": [{ "name": "typescript-tslint-plugin" }],
-  "exclude": ["old"]
+  "exclude": ["_old"]
 }

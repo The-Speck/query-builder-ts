@@ -9,7 +9,7 @@ import {
   RuleElements,
   RuleGroupElements,
 } from './models';
-import { RuleGroup } from './RuleGroup';
+import RuleGroup from './RuleGroup';
 import { isRuleGroup } from './utils';
 
 export interface IQueryBuilderProps {
@@ -21,41 +21,47 @@ export interface IQueryBuilderProps {
 }
 
 export interface IQueryBuilderState {
-  rules: RuleElements;
-  ruleGroups: RuleGroupElements;
   query: IRuleGroup;
-  classNames: ClassNames;
 }
 
 export class QueryBuilder extends React.Component<
   IQueryBuilderProps,
   IQueryBuilderState
 > {
+  private classNames: ClassNames;
+  private rules: RuleElements;
+  private ruleGroups: RuleGroupElements;
+
   constructor(props: IQueryBuilderProps) {
     super(props);
+
+    this.classNames = this.createInitialClassNames();
+    this.rules = this.createInitialRuleElements();
+    this.ruleGroups = this.createInitialRuleGroupElements();
 
     this.state = this.initializeState();
   }
 
   render(): React.ReactNode {
     return (
-      <div className={classnames(this.state.classNames.queryBuilder)}>
-        <RuleGroup group={this.state.query} level={0} {...this.state} />
+      <div className={classnames(this.classNames.queryBuilder)}>
+        <RuleGroup
+          query={this.state.query}
+          group={this.state.query}
+          level={0}
+          rules={this.rules}
+          ruleGroups={this.ruleGroups}
+          classNames={this.classNames}
+        />
       </div>
     );
   }
 
   private initializeState(): IQueryBuilderState {
-    const classNames = this.createInitialClassNames();
-    const rules = this.createInitialRuleElements();
-    const ruleGroups = this.createInitialRuleGroupElements();
-    const query = this.createInitialQuery(ruleGroups);
+    const query = this.createInitialQuery(this.ruleGroups);
 
     return {
-      rules,
-      ruleGroups,
       query,
-      classNames,
     };
   }
 

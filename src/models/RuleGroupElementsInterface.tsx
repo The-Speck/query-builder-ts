@@ -5,6 +5,7 @@ export interface RuleGroupElements {
   addRuleAction: ControlElement;
   addGroupAction: ControlElement;
   removeGroupAction: ControlElement;
+  [ElementName: string]: ControlElement;
 }
 
 export default RuleGroupElements;
