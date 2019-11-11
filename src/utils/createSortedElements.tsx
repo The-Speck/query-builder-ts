@@ -1,13 +1,11 @@
-import chain from 'lodash/chain';
+import sortBy from 'lodash/sortBy';
 import { ControlElement, RuleElements, RuleGroupElements } from '../models';
 
 export const createSortedElements = (
   conditions: RuleElements | RuleGroupElements,
 ): ControlElement[] => {
-  return chain(conditions)
-    .values()
-    .sortBy('position')
-    .value();
+  const conditionValues = Object.values(conditions);
+  return sortBy(conditionValues, ['position']);
 };
 
 export default createSortedElements;

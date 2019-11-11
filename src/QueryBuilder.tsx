@@ -10,7 +10,7 @@ import {
   RuleGroupElements,
 } from './models';
 import RuleGroup from './RuleGroup';
-import { isRuleGroup } from './utils';
+import { isValidQuery } from './utils';
 
 export interface IQueryBuilderProps {
   rules?: RuleElements;
@@ -58,7 +58,7 @@ export class QueryBuilder extends React.Component<
   }
 
   private initializeState(): IQueryBuilderState {
-    const query = this.createInitialQuery(this.ruleGroups);
+    const query = this.createInitialQuery();
 
     return {
       query,
@@ -88,9 +88,11 @@ export class QueryBuilder extends React.Component<
     return merge({}, defaultRuleGroupElements, userRuleGroupElements);
   }
 
-  private createInitialQuery(ruleGroups: RuleGroupElements): IRuleGroup {
+  private createInitialQuery(): IRuleGroup {
     const query = this.props.query;
-    return (isRuleGroup(query) && query) || this.createRuleGroup(ruleGroups);
+    return (
+      (isValidQuery(query) && query) || this.createRuleGroup(this.ruleGroups)
+    );
   }
 
   private createRuleGroup(ruleGroups: RuleGroupElements): IRuleGroup {
