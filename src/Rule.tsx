@@ -17,8 +17,10 @@ export interface IRuleProps extends IQueryBuilderState {
   classNames: ClassNames;
 }
 
-export interface IRuleElementAttributes extends Attributes, IRuleProps {
+export interface IRuleElementAttributes extends Attributes {
   handleOnChange: handleOnChange;
+  parentProps: IRuleProps;
+  value: any;
 }
 
 export class Rule extends React.Component<IRuleProps> {
@@ -39,9 +41,19 @@ export class Rule extends React.Component<IRuleProps> {
       React.createElement(element.component, {
         key: idx,
         handleOnChange: this.assignOnChange(element),
-        ...this.props,
+        parentProps: { ...this.props },
+        ...element,
+        value: this.setValue(element),
       } as IRuleElementAttributes),
     );
+  }
+
+  private setValue(element: ControlElement): any {
+    const currentValue = (this.props.rule as any)[element.name];
+    if (currentValue === undefined) {
+      return element.defaultValue;
+    }
+    return currentValue;
   }
 
   private assignOnChange(element: ControlElement): handleOnChange {

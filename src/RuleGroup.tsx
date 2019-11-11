@@ -23,10 +23,10 @@ export interface IRuleGroupProps extends IQueryBuilderState {
   classNames: ClassNames;
 }
 
-export interface IRuleGroupElementAttributes
-  extends Attributes,
-    IRuleGroupProps {
+export interface IRuleGroupElementAttributes extends Attributes {
   handleOnChange: handleOnChange;
+  parentProps: IRuleGroupProps;
+  value: any;
 }
 
 export class RuleGroup extends React.Component<IRuleGroupProps> {
@@ -50,8 +50,10 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
     return elements.map((element: ControlElement, idx: number) =>
       React.createElement(element.component, {
         key: idx,
-        handleOnChange: this.assignOnChange(element),
-        ...this.props,
+        handleOnChange: this.setOnChange(element),
+        parentProps: { ...this.props },
+        ...element,
+        value: this.setValue(element),
       } as IRuleGroupElementAttributes),
     );
   }
@@ -77,7 +79,15 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
     );
   }
 
-  private assignOnChange(element: ControlElement): handleOnChange {
+  private setValue(element: ControlElement): any {
+    const currentValue = (this.props.group as any)[element.name];
+    if (currentValue === undefined) {
+      return element.defaultValue;
+    }
+    return currentValue;
+  }
+
+  private setOnChange(element: ControlElement): handleOnChange {
     switch (element.name) {
       case this.props.ruleGroups.addGroupAction.name:
         return this.addGroup;
