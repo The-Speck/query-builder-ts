@@ -1,9 +1,11 @@
+import { boundMethod } from 'autobind-decorator';
 import classnames from 'classnames';
-import React from 'react';
+import React, { Attributes } from 'react';
 import {
   ClassNames,
   Condition,
   ControlElement,
+  handleOnChange,
   IRule,
   IRuleGroup,
   RuleElements,
@@ -19,6 +21,12 @@ export interface IRuleGroupProps extends IQueryBuilderState {
   rules: RuleElements;
   ruleGroups: RuleGroupElements;
   classNames: ClassNames;
+}
+
+export interface IRuleGroupElementAttributes
+  extends Attributes,
+    IRuleGroupProps {
+  handleOnChange: handleOnChange;
 }
 
 export class RuleGroup extends React.Component<IRuleGroupProps> {
@@ -42,8 +50,9 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
     return elements.map((element: ControlElement, idx: number) =>
       React.createElement(element.component, {
         key: idx,
+        handleOnChange: this.assignOnChange(element),
         ...this.props,
-      }),
+      } as IRuleGroupElementAttributes),
     );
   }
 
@@ -67,6 +76,31 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
       isRuleGroup(a) === isRuleGroup(b) ? 0 : isRuleGroup(a) ? 1 : -1,
     );
   }
+
+  private assignOnChange(element: ControlElement): handleOnChange {
+    switch (element.name) {
+      case this.props.ruleGroups.addGroupAction.name:
+        return this.addGroup;
+      case this.props.ruleGroups.addRuleAction.name:
+        return this.addRule;
+      case this.props.ruleGroups.removeGroupAction.name:
+        return this.removeGroup;
+      default:
+        return this.onElementChanged;
+    }
+  }
+
+  @boundMethod
+  private addRule(): void {}
+
+  @boundMethod
+  private addGroup(): void {}
+
+  @boundMethod
+  private removeGroup(): void {}
+
+  @boundMethod
+  private onElementChanged(): void {}
 }
 
 export default RuleGroup;
