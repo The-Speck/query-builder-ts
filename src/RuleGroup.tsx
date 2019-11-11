@@ -4,6 +4,7 @@ import {
   ClassNames,
   Condition,
   ControlElement,
+  IRule,
   IRuleGroup,
   RuleElements,
   RuleGroupElements,
@@ -15,7 +16,6 @@ import { createSortedElements, isRuleGroup } from './utils';
 export interface IRuleGroupProps extends IQueryBuilderState {
   group: IRuleGroup;
   level: number;
-  query: IRuleGroup;
   rules: RuleElements;
   ruleGroups: RuleGroupElements;
   classNames: ClassNames;
@@ -31,18 +31,7 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
         <div className={classnames(classNames.ruleGroupRow)}>
           {this.createComponents()}
         </div>
-        {conditions.map((condition: Condition, idx: number) => {
-          return isRuleGroup(condition) ? (
-            <RuleGroup
-              key={idx}
-              group={condition}
-              level={this.props.level + 1}
-              {...this.props}
-            />
-          ) : (
-            <Rule key={idx} rule={condition} />
-          );
-        })}
+        {this.createChildren(conditions)}
       </div>
     );
   }
@@ -56,6 +45,21 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
         ...this.props,
       }),
     );
+  }
+
+  private createChildren(conditions: Condition[]): React.ReactNode {
+    return conditions.map((condition: Condition, idx: number) => {
+      return isRuleGroup(condition) ? (
+        <RuleGroup
+          key={idx}
+          group={condition as IRuleGroup}
+          level={this.props.level + 1}
+          {...this.props}
+        />
+      ) : (
+        <Rule key={idx} rule={condition as IRule} {...this.props} />
+      );
+    });
   }
 
   private sortConditions(conditions: Condition[]): Condition[] {
