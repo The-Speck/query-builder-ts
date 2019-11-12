@@ -3,7 +3,7 @@ import ClassNames from '../../models/ClassNamesInterface';
 export const defaultClassNames: ClassNames = {
   queryBuilder: '',
 
-  ruleGroup: 'border-left pt-2 container-fluid',
+  ruleGroup: '',
   ruleGroupRow: '',
 
   ruleRow: '',

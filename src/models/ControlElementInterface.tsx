@@ -1,7 +1,7 @@
 export type condition = (props: any) => boolean;
 
 export interface ControlElement {
-  component: React.FunctionComponent | React.ComponentClass;
+  component: React.FunctionComponent<any> | React.ComponentClass<any>;
   name: string;
   className?: string | string[];
   options?: any[];

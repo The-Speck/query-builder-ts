@@ -17,7 +17,6 @@
     "remove:packages": "del node_modules"
   },
   "peerDependencies": {
-    "bootstrap": "^4.3.1",
     "react": ">=16"
   },
   "devDependencies": {
