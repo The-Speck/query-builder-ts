@@ -1,18 +1,10 @@
 import classnames from 'classnames';
 import isNil from 'lodash/isNil';
 import React, { useMemo } from 'react';
-import { ControlElement, handleOnChange } from '../models';
-import { IRuleProps } from '../Rule';
-import { IRuleGroupProps } from '../RuleGroup';
+import { IControlProps } from '../models';
 
-export interface IValueDropDown extends ControlElement {
-  handleOnChange: handleOnChange;
-  parentProps: IRuleGroupProps | IRuleProps;
-  value: any;
-}
-
-export const ValueDropDown: React.FC<IValueDropDown> = props => {
-  const { options } = props;
+export const ValueDropDown: React.FC<IControlProps> = props => {
+  const { options, handleOnChange, className } = props;
 
   const dropdownOptions = useMemo(() => {
     if (isNil(options)) {
@@ -26,7 +18,7 @@ export const ValueDropDown: React.FC<IValueDropDown> = props => {
   }, [options]);
 
   return (
-    <select className={classnames('dropdown', props.className)}>
+    <select className={classnames(className)} onChange={handleOnChange}>
       {dropdownOptions}
     </select>
   );

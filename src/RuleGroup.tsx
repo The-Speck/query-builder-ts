@@ -101,16 +101,33 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
   }
 
   @boundMethod
-  private addRule(): void {}
+  private addRule(event: React.MouseEvent<HTMLButtonElement>): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    console.log('addRule');
+  }
 
   @boundMethod
-  private addGroup(): void {}
+  private addGroup(event: React.MouseEvent<HTMLButtonElement>): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    console.log('addGroup');
+  }
 
   @boundMethod
-  private removeGroup(): void {}
+  private removeGroup(event: React.MouseEvent<HTMLButtonElement>): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    console.log('removeGroup');
+  }
 
   @boundMethod
-  private onElementChanged(): void {}
+  private onElementChanged(property: string): void {
+    console.log('onElementChanged', property);
+  }
 }
 
 export default RuleGroup;
