@@ -17,6 +17,7 @@ import {
   createInitialRuleElements,
   createInitialRuleGroupElements,
   findCondition,
+  findConditionIdxAndParentGroup,
   isRuleGroup,
 } from './utils';
 
@@ -84,18 +85,15 @@ export class QueryBuilder extends React.Component<
   }
 
   @boundMethod
-  public onRemove(conditionId: string, groupId: string): void {
+  public onRemove(conditionId: string): void {
     const query = merge({}, this.state.query);
-    const group = findCondition(groupId, query);
+    const [idx, group] = findConditionIdxAndParentGroup(conditionId, query);
 
-    if (group && isRuleGroup(group)) {
-      const index = group.conditions.findIndex(
-        (g: TCondition) => g.id === conditionId,
-      );
-      group.conditions.splice(index, 1);
+    if (idx && group && isRuleGroup(group)) {
+      group.conditions.splice(idx, 1);
       this.setState({ query });
     } else {
-      throw new ConditionNotFound('group', groupId);
+      throw new ConditionNotFound('group', conditionId);
     }
   }
 

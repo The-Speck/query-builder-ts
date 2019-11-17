@@ -1,9 +1,9 @@
-import { ControlElement, handleOnChange } from '.';
+import { ControlElement, THandleOnChange } from '.';
 import { IRuleProps } from '../Rule';
 import { IRuleGroupProps } from '../RuleGroup';
 
 export interface IControlProps extends ControlElement {
-  handleOnChange: handleOnChange;
+  handleOnChange: THandleOnChange;
   parentProps: IRuleGroupProps | IRuleProps;
   value: any;
   [key: string]: any;

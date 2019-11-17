@@ -5,34 +5,36 @@ export const findCondition = (
   id: string,
   query: IRuleGroup,
 ): TCondition | null => {
-  if (query.id === id) {
-    return query;
-  }
+  const [idx, condition] = findConditionIdxAndParentGroup(id, query);
 
-  for (const condition of query.conditions) {
-    if (condition.id === id) {
-      return condition;
-    } else if (isRuleGroup(condition)) {
-      return findCondition(id, condition as IRuleGroup);
-    }
+  if (idx && condition) {
+    return condition[idx];
+  } else if (condition) {
+    return condition;
+  } else {
+    return null;
   }
-
-  return null;
 };
 
-export type TFindConditionAndParent = [number, TCondition];
+export type TFindConditionAndParent = [number | null, TCondition | null];
 
-export const findConditionIdxAndParent = (
+export const findConditionIdxAndParentGroup = (
   id: string,
   query: IRuleGroup,
-): TFindConditionAndParent | null => {
+): TFindConditionAndParent => {
+  if (query.id === id) {
+    return [null, query];
+  }
+
   for (let idx = 0; idx < query.conditions.length; idx++) {
     const condition = query.conditions[idx];
+
     if (condition.id === id) {
       return [idx, query];
     } else if (isRuleGroup(condition)) {
-      return findConditionIdxAndParent(id, condition as IRuleGroup);
+      return findConditionIdxAndParentGroup(id, condition as IRuleGroup);
     }
   }
-  return null;
+
+  return [null, null];
 };

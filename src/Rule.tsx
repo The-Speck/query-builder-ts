@@ -7,6 +7,10 @@ import {
   IRule,
   RuleElements,
   THandleOnChange,
+  TOnAdd,
+  TOnElementChange,
+  TOnPropChange,
+  TOnRemove,
 } from './models';
 import { IQueryBuilderState } from './QueryBuilder';
 import { createSortedElements } from './utils';
@@ -15,6 +19,9 @@ export interface IRuleProps extends IQueryBuilderState {
   rule: IRule;
   rules: RuleElements;
   classNames: ClassNames;
+  onAdd: TOnAdd;
+  onRemove: TOnRemove;
+  onPropChange: TOnPropChange;
 }
 
 export interface IRuleElementAttributes extends Attributes {
@@ -61,15 +68,25 @@ export class Rule extends React.Component<IRuleProps> {
       case this.props.rules.removeRuleAction.name:
         return this.removeRule;
       default:
-        return this.onElementChange;
+        return this.onElementChange(element.name);
     }
   }
 
   @boundMethod
-  private removeRule(): void {}
+  private removeRule(event: React.MouseEvent<HTMLButtonElement>): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const { rule, onRemove } = this.props;
+    onRemove(rule.id);
+  }
 
   @boundMethod
-  private onElementChange(): void {}
+  private onElementChange(property: string): TOnElementChange {
+    const { rule, onPropChange } = this.props;
+
+    return (value: any): void => onPropChange(property, value, rule.id);
+  }
 }
 
 export default Rule;

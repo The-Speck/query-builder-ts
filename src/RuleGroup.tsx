@@ -11,7 +11,7 @@ import {
   TCondition,
   THandleOnChange,
   TOnAdd,
-  TOnElementChanged,
+  TOnElementChange,
   TOnPropChange,
   TOnRemove,
 } from './models';
@@ -78,7 +78,7 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
           key={idx}
           group={condition as IRuleGroup}
           level={this.props.level + 1}
-          onAdd={this.props.onAdd} // this may need modification
+          onAdd={this.props.onAdd}
         />
       ) : (
         <Rule key={idx} rule={condition as IRule} {...this.props} />
@@ -111,7 +111,7 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
       case ruleGroups.removeGroupAction.name:
         return this.removeGroup;
       default:
-        return this.onElementChanged(name);
+        return this.onElementChange(name);
     }
   }
 
@@ -140,11 +140,12 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
     event.preventDefault();
     event.stopPropagation();
 
-    console.log('removeGroup');
+    const { group, onRemove } = this.props;
+    onRemove(group.id);
   }
 
   @boundMethod
-  private onElementChanged(property: string): TOnElementChanged {
+  private onElementChange(property: string): TOnElementChange {
     const { group, onPropChange } = this.props;
 
     return (value: any): void => onPropChange(property, value, group.id);
