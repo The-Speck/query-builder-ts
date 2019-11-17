@@ -10,7 +10,6 @@ import {
   RuleElements,
   RuleGroupElements,
 } from '../models';
-import RuleGroup from '../RuleGroup';
 
 export const createInitialClassNames = (classNames: ClassNames): ClassNames => {
   const userClassNames = classNames || {};
@@ -44,9 +43,7 @@ export const createInitialQuery = (
   query: IRuleGroup,
   ruleGroups: RuleGroupElements,
 ): IRuleGroup => {
-  return (
-    (isValidQuery(query) && query) || RuleGroup.createRuleGroup(ruleGroups)
-  );
+  return (isValidQuery(query) && query) || createRuleGroup(ruleGroups);
 };
 
 export const createRuleGroup = (ruleGroups: RuleGroupElements): IRuleGroup => {

@@ -19,3 +19,20 @@ export const findCondition = (
 
   return null;
 };
+
+export type TFindConditionAndParent = [number, TCondition];
+
+export const findConditionIdxAndParent = (
+  id: string,
+  query: IRuleGroup,
+): TFindConditionAndParent | null => {
+  for (let idx = 0; idx < query.conditions.length; idx++) {
+    const condition = query.conditions[idx];
+    if (condition.id === id) {
+      return [idx, query];
+    } else if (isRuleGroup(condition)) {
+      return findConditionIdxAndParent(id, condition as IRuleGroup);
+    }
+  }
+  return null;
+};

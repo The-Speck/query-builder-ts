@@ -63,6 +63,8 @@ export class QueryBuilder extends React.Component<
           ruleGroups={this.ruleGroups}
           classNames={this.classNames}
           onAdd={this.onAdd}
+          onRemove={this.onRemove}
+          onPropChange={this.onPropChange}
         />
       </div>
     );
@@ -98,15 +100,15 @@ export class QueryBuilder extends React.Component<
   }
 
   @boundMethod
-  public onPropChange(key: string, value: any, ruleId: string): void {
+  public onPropChange(key: string, value: any, conditionId: string): void {
     const query = merge({}, this.state.query);
-    const rule = findCondition(ruleId, query);
+    const rule = findCondition(conditionId, query);
 
     if (rule && !isRuleGroup(rule)) {
       Object.assign(rule, { [key]: value });
       this.setState({ query });
     } else {
-      throw new ConditionNotFound('rule', ruleId);
+      throw new ConditionNotFound('condition', conditionId);
     }
   }
 

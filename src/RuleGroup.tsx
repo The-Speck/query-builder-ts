@@ -1,21 +1,28 @@
 import { boundMethod } from 'autobind-decorator';
 import classnames from 'classnames';
 import React, { Attributes } from 'react';
-import defaultCombinatorSelector from './defaults/ruleGroupElements/combinatorSelector';
 import {
   ClassNames,
   ControlElement,
   IRule,
   IRuleGroup,
-  onAdd,
   RuleElements,
   RuleGroupElements,
   TCondition,
   THandleOnChange,
+  TOnAdd,
+  TOnElementChanged,
+  TOnPropChange,
+  TOnRemove,
 } from './models';
 import { IQueryBuilderState } from './QueryBuilder';
 import Rule from './Rule';
-import { createSortedElements, isRuleGroup, quickUUID } from './utils';
+import {
+  createRule,
+  createRuleGroup,
+  createSortedElements,
+  isRuleGroup,
+} from './utils';
 
 export interface IRuleGroupProps extends IQueryBuilderState {
   group: IRuleGroup;
@@ -23,7 +30,9 @@ export interface IRuleGroupProps extends IQueryBuilderState {
   rules: RuleElements;
   ruleGroups: RuleGroupElements;
   classNames: ClassNames;
-  onAdd: onAdd;
+  onAdd: TOnAdd;
+  onRemove: TOnRemove;
+  onPropChange: TOnPropChange;
 }
 
 export interface IRuleGroupElementAttributes extends Attributes {
@@ -33,17 +42,6 @@ export interface IRuleGroupElementAttributes extends Attributes {
 }
 
 export class RuleGroup extends React.Component<IRuleGroupProps> {
-  public static createRuleGroup(ruleGroups: RuleGroupElements): IRuleGroup {
-    // Add the other potential custom rule group elements
-    return {
-      id: quickUUID(),
-      conditions: [],
-      combinator:
-        ruleGroups.combinatorSelector.defaultValue ||
-        defaultCombinatorSelector.defaultValue,
-    };
-  }
-
   render(): React.ReactNode {
     const { group, classNames, level } = this.props;
     const conditions = this.sortConditions(group.conditions);
@@ -102,16 +100,18 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
     return currentValue;
   }
 
-  private setOnChange(element: ControlElement): THandleOnChange {
-    switch (element.name) {
-      case this.props.ruleGroups.addGroupAction.name:
+  private setOnChange({ name }: ControlElement): THandleOnChange {
+    const { ruleGroups } = this.props;
+
+    switch (name) {
+      case ruleGroups.addGroupAction.name:
         return this.addGroup;
-      case this.props.ruleGroups.addRuleAction.name:
+      case ruleGroups.addRuleAction.name:
         return this.addRule;
-      case this.props.ruleGroups.removeGroupAction.name:
+      case ruleGroups.removeGroupAction.name:
         return this.removeGroup;
       default:
-        return this.onElementChanged;
+        return this.onElementChanged(name);
     }
   }
 
@@ -120,13 +120,19 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
     event.preventDefault();
     event.stopPropagation();
 
-    console.log('addRule');
+    const { rules, group, onAdd } = this.props;
+    const newRule = createRule(rules);
+    onAdd(newRule, group.id);
   }
 
   @boundMethod
   private addGroup(event: React.MouseEvent<HTMLButtonElement>): void {
     event.preventDefault();
     event.stopPropagation();
+
+    const { ruleGroups, group, onAdd } = this.props;
+    const newGroup = createRuleGroup(ruleGroups);
+    onAdd(newGroup, group.id);
   }
 
   @boundMethod
@@ -138,8 +144,10 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
   }
 
   @boundMethod
-  private onElementChanged(property: string): void {
-    console.log('onElementChanged', property);
+  private onElementChanged(property: string): TOnElementChanged {
+    const { group, onPropChange } = this.props;
+
+    return (value: any): void => onPropChange(property, value, group.id);
   }
 }
 
