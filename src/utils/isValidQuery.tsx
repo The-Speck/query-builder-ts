@@ -1,8 +1,6 @@
+import { isRuleGroup } from '.';
 import { IRuleGroup } from '../models';
-import isRuleGroup from './isRuleGroup';
 
-export const isValidQuery = (query: IRuleGroup): boolean => {
+export const isValidQuery = (query: IRuleGroup): query is IRuleGroup => {
   return query && isRuleGroup(query);
 };
-
-export default isValidQuery;

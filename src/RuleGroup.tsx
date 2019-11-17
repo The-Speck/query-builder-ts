@@ -1,19 +1,21 @@
 import { boundMethod } from 'autobind-decorator';
 import classnames from 'classnames';
 import React, { Attributes } from 'react';
+import defaultCombinatorSelector from './defaults/ruleGroupElements/combinatorSelector';
 import {
   ClassNames,
-  Condition,
   ControlElement,
-  handleOnChange,
   IRule,
   IRuleGroup,
+  onAdd,
   RuleElements,
   RuleGroupElements,
+  TCondition,
+  THandleOnChange,
 } from './models';
 import { IQueryBuilderState } from './QueryBuilder';
 import Rule from './Rule';
-import { createSortedElements, isRuleGroup } from './utils';
+import { createSortedElements, isRuleGroup, quickUUID } from './utils';
 
 export interface IRuleGroupProps extends IQueryBuilderState {
   group: IRuleGroup;
@@ -21,15 +23,27 @@ export interface IRuleGroupProps extends IQueryBuilderState {
   rules: RuleElements;
   ruleGroups: RuleGroupElements;
   classNames: ClassNames;
+  onAdd: onAdd;
 }
 
 export interface IRuleGroupElementAttributes extends Attributes {
-  handleOnChange: handleOnChange;
+  handleOnChange: THandleOnChange;
   parentProps: IRuleGroupProps;
   value: any;
 }
 
 export class RuleGroup extends React.Component<IRuleGroupProps> {
+  public static createRuleGroup(ruleGroups: RuleGroupElements): IRuleGroup {
+    // Add the other potential custom rule group elements
+    return {
+      id: quickUUID(),
+      conditions: [],
+      combinator:
+        ruleGroups.combinatorSelector.defaultValue ||
+        defaultCombinatorSelector.defaultValue,
+    };
+  }
+
   render(): React.ReactNode {
     const { group, classNames, level } = this.props;
     const conditions = this.sortConditions(group.conditions);
@@ -58,14 +72,15 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
     );
   }
 
-  private createChildren(conditions: Condition[]): React.ReactNode {
-    return conditions.map((condition: Condition, idx: number) => {
+  private createChildren(conditions: TCondition[]): React.ReactNode {
+    return conditions.map((condition: TCondition, idx: number) => {
       return isRuleGroup(condition) ? (
         <RuleGroup
+          {...this.props}
           key={idx}
           group={condition as IRuleGroup}
           level={this.props.level + 1}
-          {...this.props}
+          onAdd={this.props.onAdd} // this may need modification
         />
       ) : (
         <Rule key={idx} rule={condition as IRule} {...this.props} />
@@ -73,8 +88,8 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
     });
   }
 
-  private sortConditions(conditions: Condition[]): Condition[] {
-    return conditions.sort((a: Condition, b: Condition) =>
+  private sortConditions(conditions: TCondition[]): TCondition[] {
+    return conditions.sort((a: TCondition, b: TCondition) =>
       isRuleGroup(a) === isRuleGroup(b) ? 0 : isRuleGroup(a) ? 1 : -1,
     );
   }
@@ -87,7 +102,7 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
     return currentValue;
   }
 
-  private setOnChange(element: ControlElement): handleOnChange {
+  private setOnChange(element: ControlElement): THandleOnChange {
     switch (element.name) {
       case this.props.ruleGroups.addGroupAction.name:
         return this.addGroup;
@@ -112,8 +127,6 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
   private addGroup(event: React.MouseEvent<HTMLButtonElement>): void {
     event.preventDefault();
     event.stopPropagation();
-
-    console.log('addGroup');
   }
 
   @boundMethod

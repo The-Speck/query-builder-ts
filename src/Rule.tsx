@@ -4,9 +4,9 @@ import React, { Attributes } from 'react';
 import {
   ClassNames,
   ControlElement,
-  handleOnChange,
   IRule,
   RuleElements,
+  THandleOnChange,
 } from './models';
 import { IQueryBuilderState } from './QueryBuilder';
 import { createSortedElements } from './utils';
@@ -18,7 +18,7 @@ export interface IRuleProps extends IQueryBuilderState {
 }
 
 export interface IRuleElementAttributes extends Attributes {
-  handleOnChange: handleOnChange;
+  handleOnChange: THandleOnChange;
   parentProps: IRuleProps;
   value: any;
 }
@@ -56,7 +56,7 @@ export class Rule extends React.Component<IRuleProps> {
     return currentValue;
   }
 
-  private assignOnChange(element: ControlElement): handleOnChange {
+  private assignOnChange(element: ControlElement): THandleOnChange {
     switch (element.name) {
       case this.props.rules.removeRuleAction.name:
         return this.removeRule;

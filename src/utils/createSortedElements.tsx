@@ -7,5 +7,3 @@ export const createSortedElements = (
   const conditionValues = Object.values(conditions);
   return sortBy(conditionValues, ['position']);
 };
-
-export default createSortedElements;

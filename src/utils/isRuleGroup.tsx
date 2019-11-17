@@ -1,8 +1,6 @@
 import isNil from 'lodash/isNil';
-import { Condition } from '../models';
+import { IRuleGroup, TCondition } from '../models';
 
-export const isRuleGroup = (query: Condition): boolean => {
+export const isRuleGroup = (query: TCondition): query is IRuleGroup => {
   return !(isNil(query.combinator) && isNil(query.conditions));
 };
-
-export default isRuleGroup;

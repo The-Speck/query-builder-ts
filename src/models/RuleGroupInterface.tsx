@@ -1,10 +1,12 @@
 import { IRule } from '.';
 
-export type Condition = IRule | IRuleGroup;
+export type TCondition = IRule | IRuleGroup;
 
 export interface IRuleGroup {
-  conditions: Condition[];
+  id: string;
+  conditions: TCondition[];
   combinator: string;
+  [key: string]: any;
 }
 
 export default IRuleGroup;

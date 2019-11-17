@@ -1,5 +1,6 @@
 export interface IRule {
-  [key: string]: string;
+  id: string;
+  [key: string]: any;
 }
 
 export default IRule;
