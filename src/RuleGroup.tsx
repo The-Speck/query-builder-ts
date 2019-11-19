@@ -22,6 +22,7 @@ import {
   createRuleGroup,
   createSortedElements,
   isRuleGroup,
+  typeCheck,
 } from './utils';
 
 export interface IRuleGroupProps extends IQueryBuilderState {
@@ -43,12 +44,15 @@ export interface IRuleGroupElementAttributes extends Attributes {
 
 export class RuleGroup extends React.Component<IRuleGroupProps> {
   render(): React.ReactNode {
-    const { group, classNames, level } = this.props;
+    const { group, classNames } = this.props;
     const conditions = this.sortConditions(group.conditions);
 
     return (
-      <div className={classnames(level > 0 ? classNames.ruleGroup : null)}>
-        <div className={classnames(classNames.ruleGroupRow)}>
+      <div className={classnames(typeCheck(classNames.ruleGroup, this.props))}>
+        <div
+          className={classnames(
+            typeCheck(classNames.ruleGroupRow, this.props),
+          )}>
           {this.createComponents()}
         </div>
         {this.createChildren(conditions)}
@@ -78,7 +82,6 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
           key={idx}
           group={condition as IRuleGroup}
           level={this.props.level + 1}
-          onAdd={this.props.onAdd}
         />
       ) : (
         <Rule key={idx} rule={condition as IRule} {...this.props} />

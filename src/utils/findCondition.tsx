@@ -1,14 +1,17 @@
 import { isRuleGroup } from '.';
 import { IRuleGroup, TCondition } from '../models';
 
+export const isNumber = (value: any): value is number =>
+  Number.isInteger(value);
+
 export const findCondition = (
   id: string,
   query: IRuleGroup,
 ): TCondition | null => {
   const [idx, condition] = findConditionIdxAndParentGroup(id, query);
 
-  if (idx && condition) {
-    return condition[idx];
+  if (isNumber(idx) && condition) {
+    return condition.conditions[idx];
   } else if (condition) {
     return condition;
   } else {
@@ -32,7 +35,13 @@ export const findConditionIdxAndParentGroup = (
     if (condition.id === id) {
       return [idx, query];
     } else if (isRuleGroup(condition)) {
-      return findConditionIdxAndParentGroup(id, condition as IRuleGroup);
+      const [conditionIdx, group] = findConditionIdxAndParentGroup(
+        id,
+        condition as IRuleGroup,
+      );
+      if (isNumber(conditionIdx) && group) {
+        return [conditionIdx, group];
+      }
     }
   }
 

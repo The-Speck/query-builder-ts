@@ -13,7 +13,7 @@ import {
   TOnRemove,
 } from './models';
 import { IQueryBuilderState } from './QueryBuilder';
-import { createSortedElements } from './utils';
+import { createSortedElements, typeCheck } from './utils';
 
 export interface IRuleProps extends IQueryBuilderState {
   rule: IRule;
@@ -35,7 +35,7 @@ export class Rule extends React.Component<IRuleProps> {
     const { classNames } = this.props;
 
     return (
-      <div className={classnames(classNames.ruleRow)}>
+      <div className={classnames(typeCheck(classNames.ruleRow, this.props))}>
         {this.createComponents()}
       </div>
     );

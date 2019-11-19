@@ -1,10 +1,12 @@
+export type classNameFunction = (...args: any[]) => string | string[];
+
 export interface ClassNames {
-  queryBuilder?: string | string[];
+  queryBuilder?: string | string[] | classNameFunction;
 
-  ruleGroup?: string | string[];
-  ruleGroupRow?: string | string[];
+  ruleGroup?: string | string[] | classNameFunction;
+  ruleGroupRow?: string | string[] | classNameFunction;
 
-  ruleRow?: string | string[];
+  ruleRow?: string | string[] | classNameFunction;
 }
 
 export default ClassNames;

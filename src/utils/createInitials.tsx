@@ -49,7 +49,13 @@ export const createInitialQuery = (
 export const createRuleGroup = (ruleGroups: RuleGroupElements): IRuleGroup => {
   const customRuleGroups = Object.values(ruleGroups).reduce(
     (acc: Partial<IRuleGroup>, { name, defaultValue }: ControlElement) => {
-      acc[name] = defaultValue;
+      if (
+        name !== ruleGroups.addGroupAction.name &&
+        name !== ruleGroups.addRuleAction.name &&
+        name !== ruleGroups.removeGroupAction.name
+      ) {
+        acc[name] = defaultValue;
+      }
       return acc;
     },
     {},
@@ -68,7 +74,9 @@ export const createRuleGroup = (ruleGroups: RuleGroupElements): IRuleGroup => {
 export const createRule = (rules: RuleElements): IRule => {
   const customRules = Object.values(rules).reduce(
     (acc: Partial<IRule>, { name, defaultValue }: ControlElement) => {
-      acc[name] = defaultValue;
+      if (name !== rules.removeRuleAction.name) {
+        acc[name] = defaultValue;
+      }
       return acc;
     },
     {},

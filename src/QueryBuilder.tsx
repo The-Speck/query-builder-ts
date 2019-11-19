@@ -2,6 +2,7 @@ import { boundMethod } from 'autobind-decorator';
 import classnames from 'classnames';
 import merge from 'lodash/merge';
 import React from 'react';
+// import './defaults/elementOptions/styles.css';
 import { ConditionNotFound } from './error';
 import {
   ClassNames,
@@ -19,6 +20,7 @@ import {
   findCondition,
   findConditionIdxAndParentGroup,
   isRuleGroup,
+  typeCheck,
 } from './utils';
 
 export interface IQueryBuilderProps {
@@ -55,7 +57,10 @@ export class QueryBuilder extends React.Component<
 
   render(): React.ReactNode {
     return (
-      <div className={classnames(this.classNames.queryBuilder)}>
+      <div
+        className={classnames(
+          typeCheck(this.classNames.queryBuilder, this.props),
+        )}>
         <RuleGroup
           query={this.state.query}
           group={this.state.query}
