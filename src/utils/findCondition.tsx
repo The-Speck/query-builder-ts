@@ -1,8 +1,5 @@
-import { isRuleGroup } from '.';
+import { isNumber, isRuleGroup } from '.';
 import { IRuleGroup, TCondition } from '../models';
-
-export const isNumber = (value: any): value is number =>
-  Number.isInteger(value);
 
 export const findCondition = (
   id: string,

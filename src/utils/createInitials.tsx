@@ -11,11 +11,13 @@ import {
   RuleGroupElements,
 } from '../models';
 
-export const createInitialClassNames = (classNames: ClassNames): ClassNames => {
+export const createInitialClassNames = (
+  classNames?: ClassNames,
+): ClassNames => {
   const userClassNames = classNames || {};
   const defaultClasNames = Defaults.classNames;
 
-  return merge({}, defaultClasNames, userClassNames);
+  return { ...defaultClasNames, ...userClassNames };
 };
 
 export const createInitialRuleElements = (
@@ -40,8 +42,8 @@ export const createInitialRuleGroupElements = (
 };
 
 export const createInitialQuery = (
-  query: IRuleGroup,
   ruleGroups: RuleGroupElements,
+  query?: IRuleGroup,
 ): IRuleGroup => {
   return (isValidQuery(query) && query) || createRuleGroup(ruleGroups);
 };

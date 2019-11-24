@@ -7,7 +7,7 @@ export const defaultClassNames: ClassNames = {
   ruleGroup: '',
 
   ruleGroupRow: (props: IRuleGroupProps): string =>
-    props.level > 0 ? 'ruleGroup' : '',
+    props.level > 0 ? 'ruleGroupRow' : '',
 
   ruleRow: '',
 };

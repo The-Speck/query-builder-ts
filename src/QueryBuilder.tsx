@@ -2,7 +2,6 @@ import { boundMethod } from 'autobind-decorator';
 import classnames from 'classnames';
 import merge from 'lodash/merge';
 import React from 'react';
-// import './defaults/elementOptions/styles.css';
 import { ConditionNotFound } from './error';
 import {
   ClassNames,
@@ -12,6 +11,7 @@ import {
   TCondition,
 } from './models';
 import RuleGroup from './RuleGroup';
+import './style.css';
 import {
   createInitialClassNames,
   createInitialQuery,
@@ -19,6 +19,7 @@ import {
   createInitialRuleGroupElements,
   findCondition,
   findConditionIdxAndParentGroup,
+  isNumber,
   isRuleGroup,
   typeCheck,
 } from './utils';
@@ -27,8 +28,9 @@ export interface IQueryBuilderProps {
   rules?: RuleElements;
   ruleGroups?: RuleGroupElements;
   columns: any[];
-  query: IRuleGroup;
-  classNames: ClassNames;
+  query?: IRuleGroup;
+  classNames?: ClassNames;
+  onQueryChange?: (query: IRuleGroup) => void;
 }
 
 export interface IQueryBuilderState {
@@ -83,7 +85,7 @@ export class QueryBuilder extends React.Component<
 
     if (group && isRuleGroup(group)) {
       group.conditions.push(condition);
-      this.setState({ query });
+      this.updateQuery(query);
     } else {
       throw new ConditionNotFound('group', groupId);
     }
@@ -94,9 +96,9 @@ export class QueryBuilder extends React.Component<
     const query = merge({}, this.state.query);
     const [idx, group] = findConditionIdxAndParentGroup(conditionId, query);
 
-    if (idx && group && isRuleGroup(group)) {
+    if (isNumber(idx) && group && isRuleGroup(group)) {
       group.conditions.splice(idx, 1);
-      this.setState({ query });
+      this.updateQuery(query);
     } else {
       throw new ConditionNotFound('group', conditionId);
     }
@@ -109,14 +111,22 @@ export class QueryBuilder extends React.Component<
 
     if (rule && !isRuleGroup(rule)) {
       Object.assign(rule, { [key]: value });
-      this.setState({ query });
+      this.updateQuery(query);
     } else {
       throw new ConditionNotFound('condition', conditionId);
     }
   }
 
+  private updateQuery(query: IRuleGroup): void {
+    const { onQueryChange } = this.props;
+    this.setState(
+      { query },
+      () => onQueryChange && onQueryChange(this.state.query),
+    );
+  }
+
   private initializeState(): IQueryBuilderState {
-    const query = createInitialQuery(this.props.query, this.ruleGroups);
+    const query = createInitialQuery(this.ruleGroups, this.props.query);
 
     return {
       query,

@@ -1,0 +1,12 @@
+.ruleGroupRow {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: rgba(255, 233, 172, 0.5);
+}
+
+.ruleGroupRow .rule,
+.ruleGroupRow .ruleGroupRow {
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+}
