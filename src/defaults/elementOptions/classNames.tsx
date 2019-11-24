@@ -1,13 +1,14 @@
 import ClassNames from '../../models/ClassNamesInterface';
 import { IRuleGroupProps } from '../../RuleGroup';
+import styles from '../../style.module.css';
 
 export const defaultClassNames: ClassNames = {
-  queryBuilder: '',
+  queryBuilder: styles.ruleGroupRow,
 
-  ruleGroup: '',
+  ruleGroup: (props: IRuleGroupProps): string =>
+    props.level > 0 ? styles.ruleGroupRow : '',
 
-  ruleGroupRow: (props: IRuleGroupProps): string =>
-    props.level > 0 ? 'ruleGroupRow' : '',
+  ruleGroupRow: '',
 
   ruleRow: '',
 };

@@ -8,7 +8,7 @@ export const defaultRemoveGroupAction: ControlElement = {
   label: 'X',
   className: ruleGroupElementsClassNames.removeGroup,
   position: 99,
-  condition: ({ parentId }) => parentId,
+  condition: ({ parentProps }) => parentProps.level > 0,
 };
 
 export default defaultRemoveGroupAction;

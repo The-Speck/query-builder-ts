@@ -3,7 +3,6 @@ import * as React from 'react';
 import 'react-app-polyfill/ie11';
 import * as ReactDOM from 'react-dom';
 import QueryBuilder from '../.';
-// import '../src/style.css';
 
 const App = (): React.ReactElement => {
   const names: string[] = [];
@@ -13,7 +12,10 @@ const App = (): React.ReactElement => {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        width: '30em',
+      }}>
       <QueryBuilder
         columns={names}
         onQueryChange={(query: any): void => console.log(query)}

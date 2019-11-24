@@ -11,7 +11,6 @@ import {
   TCondition,
 } from './models';
 import RuleGroup from './RuleGroup';
-import './style.css';
 import {
   createInitialClassNames,
   createInitialQuery,
