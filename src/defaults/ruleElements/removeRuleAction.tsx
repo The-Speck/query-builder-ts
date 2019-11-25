@@ -1,4 +1,4 @@
-import ActionButton from '../../controls/ActionButton';
+import { ActionButton } from '../../controls';
 import { ControlElement } from '../../models';
 import ruleElementsClassNames from './ruleElementsClassNames';
 

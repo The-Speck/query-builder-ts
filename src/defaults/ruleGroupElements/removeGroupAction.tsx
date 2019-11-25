@@ -1,5 +1,6 @@
-import ActionButton from '../../controls/ActionButton';
-import { ControlElement } from '../../models';
+import { ActionButton } from '../../controls';
+import { ControlElement, IControlProps } from '../../models';
+import { IRuleGroupProps } from '../../RuleGroup';
 import ruleGroupElementsClassNames from './ruleGroupElementsClassNames';
 
 export const defaultRemoveGroupAction: ControlElement = {
@@ -8,7 +9,8 @@ export const defaultRemoveGroupAction: ControlElement = {
   label: 'X',
   className: ruleGroupElementsClassNames.removeGroup,
   position: 99,
-  condition: ({ parentProps }) => parentProps.level > 0,
+  condition: ({ parentProps }: IControlProps): boolean =>
+    (parentProps as IRuleGroupProps).level > 0,
 };
 
 export default defaultRemoveGroupAction;

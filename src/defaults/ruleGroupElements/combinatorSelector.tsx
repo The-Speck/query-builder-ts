@@ -1,4 +1,4 @@
-import ValueDropDown from '../../controls/ValueDropDown';
+import { ValueDropDown } from '../../controls';
 import { ControlElement } from '../../models';
 import defaultCombinators from '../elementOptions/combinators';
 import ruleGroupElementsClassNames from './ruleGroupElementsClassNames';

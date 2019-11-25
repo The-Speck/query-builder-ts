@@ -1,4 +1,4 @@
-import ValueComboBox from '../../controls/ValueComboBox';
+import { ValueComboBox } from '../../controls';
 import { ControlElement } from '../../models';
 import ruleElementsClassNames from './ruleElementsClassNames';
 
