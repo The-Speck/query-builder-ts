@@ -4,7 +4,6 @@ import ruleElementsClassNames from './ruleElementsClassNames';
 
 export interface InputControlElement extends ControlElement {
   debounceTime?: number;
-  inputType?: string;
 }
 
 export const defaultValueInput: InputControlElement = {
