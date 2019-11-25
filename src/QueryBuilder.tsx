@@ -106,10 +106,10 @@ export class QueryBuilder extends React.Component<
   @boundMethod
   public onPropChange(key: string, value: any, conditionId: string): void {
     const query = merge({}, this.state.query);
-    const rule = findCondition(conditionId, query);
+    const condition = findCondition(conditionId, query);
 
-    if (rule && !isRuleGroup(rule)) {
-      Object.assign(rule, { [key]: value });
+    if (condition) {
+      Object.assign(condition, { [key]: value });
       this.updateQuery(query);
     } else {
       throw new ConditionNotFound('condition', conditionId);

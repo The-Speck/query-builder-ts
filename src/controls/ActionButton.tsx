@@ -8,6 +8,7 @@ export const ActionButton: React.FC<IControlProps> = props => {
   if (condition && !condition(props)) {
     return null;
   }
+
   return (
     <button className={classNames(className)} onClick={handleOnChange}>
       {label}
