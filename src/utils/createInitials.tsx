@@ -1,5 +1,5 @@
 import merge from 'lodash/merge';
-import { isValidQuery, quickUUID } from '.';
+import { generateValidQuery, isValidQuery, quickUUID } from '.';
 import Defaults from '../defaults';
 import defaultCombinatorSelector from '../defaults/ruleGroupElements/combinatorSelector';
 import {
@@ -45,7 +45,8 @@ export const createInitialQuery = (
   ruleGroups: RuleGroupElements,
   query?: IRuleGroup,
 ): IRuleGroup => {
-  return (isValidQuery(query) && query) || createRuleGroup(ruleGroups);
+  return ((isValidQuery(query) && generateValidQuery(query)) ||
+    createRuleGroup(ruleGroups)) as IRuleGroup;
 };
 
 export const createRuleGroup = (ruleGroups: RuleGroupElements): IRuleGroup => {

@@ -1,4 +1,3 @@
-import { boundMethod } from 'autobind-decorator';
 import classnames from 'classnames';
 import React, { Attributes } from 'react';
 import {
@@ -31,6 +30,13 @@ export interface IRuleElementAttributes extends Attributes {
 }
 
 export class Rule extends React.Component<IRuleProps> {
+  constructor(props: IRuleProps) {
+    super(props);
+
+    this.removeRule = this.removeRule.bind(this);
+    this.onElementChange = this.onElementChange.bind(this);
+  }
+
   render(): React.ReactNode {
     const { classNames } = this.props;
 
@@ -72,7 +78,6 @@ export class Rule extends React.Component<IRuleProps> {
     }
   }
 
-  @boundMethod
   private removeRule(event: React.MouseEvent<HTMLButtonElement>): void {
     event.preventDefault();
     event.stopPropagation();
@@ -81,7 +86,6 @@ export class Rule extends React.Component<IRuleProps> {
     onRemove(rule.id);
   }
 
-  @boundMethod
   private onElementChange(property: string): TOnElementChange {
     const { rule, onPropChange } = this.props;
 

@@ -6,6 +6,11 @@
   margin: 0.5rem;
 }
 
+.rule {
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+}
+
 .filteredOptionsContainer {
   background: white;
   position: absolute;

@@ -54,7 +54,7 @@ export const ValueComboBox: React.FC<any> = props => {
           key={idx}
           id={'filteredOptionsItem'}
           className={styles.filteredOptionsItem}
-          onClick={(): void => handleOneSelect(option)}>
+          onMouseDown={(): void => handleOneSelect(option)}>
           {option}
         </li>
       ));

@@ -1,4 +1,3 @@
-import { boundMethod } from 'autobind-decorator';
 import classnames from 'classnames';
 import React, { Attributes } from 'react';
 import {
@@ -43,6 +42,15 @@ export interface IRuleGroupElementAttributes extends Attributes {
 }
 
 export class RuleGroup extends React.Component<IRuleGroupProps> {
+  constructor(props: IRuleGroupProps) {
+    super(props);
+
+    this.addRule = this.addRule.bind(this);
+    this.addGroup = this.addGroup.bind(this);
+    this.removeGroup = this.removeGroup.bind(this);
+    this.onElementChange = this.onElementChange.bind(this);
+  }
+
   render(): React.ReactNode {
     const { group, classNames } = this.props;
     const conditions = this.sortConditions(group.conditions);
@@ -91,7 +99,7 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
 
   private sortConditions(conditions: TCondition[]): TCondition[] {
     return conditions.sort((a: TCondition, b: TCondition) =>
-      isRuleGroup(a) === isRuleGroup(b) ? 0 : isRuleGroup(a) ? 1 : -1,
+      isRuleGroup(a) && isRuleGroup(b) ? 0 : isRuleGroup(a) ? 1 : -1,
     );
   }
 
@@ -118,7 +126,6 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
     }
   }
 
-  @boundMethod
   private addRule(event: React.MouseEvent<HTMLButtonElement>): void {
     event.preventDefault();
     event.stopPropagation();
@@ -128,7 +135,6 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
     onAdd(newRule, group.id);
   }
 
-  @boundMethod
   private addGroup(event: React.MouseEvent<HTMLButtonElement>): void {
     event.preventDefault();
     event.stopPropagation();
@@ -138,7 +144,6 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
     onAdd(newGroup, group.id);
   }
 
-  @boundMethod
   private removeGroup(event: React.MouseEvent<HTMLButtonElement>): void {
     event.preventDefault();
     event.stopPropagation();
@@ -147,7 +152,6 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
     onRemove(group.id);
   }
 
-  @boundMethod
   private onElementChange(property: string): TOnElementChange {
     const { group, onPropChange } = this.props;
 

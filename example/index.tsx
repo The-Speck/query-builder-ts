@@ -5,21 +5,39 @@ import * as ReactDOM from 'react-dom';
 import QueryBuilder from '../.';
 
 const App = (): React.ReactElement => {
+  const [query, setQuery] = React.useState(null);
   const names: string[] = [];
 
   for (let i = 0; i < 25; i++) {
     names.push(faker.name.findName());
   }
 
+  const PrettyPrintJson = React.useCallback(
+    () =>
+      query ? (
+        <div>
+          <pre>{JSON.stringify(query, null, 2)}</pre>
+        </div>
+      ) : null,
+    [query],
+  );
+
   return (
     <div
       style={{
-        width: '30em',
+        display: 'flex',
+        justifyContent: 'space-between',
+        paddingRight: '4rem',
+        paddingLeft: '4rem',
       }}>
-      <QueryBuilder
-        columns={names}
-        onQueryChange={(query: any): void => console.log(query)}
-      />
+      <div
+        style={{
+          width: '100%',
+          maxWidth: '90rem',
+        }}>
+        <QueryBuilder columns={names} onQueryChange={setQuery} query={query} />
+      </div>
+      {PrettyPrintJson()}
     </div>
   );
 };

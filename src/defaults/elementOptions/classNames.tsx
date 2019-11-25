@@ -10,7 +10,7 @@ export const defaultClassNames: ClassNames = {
 
   ruleGroupRow: '',
 
-  ruleRow: '',
+  ruleRow: styles.rule,
 };
 
 export default defaultClassNames;

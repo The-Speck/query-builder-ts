@@ -1,4 +1,3 @@
-import { boundMethod } from 'autobind-decorator';
 import classnames from 'classnames';
 import merge from 'lodash/merge';
 import React from 'react';
@@ -54,6 +53,10 @@ export class QueryBuilder extends React.Component<
     this.ruleGroups = createInitialRuleGroupElements(ruleGroups);
 
     this.state = this.initializeState();
+
+    this.onAdd = this.onAdd.bind(this);
+    this.onRemove = this.onRemove.bind(this);
+    this.onPropChange = this.onPropChange.bind(this);
   }
 
   render(): React.ReactNode {
@@ -77,7 +80,6 @@ export class QueryBuilder extends React.Component<
     );
   }
 
-  @boundMethod
   public onAdd(condition: TCondition, groupId: string): void {
     const query = merge({}, this.state.query);
     const group = findCondition(groupId, query);
@@ -90,7 +92,6 @@ export class QueryBuilder extends React.Component<
     }
   }
 
-  @boundMethod
   public onRemove(conditionId: string): void {
     const query = merge({}, this.state.query);
     const [idx, group] = findConditionIdxAndParentGroup(conditionId, query);
@@ -103,7 +104,6 @@ export class QueryBuilder extends React.Component<
     }
   }
 
-  @boundMethod
   public onPropChange(key: string, value: any, conditionId: string): void {
     const query = merge({}, this.state.query);
     const condition = findCondition(conditionId, query);
