@@ -6,7 +6,6 @@ import {
   IRule,
   RuleElements,
   THandleOnChange,
-  TOnAdd,
   TOnElementChange,
   TOnPropChange,
   TOnRemove,
@@ -18,7 +17,6 @@ export interface IRuleProps extends IQueryBuilderState {
   rule: IRule;
   rules: RuleElements;
   classNames: ClassNames;
-  onAdd: TOnAdd;
   onRemove: TOnRemove;
   onPropChange: TOnPropChange;
 }

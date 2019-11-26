@@ -3,11 +3,11 @@ import Adapter from 'enzyme-adapter-react-16';
 import * as React from 'react';
 import { ActionButton, ValueComboBox, ValueDropDown, ValueInput } from '../src';
 import { RuleElements } from '../src/models';
-import Rule, { IRuleProps } from '../src/Rule';
+import Rule, { IRuleElementAttributes, IRuleProps } from '../src/Rule';
 
 configure({ adapter: new Adapter() });
 
-jest.mock('../src/utils', () => {
+jest.mock('../src/controls', () => {
   return {
     ActionButton: (): React.ReactElement => <div>ActionButton</div>,
     ValueComboBox: (): React.ReactElement => <div>ValueComboBox</div>,
@@ -26,10 +26,10 @@ describe('it', () => {
 
   beforeEach(() => {
     const rule = {
-      id: '1',
+      id: '2',
       column: 'test column',
       op: '=',
-      value: 'test value',
+      value: undefined,
     };
     props = {
       rule,
@@ -38,39 +38,26 @@ describe('it', () => {
         columnSelector: {
           component: ValueComboBox,
           name: 'column',
-          options: [],
-          className: 'columnSelector',
-          position: 1,
           defaultValue: '',
         },
         operatorSelector: {
           component: ValueDropDown,
           name: 'op',
-          options: [{ name: '=', label: '=' }],
-          className: 'operatorSelector',
-          position: 2,
           defaultValue: '=',
         },
         valueEditor: {
           component: ValueInput,
           name: 'value',
-          className: 'valueEditor',
-          label: 'Value',
-          position: 3,
-          defaultValue: '',
+          defaultValue: 'default value',
         },
         removeRuleAction: {
           component: ActionButton,
           name: 'removeRule',
-          label: 'x',
-          className: 'removeRuleAction',
-          position: 99,
         },
       },
       classNames: {
         ruleRow: 'ruleRow',
       },
-      onAdd: jest.fn(),
       onRemove: jest.fn(),
       onPropChange: jest.fn(),
     };
@@ -83,7 +70,54 @@ describe('it', () => {
     });
     it('rule elements', () => {
       const valueComboBox = wrapper.find('ValueComboBox');
+      const valueDropDown = wrapper.find('ValueDropDown');
+      const valueInput = wrapper.find('ValueInput');
+      const actionButton = wrapper.find('ActionButton');
       expect(valueComboBox.exists()).toBeTruthy();
+      expect(valueDropDown.exists()).toBeTruthy();
+      expect(valueInput.exists()).toBeTruthy();
+      expect(actionButton.exists()).toBeTruthy();
+    });
+  });
+
+  it('sets values', () => {
+    const valueComboBox = wrapper.find('ValueComboBox');
+    const valueDropDown = wrapper.find('ValueDropDown');
+    const valueInput = wrapper.find('ValueInput');
+    const actionButton = wrapper.find('ActionButton');
+    expect(valueComboBox.props().value).toBe(props.rule.column);
+    expect(valueDropDown.props().value).toBe(props.rule.op);
+    expect(valueInput.props().value).toBe(props.rules.valueEditor.defaultValue);
+    expect(actionButton.props().value).toBe(undefined);
+  });
+
+  describe('assigns handleOnChange via', () => {
+    it('onElementChange with onPropChange callback', () => {
+      const valueComboBox = wrapper.find('ValueComboBox');
+      const valueDropDown = wrapper.find('ValueDropDown');
+      const valueInput = wrapper.find('ValueInput');
+      (valueComboBox.props() as IRuleElementAttributes).handleOnChange(
+        'valueComboBox',
+      );
+      (valueDropDown.props() as IRuleElementAttributes).handleOnChange(
+        'valueDropDown',
+      );
+      (valueInput.props() as IRuleElementAttributes).handleOnChange(
+        'valueInput',
+      );
+      expect(props.onPropChange).toBeCalledTimes(3);
+    });
+
+    it('removeRule with onRemove callback', () => {
+      const event = {
+        preventDefault: jest.fn(),
+        stopPropagation: jest.fn(),
+      };
+      const actionButton = wrapper.find('ActionButton');
+      (actionButton.props() as IRuleElementAttributes).handleOnChange(event);
+      expect(props.onRemove).toBeCalledTimes(1);
+      expect(event.preventDefault).toBeCalledTimes(1);
+      expect(event.stopPropagation).toBeCalledTimes(1);
     });
   });
 });
