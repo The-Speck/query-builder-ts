@@ -4,11 +4,24 @@ import React, { useCallback, useMemo } from 'react';
 import { IControlProps } from '../models';
 
 export const ValueDropDown: React.FC<IControlProps> = props => {
-  const { options, handleOnChange, className, condition, value } = props;
+  const {
+    options,
+    handleOnChange,
+    className,
+    condition,
+    value,
+    mapInput,
+    mapOutput,
+  } = props;
 
   if (condition && !condition(props)) {
     return null;
   }
+
+  const mappedInputValue = useMemo(
+    () => (mapInput ? mapInput(value, props) : value),
+    [mapInput, value],
+  );
 
   const dropdownOptions = useMemo(() => {
     if (isNil(options)) {
@@ -22,16 +35,19 @@ export const ValueDropDown: React.FC<IControlProps> = props => {
   }, [options]);
 
   const handleOnChangeWrapper = useCallback(
-    (event: React.FormEvent<HTMLSelectElement>): void =>
-      handleOnChange(event.currentTarget.value),
-    [handleOnChange],
+    (event: React.FormEvent<HTMLSelectElement>): void => {
+      const newValue = event.currentTarget.value;
+      const mappedOutValue = mapOutput ? mapOutput(newValue, props) : newValue;
+      handleOnChange(mappedOutValue);
+    },
+    [handleOnChange, mapOutput],
   );
 
   return (
     <select
       className={classnames(className)}
       onChange={handleOnChangeWrapper}
-      value={value}>
+      value={mappedInputValue}>
       {dropdownOptions}
     </select>
   );

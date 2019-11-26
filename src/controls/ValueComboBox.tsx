@@ -1,64 +1,82 @@
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
+import { IControlProps } from '../models';
 import styles from '../style.module.css';
 
-export const ValueComboBox: React.FC<any> = props => {
+export const ValueComboBox: React.FC<IControlProps> = props => {
   const {
     handleOnChange,
     className,
     condition,
-    debounceTime = 500,
-    options,
     value,
+    mapInput,
+    mapOutput,
+    options = [],
+    debounceTime = 500,
   } = props;
 
   if (condition && !condition(props)) {
     return null;
   }
 
-  const [inputValue, setInputValue] = useState(value);
+  const mappedInputValue = useMemo(
+    () => (mapInput ? mapInput(value, props) : value),
+    [mapInput, value],
+  );
+  const [inputValue, setInputValue] = useState<string>(mappedInputValue);
   const [showOptions, setShowOptions] = useState(false);
 
   const toggleShowOptions = useCallback(() => setShowOptions(!showOptions), [
     showOptions,
   ]);
 
-  const debounceWrapper = useCallback(debounce(handleOnChange, debounceTime), [
-    inputValue,
-  ]);
+  const mappedHandleOnChange = useCallback(
+    (outputValue: any) =>
+      mapOutput
+        ? handleOnChange(mapOutput(outputValue, props))
+        : handleOnChange(outputValue),
+    [handleOnChange, mapOutput],
+  );
 
-  const handleOnChangeWrapper = useCallback(
-    (event: React.FormEvent<HTMLInputElement>) => {
-      setInputValue(event.currentTarget.value);
-      debounceWrapper(event.currentTarget.value);
-    },
+  const debounceWrapper = useCallback(
+    debounce(mappedHandleOnChange, debounceTime),
     [],
   );
 
-  const handleOneSelect = useCallback(
+  const handleOnChangeWrapper = useCallback(
+    (event: React.FormEvent<HTMLInputElement>) => {
+      const newValue = event.currentTarget.value;
+      setInputValue(newValue);
+      debounceWrapper(newValue);
+    },
+    [debounceWrapper],
+  );
+
+  const handleOnSelect = useCallback(
     (option: any): void => {
       setInputValue(option);
-      handleOnChange(option);
+      mappedHandleOnChange(option);
     },
-    [handleOnChange],
+    [mappedHandleOnChange],
   );
 
   const filteredOptionsList = useCallback(() => {
     return options
       .filter(
-        (option: any) => option.toLowerCase().indexOf(value.toLowerCase()) > -1,
+        (option: any) =>
+          option.toLowerCase().indexOf(inputValue.toLowerCase()) > -1,
       )
       .map((option: any, idx: number) => (
         <li
           key={idx}
           id={'filteredOptionsItem'}
           className={styles.filteredOptionsItem}
-          onMouseDown={(): void => handleOneSelect(option)}>
+          onMouseDown={(): void => handleOnSelect(option)}>
           {option}
         </li>
       ));
-  }, [value, options]);
+  }, [inputValue, options, handleOnSelect]);
 
   return (
     <>

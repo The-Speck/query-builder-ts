@@ -97,9 +97,10 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
     });
   }
 
+  // Using '===' because nothing should change if both are true or false.
   private sortConditions(conditions: TCondition[]): TCondition[] {
     return conditions.sort((a: TCondition, b: TCondition) =>
-      isRuleGroup(a) && isRuleGroup(b) ? 0 : isRuleGroup(a) ? 1 : -1,
+      isRuleGroup(a) === isRuleGroup(b) ? 0 : isRuleGroup(a) ? 1 : -1,
     );
   }
 

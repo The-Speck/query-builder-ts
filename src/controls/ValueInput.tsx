@@ -1,31 +1,49 @@
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
+import { IControlProps } from '../models';
 
-export const ValueInput: React.FC<any> = props => {
+export const ValueInput: React.FC<IControlProps> = props => {
   const {
     handleOnChange,
     className,
     condition,
     value,
-    debounceTime = 500,
+    mapInput,
+    mapOutput,
     inputType = 'text',
+    debounceTime = 500,
   } = props;
 
   if (condition && !condition(props)) {
     return null;
   }
 
-  const [inputValue, setInputValue] = useState(value);
+  const mappedInputValue = useMemo(
+    () => (mapInput ? mapInput(value, props) : value),
+    [mapInput, value],
+  );
 
-  const debounceWrapper = useCallback(debounce(handleOnChange, debounceTime), [
-    inputValue,
-  ]);
+  const [inputValue, setInputValue] = useState(mappedInputValue);
+
+  const mappedHandleOnChange = useCallback(
+    (outputValue: any) =>
+      mapOutput
+        ? handleOnChange(mapOutput(outputValue, props))
+        : handleOnChange(outputValue),
+    [handleOnChange, mapOutput],
+  );
+
+  const debounceWrapper = useCallback(
+    debounce(mappedHandleOnChange, debounceTime),
+    [inputValue],
+  );
 
   const handleOnChangeWrapper = useCallback(
     (event: React.FormEvent<HTMLInputElement>) => {
-      setInputValue(event.currentTarget.value);
-      debounceWrapper(event.currentTarget.value);
+      const newValue = event.currentTarget.value;
+      setInputValue(newValue);
+      debounceWrapper(newValue);
     },
     [],
   );

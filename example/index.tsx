@@ -22,6 +22,7 @@ const App = (): React.ReactElement => {
     [query],
   );
 
+  console.log(query);
   return (
     <div
       style={{
@@ -35,7 +36,17 @@ const App = (): React.ReactElement => {
           width: '100%',
           maxWidth: '90rem',
         }}>
-        <QueryBuilder columns={names} onQueryChange={setQuery} query={query} />
+        <QueryBuilder
+          columns={names}
+          onQueryChange={setQuery}
+          query={query}
+          rules={{
+            columnSelector: {
+              mapOutput: value => value + ' banana',
+              mapInput: value => value.replace(' banana', ''),
+            },
+          }}
+        />
       </div>
       {PrettyPrintJson()}
     </div>
