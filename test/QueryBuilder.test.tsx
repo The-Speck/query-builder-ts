@@ -32,7 +32,7 @@ jest.mock('../src/utils', () => {
   };
   return {
     createInitialClassNames: jest.fn((_: ClassNames) => ({
-      queryBuilder: 'classNames',
+      queryBuilder: 'queryBuilder',
     })),
     createInitialRuleElements: jest.fn((_1: any[], _2: RuleElements) => 'rule'),
     createInitialRuleGroupElements: jest.fn(
