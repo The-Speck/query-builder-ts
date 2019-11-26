@@ -14,6 +14,7 @@
     "build": "tsdx build",
     "test": "tsdx test --env=jsdom",
     "test:watch": "tsdx test --env=jsdom --watch",
+    "test:watch:coverage": "tsdx test --env=jsdom --watch --coverage",
     "lint": "tsdx lint",
     "remove:packages": "del node_modules"
   },

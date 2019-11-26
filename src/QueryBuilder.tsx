@@ -80,15 +80,15 @@ export class QueryBuilder extends React.Component<
     );
   }
 
-  public onAdd(condition: TCondition, groupId: string): void {
+  public onAdd(condition: TCondition, parentId: string): void {
     const query = merge({}, this.state.query);
-    const group = findCondition(groupId, query);
+    const parentGroup = findCondition(parentId, query);
 
-    if (group && isRuleGroup(group)) {
-      group.conditions.push(condition);
+    if (parentGroup && isRuleGroup(parentGroup)) {
+      parentGroup.conditions.push(condition);
       this.updateQuery(query);
     } else {
-      throw new ConditionNotFound('group', groupId);
+      throw new ConditionNotFound('group', parentId);
     }
   }
 
