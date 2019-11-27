@@ -87,6 +87,6 @@ export const createRule = (rules: RuleElements): IRule => {
 
   return {
     ...customRules,
-    id: `g-${quickUUID()}`,
+    id: `r-${quickUUID()}`,
   };
 };
