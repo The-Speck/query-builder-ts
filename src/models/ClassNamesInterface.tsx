@@ -1,12 +1,13 @@
-export type classNameFunction = (...args: any[]) => string | string[];
+export type TClassNameFunction = (arg: any) => string | string[];
+export type TClassName = string | string[] | TClassNameFunction;
 
 export interface ClassNames {
-  queryBuilder?: string | string[] | classNameFunction;
+  queryBuilder?: TClassName;
 
-  ruleGroup?: string | string[] | classNameFunction;
-  ruleGroupRow?: string | string[] | classNameFunction;
+  ruleGroup?: TClassName;
+  ruleGroupRow?: TClassName;
 
-  ruleRow?: string | string[] | classNameFunction;
+  ruleRow?: TClassName;
 }
 
 export default ClassNames;

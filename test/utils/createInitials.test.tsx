@@ -4,6 +4,7 @@ import {
   ValueDropDown,
   ValueInput,
 } from '../../src';
+import { TClassNameFunction } from '../../src/models';
 import {
   createInitialClassNames,
   createInitialRuleElements,
@@ -21,6 +22,9 @@ describe('it', () => {
       expect(classNames.hasOwnProperty('ruleGroup')).toBeTruthy();
       expect(classNames.hasOwnProperty('ruleGroupRow')).toBeTruthy();
       expect(classNames.hasOwnProperty('ruleRow')).toBeTruthy();
+      expect((classNames.ruleGroup as TClassNameFunction)({ level: 0 })).toBe(
+        '',
+      );
     });
 
     it('rule elements', () => {
@@ -31,6 +35,12 @@ describe('it', () => {
       expect(ruleElements.hasOwnProperty('valueEditor')).toBeTruthy();
       expect(ruleElements.hasOwnProperty('removeRuleAction')).toBeTruthy();
       expect(ruleElements.columnSelector.options).toStrictEqual(columns);
+      expect(
+        ruleElements.valueEditor.condition &&
+          ruleElements.valueEditor.condition({
+            parentProps: { rule: { op: 'null' } },
+          }),
+      ).toBeFalsy();
     });
 
     it('rule group elements', () => {
@@ -43,6 +53,12 @@ describe('it', () => {
       expect(
         ruleGroupElements.hasOwnProperty('removeGroupAction'),
       ).toBeTruthy();
+      expect(
+        ruleGroupElements.removeGroupAction.condition &&
+          ruleGroupElements.removeGroupAction.condition({
+            parentProps: { level: 0 },
+          }),
+      ).toBeFalsy();
     });
   });
 
