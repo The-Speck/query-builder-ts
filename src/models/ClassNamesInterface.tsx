@@ -1,5 +1,4 @@
-export type TClassNameFunction = (arg: any) => string | string[];
-export type TClassName = string | string[] | TClassNameFunction;
+import { TClassName } from '.';
 
 export interface ClassNames {
   queryBuilder?: TClassName;

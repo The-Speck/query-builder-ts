@@ -8,5 +8,6 @@ export type TOnPropChange = (
   value: any,
   conditionId: string,
 ) => void;
-export type TReservedNames = 'conditions' | 'combinator' | 'id';
 export type TOnElementChange = (value: any) => void;
+export type TClassNameFunction = (arg: any) => string | string[];
+export type TClassName = string | string[] | TClassNameFunction;

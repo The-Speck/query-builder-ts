@@ -2,6 +2,7 @@ import classnames from 'classnames';
 import isNil from 'lodash/isNil';
 import React, { useCallback, useMemo } from 'react';
 import { IControlProps } from '../models';
+import { typeCheck } from '../utils';
 
 export const ValueDropDown: React.FC<IControlProps> = props => {
   const {
@@ -28,7 +29,10 @@ export const ValueDropDown: React.FC<IControlProps> = props => {
       return [];
     }
     return options.map((option: any, idx: number) => (
-      <option key={idx} value={option.name}>
+      <option
+        key={idx}
+        value={option.name}
+        className={classnames(typeCheck(className, 'option'))}>
         {option.label}
       </option>
     ));
@@ -45,7 +49,7 @@ export const ValueDropDown: React.FC<IControlProps> = props => {
 
   return (
     <select
-      className={classnames(className)}
+      className={classnames(typeCheck(className, 'select'))}
       onChange={handleOnChangeWrapper}
       value={mappedInputValue}>
       {dropdownOptions}
