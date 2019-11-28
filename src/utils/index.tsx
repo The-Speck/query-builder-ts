@@ -5,5 +5,5 @@ export * from './generateValidQuery';
 export * from './isNumber';
 export * from './isRuleGroup';
 export * from './isValidQuery';
-export * from './quickUuid';
+export * from './quickUUID';
 export * from './typeCheck';
