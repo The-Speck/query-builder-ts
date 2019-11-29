@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import { IControlProps } from '../models';
+import { typeCheck } from 'utils';
 
 export const ActionButton: React.FC<IControlProps> = props => {
   const { handleOnChange, className, label, condition } = props;
@@ -10,7 +11,7 @@ export const ActionButton: React.FC<IControlProps> = props => {
   }
 
   return (
-    <button className={classNames(className)} onClick={handleOnChange}>
+    <button className={classNames(typeCheck(className, 'button'))} onClick={handleOnChange}>
       {label}
     </button>
   );

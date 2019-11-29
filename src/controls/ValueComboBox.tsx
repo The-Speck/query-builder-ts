@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import debounce from 'lodash/debounce';
 import React, { useCallback, useMemo, useState } from 'react';
 import { IControlProps } from '../models';
-import styles from '../style.module.css';
+import { typeCheck } from 'utils';
 
 export const ValueComboBox: React.FC<IControlProps> = props => {
   const {
@@ -70,8 +70,7 @@ export const ValueComboBox: React.FC<IControlProps> = props => {
       .map((option: any, idx: number) => (
         <li
           key={idx}
-          id={'filteredOptionsItem'}
-          className={styles.filteredOptionsItem}
+          className={classnames(typeCheck(className, 'li'))}
           onMouseDown={(): void => handleOnSelect(option)}>
           {option}
         </li>
@@ -81,7 +80,7 @@ export const ValueComboBox: React.FC<IControlProps> = props => {
   return (
     <>
       <input
-        className={classnames(className)}
+        className={classnames(typeCheck(className, 'input'))}
         onChange={handleOnChangeWrapper}
         type={'text'}
         onFocus={toggleShowOptions}
@@ -90,9 +89,8 @@ export const ValueComboBox: React.FC<IControlProps> = props => {
       />
       {showOptions ? (
         <div
-          id={'filteredOptionsContainer'}
-          className={styles.filteredOptionsContainer}>
-          <ul id={'filteredOptionsList'} className={styles.filteredOptionsList}>
+          className={typeCheck(className, 'container')}>
+          <ul className={typeCheck(className, 'ul')}>
             {filteredOptionsList()}
           </ul>
         </div>

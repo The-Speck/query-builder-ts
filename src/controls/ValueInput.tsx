@@ -2,6 +2,7 @@ import classnames from 'classnames';
 import debounce from 'lodash/debounce';
 import React, { useCallback, useMemo, useState } from 'react';
 import { IControlProps } from '../models';
+import { typeCheck } from 'utils';
 
 export const ValueInput: React.FC<IControlProps> = props => {
   const {
@@ -50,7 +51,7 @@ export const ValueInput: React.FC<IControlProps> = props => {
 
   return (
     <input
-      className={classnames(className)}
+      className={classnames(typeCheck(className, 'input'))}
       onChange={handleOnChangeWrapper}
       type={inputType}
       value={inputValue}
