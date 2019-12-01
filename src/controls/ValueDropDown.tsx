@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import isNil from 'lodash/isNil';
-import React, { useCallback, useMemo } from 'react';
+import * as React from 'react';
 import { IControlProps } from '../models';
 import { typeCheck } from '../utils';
 
@@ -19,12 +19,12 @@ export const ValueDropDown: React.FC<IControlProps> = props => {
     return null;
   }
 
-  const mappedInputValue = useMemo(
+  const mappedInputValue = React.useMemo(
     () => (mapInput ? mapInput(value, props) : value),
     [mapInput, value],
   );
 
-  const dropdownOptions = useMemo(() => {
+  const dropdownOptions = React.useMemo(() => {
     if (isNil(options)) {
       return [];
     }
@@ -38,7 +38,7 @@ export const ValueDropDown: React.FC<IControlProps> = props => {
     ));
   }, [options]);
 
-  const handleOnChangeWrapper = useCallback(
+  const handleOnChangeWrapper = React.useCallback(
     (event: React.FormEvent<HTMLSelectElement>): void => {
       const newValue = event.currentTarget.value;
       const mappedOutValue = mapOutput ? mapOutput(newValue, props) : newValue;

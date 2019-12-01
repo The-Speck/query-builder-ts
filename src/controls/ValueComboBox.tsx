@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
-import React, { useCallback, useMemo, useState } from 'react';
+import * as React from 'react';
 import { IControlProps } from '../models';
 import { typeCheck } from '../utils';
 
@@ -20,18 +20,19 @@ export const ValueComboBox: React.FC<IControlProps> = props => {
     return null;
   }
 
-  const mappedInputValue = useMemo(
+  const mappedInputValue = React.useMemo(
     () => (mapInput ? mapInput(value, props) : value),
     [mapInput, value],
   );
-  const [inputValue, setInputValue] = useState<string>(mappedInputValue);
-  const [showOptions, setShowOptions] = useState(false);
+  const [inputValue, setInputValue] = React.useState<string>(mappedInputValue);
+  const [showOptions, setShowOptions] = React.useState(false);
 
-  const toggleShowOptions = useCallback(() => setShowOptions(!showOptions), [
-    showOptions,
-  ]);
+  const toggleShowOptions = React.useCallback(
+    () => setShowOptions(!showOptions),
+    [showOptions],
+  );
 
-  const mappedHandleOnChange = useCallback(
+  const mappedHandleOnChange = React.useCallback(
     (outputValue: any) =>
       mapOutput
         ? handleOnChange(mapOutput(outputValue, props))
@@ -39,12 +40,12 @@ export const ValueComboBox: React.FC<IControlProps> = props => {
     [handleOnChange, mapOutput],
   );
 
-  const debounceWrapper = useCallback(
+  const debounceWrapper = React.useCallback(
     debounce(mappedHandleOnChange, debounceTime),
     [],
   );
 
-  const handleOnChangeWrapper = useCallback(
+  const handleOnChangeWrapper = React.useCallback(
     (event: React.FormEvent<HTMLInputElement>) => {
       const newValue = event.currentTarget.value;
       setInputValue(newValue);
@@ -53,7 +54,7 @@ export const ValueComboBox: React.FC<IControlProps> = props => {
     [debounceWrapper],
   );
 
-  const handleOnSelect = useCallback(
+  const handleOnSelect = React.useCallback(
     (option: any): void => {
       setInputValue(option);
       mappedHandleOnChange(option);
@@ -61,7 +62,7 @@ export const ValueComboBox: React.FC<IControlProps> = props => {
     [mappedHandleOnChange],
   );
 
-  const filteredOptionsList = useCallback(() => {
+  const filteredOptionsList = React.useCallback(() => {
     return options
       .filter(
         (option: any) =>

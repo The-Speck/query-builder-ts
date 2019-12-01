@@ -1,16 +1,15 @@
-import * as faker from 'faker';
 import * as React from 'react';
 import 'react-app-polyfill/ie11';
 import * as ReactDOM from 'react-dom';
 import QueryBuilder from '../.';
 
 const App = (): React.ReactElement => {
-  const [query, setQuery] = React.useState(null);
-  const names: string[] = [];
+  const [query, setQuery] = React.useState(undefined);
+  const columns: any[] = ['First Name', 'Last Name', 'Address'];
 
-  for (let i = 0; i < 25; i++) {
-    names.push(faker.name.findName());
-  }
+  // for (let i = 0; i < 25; i++) {
+  //   names.push(faker.name.findName());
+  // }
 
   const PrettyPrintJson = React.useCallback(
     () =>
@@ -37,15 +36,9 @@ const App = (): React.ReactElement => {
           maxWidth: '90rem',
         }}>
         <QueryBuilder
-          columns={names}
-          onQueryChange={setQuery}
+          columns={columns}
           query={query}
-          rules={{
-            columnSelector: {
-              mapOutput: value => value + ' banana',
-              mapInput: value => value.replace(' banana', ''),
-            },
-          }}
+          onQueryChange={setQuery}
         />
       </div>
       {PrettyPrintJson()}

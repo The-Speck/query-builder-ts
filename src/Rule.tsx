@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import React, { Attributes } from 'react';
+import * as React from 'react';
 import {
   ClassNames,
   ControlElement,
@@ -21,7 +21,7 @@ export interface IRuleProps extends IQueryBuilderState {
   onPropChange: TOnPropChange;
 }
 
-export interface IRuleElementAttributes extends Attributes {
+export interface IRuleElementAttributes extends React.Attributes {
   handleOnChange: THandleOnChange;
   parentProps: IRuleProps;
   value: any;
