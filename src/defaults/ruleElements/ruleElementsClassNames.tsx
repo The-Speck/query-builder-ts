@@ -4,9 +4,9 @@ export const ruleElementsClassNames = {
   combinators: '',
   columns: {
     input: '',
-    container: style.filterdOptionsContainer,
-    ul: style.filterOptionsList,
-    li: style.filterOptionsItem,
+    container: style.filteredOptionsContainer,
+    ul: style.filteredOptionsList,
+    li: style.filteredOptionsItem,
   },
   operators: '',
   value: '',

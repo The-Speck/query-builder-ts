@@ -3,7 +3,7 @@ export const typeCheck = (value: any, ...args: any[]): any => {
     case 'function':
       return value(...args);
     case 'object':
-      return args ? value(args[0]) : value;
+      return args ? value[args[0]] : value;
     default:
       return value;
   }

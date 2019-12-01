@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import debounce from 'lodash/debounce';
 import React, { useCallback, useMemo, useState } from 'react';
 import { IControlProps } from '../models';
-import { typeCheck } from 'utils';
+import { typeCheck } from '../utils';
 
 export const ValueComboBox: React.FC<IControlProps> = props => {
   const {
@@ -88,8 +88,7 @@ export const ValueComboBox: React.FC<IControlProps> = props => {
         value={inputValue}
       />
       {showOptions ? (
-        <div
-          className={typeCheck(className, 'container')}>
+        <div className={typeCheck(className, 'container')}>
           <ul className={typeCheck(className, 'ul')}>
             {filteredOptionsList()}
           </ul>

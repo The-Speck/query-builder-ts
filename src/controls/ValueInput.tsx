@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import debounce from 'lodash/debounce';
 import React, { useCallback, useMemo, useState } from 'react';
 import { IControlProps } from '../models';
-import { typeCheck } from 'utils';
+import { typeCheck } from '../utils';
 
 export const ValueInput: React.FC<IControlProps> = props => {
   const {
