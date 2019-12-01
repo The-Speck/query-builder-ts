@@ -7,10 +7,6 @@ const App = (): React.ReactElement => {
   const [query, setQuery] = React.useState(undefined);
   const columns: any[] = ['First Name', 'Last Name', 'Address'];
 
-  // for (let i = 0; i < 25; i++) {
-  //   names.push(faker.name.findName());
-  // }
-
   const PrettyPrintJson = React.useCallback(
     () =>
       query ? (
@@ -21,7 +17,6 @@ const App = (): React.ReactElement => {
     [query],
   );
 
-  console.log(query);
   return (
     <div
       style={{
