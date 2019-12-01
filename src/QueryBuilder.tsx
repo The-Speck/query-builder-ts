@@ -23,9 +23,9 @@ import {
 } from './utils';
 
 export interface IQueryBuilderProps {
+  columns: any[];
   rules?: RuleElements;
   ruleGroups?: RuleGroupElements;
-  columns: any[];
   query?: IRuleGroup;
   classNames?: ClassNames;
   onQueryChange?: (query: IRuleGroup) => void;
@@ -59,7 +59,7 @@ export class QueryBuilder extends React.Component<
     this.onPropChange = this.onPropChange.bind(this);
   }
 
-  render(): React.ReactNode {
+  render(): React.ReactElement {
     return (
       <div
         className={classnames(
