@@ -11,6 +11,12 @@ import {
   RuleGroupElements,
 } from '../models';
 
+const assignColumns = (rules: RuleElements, columns: any[]): void => {
+  if (rules.columnSelector && !rules.columnSelector.options) {
+    rules.columnSelector.options = columns;
+  }
+};
+
 export const createInitialClassNames = (
   classNames?: ClassNames,
 ): ClassNames => {
@@ -27,9 +33,10 @@ export const createInitialRuleElements = (
   const userRuleElements = rules || {};
   const defaultRuleElements = Defaults.ruleElements;
 
-  defaultRuleElements.columnSelector.options = columns;
+  const ruleElements = merge({}, defaultRuleElements, userRuleElements);
+  assignColumns(ruleElements, columns);
 
-  return merge({}, defaultRuleElements, userRuleElements);
+  return ruleElements;
 };
 
 export const createInitialRuleGroupElements = (

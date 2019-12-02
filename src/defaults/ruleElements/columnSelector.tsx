@@ -10,7 +10,6 @@ export interface ComboBoxControlElement extends ControlElement {
 export const defaultColumnSelector: ComboBoxControlElement = {
   component: ValueComboBox,
   name: 'column',
-  options: [],
   className: ruleElementsClassNames.columns,
   position: 1,
   defaultValue: '',
