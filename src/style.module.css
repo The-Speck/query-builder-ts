@@ -29,3 +29,7 @@
   background: lightgray;
   cursor: pointer;
 }
+
+.operator {
+  height: 1.6em;
+}
