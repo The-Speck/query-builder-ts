@@ -3,11 +3,11 @@ import merge from 'lodash/merge';
 import * as React from 'react';
 import { ConditionNotFound } from './error';
 import {
-  ClassNames,
-  IRuleGroup,
+  Condition,
+  QueryBuilderClassNames,
   RuleElements,
+  RuleGroupCondition,
   RuleGroupElements,
-  TCondition,
 } from './models';
 import RuleGroup from './RuleGroup';
 import {
@@ -22,28 +22,28 @@ import {
   typeCheck,
 } from './utils';
 
-export interface IQueryBuilderProps {
+export interface QueryBuilderProps {
   columns: any[];
   rules?: RuleElements;
   ruleGroups?: RuleGroupElements;
-  query?: IRuleGroup;
-  classNames?: ClassNames;
-  onQueryChange?: (query: IRuleGroup) => void;
+  query?: RuleGroupCondition;
+  classNames?: QueryBuilderClassNames;
+  onQueryChange?: (query: RuleGroupCondition) => void;
 }
 
-export interface IQueryBuilderState {
-  query: IRuleGroup;
+export interface QueryBuilderState {
+  query: RuleGroupCondition;
 }
 
 export class QueryBuilder extends React.Component<
-  IQueryBuilderProps,
-  IQueryBuilderState
+  QueryBuilderProps,
+  QueryBuilderState
 > {
-  private classNames: ClassNames;
+  private classNames: QueryBuilderClassNames;
   private rules: RuleElements;
   private ruleGroups: RuleGroupElements;
 
-  constructor(props: IQueryBuilderProps) {
+  constructor(props: QueryBuilderProps) {
     super(props);
 
     const { columns, classNames, rules, ruleGroups } = props;
@@ -80,7 +80,7 @@ export class QueryBuilder extends React.Component<
     );
   }
 
-  public onAdd(condition: TCondition, parentId: string): void {
+  public onAdd(condition: Condition, parentId: string): void {
     const query = merge({}, this.state.query);
     const parentGroup = findCondition(parentId, query);
 
@@ -116,7 +116,7 @@ export class QueryBuilder extends React.Component<
     }
   }
 
-  private updateQuery(query: IRuleGroup): void {
+  private updateQuery(query: RuleGroupCondition): void {
     const { onQueryChange } = this.props;
     this.setState(
       { query },
@@ -124,7 +124,7 @@ export class QueryBuilder extends React.Component<
     );
   }
 
-  private initializeState(): IQueryBuilderState {
+  private initializeState(): QueryBuilderState {
     const query = createInitialQuery(this.ruleGroups, this.props.query);
 
     return {

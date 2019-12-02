@@ -1,7 +1,9 @@
 import { isRuleGroup } from '.';
-import { IRuleGroup } from '../models';
+import { RuleGroupCondition } from '../models';
 
-export const isValidQuery = (query?: IRuleGroup): query is IRuleGroup => {
+export const isValidQuery = (
+  query?: RuleGroupCondition,
+): query is RuleGroupCondition => {
   if (query) {
     return isRuleGroup(query);
   }

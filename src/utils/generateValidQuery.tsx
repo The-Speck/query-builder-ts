@@ -1,12 +1,12 @@
 import { isRuleGroup, quickUUID } from '.';
-import { TCondition } from '../models';
+import { Condition } from '../models';
 
-export const generateValidQuery = (query: TCondition): TCondition => {
+export const generateValidQuery = (query: Condition): Condition => {
   if (isRuleGroup(query)) {
     return {
       ...query,
       id: query.id || `g-${quickUUID()}`,
-      conditions: query.conditions.map((condition: TCondition) =>
+      conditions: query.conditions.map((condition: Condition) =>
         generateValidQuery(condition),
       ),
     };

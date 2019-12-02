@@ -1,10 +1,10 @@
 import classnames from 'classnames';
 import isNil from 'lodash/isNil';
 import * as React from 'react';
-import { IControlProps } from '../models';
+import { ControlProps } from '../models';
 import { typeCheck } from '../utils';
 
-export const ValueDropDown: React.FC<IControlProps> = props => {
+export const ValueDropDown: React.FC<ControlProps> = props => {
   const {
     options,
     handleOnChange,

@@ -1,27 +1,25 @@
-import { IControlProps } from './ControlPropsInterface';
-import { TClassName } from './miscellaneous';
+import { ControlProps } from './ControlPropsInterface';
+import { ClassName } from './miscellaneous';
 
-export type TReservedNames = 'conditions' | 'combinator' | 'id';
-export type TConditionFunction = (props: any) => boolean;
-export type TName = Exclude<string, TReservedNames>;
-export type TMappingFunction = (inputValue: any, props: IControlProps) => any;
+export type ReservedNames = 'conditions' | 'combinator' | 'id';
+export type ConditionFunction = (props: any) => boolean;
+export type Name = Exclude<string, ReservedNames>;
+export type MappingFunction = (inputValue: any, props: ControlProps) => any;
 
-export interface IClassNames {
-  [element: string]: TClassName;
+export interface ClassNames {
+  [element: string]: ClassName;
 }
-export type TControlElementClassNames = IClassNames | TClassName;
+export type ControlElementClassNames = ClassNames | ClassName;
 
 export interface ControlElement {
   component: React.FunctionComponent<any> | React.ComponentClass<any>;
-  name: TName;
-  className?: TControlElementClassNames;
+  name: Name;
+  className?: ControlElementClassNames;
   options?: any[];
   label?: string;
   position?: number;
-  condition?: TConditionFunction;
+  condition?: ConditionFunction;
   defaultValue?: string;
-  mapInput?: TMappingFunction;
-  mapOutput?: TMappingFunction;
+  mapInput?: MappingFunction;
+  mapOutput?: MappingFunction;
 }
-
-export default ControlElement;

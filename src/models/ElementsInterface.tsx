@@ -1,5 +1,10 @@
 import { ControlElement } from '.';
 
+export interface RuleElements {
+  removeRuleAction: ControlElement;
+  [ElementName: string]: ControlElement;
+}
+
 export interface RuleGroupElements {
   combinatorSelector: ControlElement;
   addRuleAction: ControlElement;
@@ -7,5 +12,3 @@ export interface RuleGroupElements {
   removeGroupAction: ControlElement;
   [ElementName: string]: ControlElement;
 }
-
-export default RuleGroupElements;

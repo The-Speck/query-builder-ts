@@ -1,10 +1,10 @@
 import { isNumber, isRuleGroup } from '.';
-import { IRuleGroup, TCondition } from '../models';
+import { Condition, RuleGroupCondition } from '../models';
 
 export const findCondition = (
   id: string,
-  query: IRuleGroup,
-): TCondition | null => {
+  query: RuleGroupCondition,
+): Condition | null => {
   const [idx, condition] = findConditionIdxAndParentGroup(id, query);
 
   if (isNumber(idx) && condition) {
@@ -16,12 +16,12 @@ export const findCondition = (
   }
 };
 
-export type TFindConditionAndParent = [number | null, TCondition | null];
+export type FindConditionAndParent = [number | null, Condition | null];
 
 export const findConditionIdxAndParentGroup = (
   id: string,
-  query: IRuleGroup,
-): TFindConditionAndParent => {
+  query: RuleGroupCondition,
+): FindConditionAndParent => {
   if (query.id === id) {
     return [null, query];
   }
@@ -34,7 +34,7 @@ export const findConditionIdxAndParentGroup = (
     } else if (isRuleGroup(condition)) {
       const [conditionIdx, group] = findConditionIdxAndParentGroup(
         id,
-        condition as IRuleGroup,
+        condition as RuleGroupCondition,
       );
       if (isNumber(conditionIdx) && group) {
         return [conditionIdx, group];

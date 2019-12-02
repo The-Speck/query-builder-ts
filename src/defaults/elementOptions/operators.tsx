@@ -1,9 +1,9 @@
-export interface IOperator {
+export interface Operator {
   name: string;
   label: string;
 }
 
-export const defaultOperators: IOperator[] = [
+export const defaultOperators: Operator[] = [
   { name: 'null', label: 'Is Null' },
   { name: 'notNull', label: 'Is Not Null' },
   { name: 'in', label: 'In' },

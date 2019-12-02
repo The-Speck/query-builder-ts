@@ -1,34 +1,34 @@
 import classnames from 'classnames';
 import * as React from 'react';
 import {
-  ClassNames,
   ControlElement,
-  IRule,
+  HandleOnChange,
+  OnElementChange,
+  OnPropChange,
+  OnRemove,
+  QueryBuilderClassNames,
+  RuleCondition,
   RuleElements,
-  THandleOnChange,
-  TOnElementChange,
-  TOnPropChange,
-  TOnRemove,
 } from './models';
-import { IQueryBuilderState } from './QueryBuilder';
+import { QueryBuilderState } from './QueryBuilder';
 import { createSortedElements, typeCheck } from './utils';
 
-export interface IRuleProps extends IQueryBuilderState {
-  rule: IRule;
+export interface RuleProps extends QueryBuilderState {
+  rule: RuleCondition;
   rules: RuleElements;
-  classNames: ClassNames;
-  onRemove: TOnRemove;
-  onPropChange: TOnPropChange;
+  classNames: QueryBuilderClassNames;
+  onRemove: OnRemove;
+  onPropChange: OnPropChange;
 }
 
-export interface IRuleElementAttributes extends React.Attributes {
-  handleOnChange: THandleOnChange;
-  parentProps: IRuleProps;
+export interface RuleElementAttributes extends React.Attributes {
+  handleOnChange: HandleOnChange;
+  parentProps: RuleProps;
   value: any;
 }
 
-export class Rule extends React.Component<IRuleProps> {
-  constructor(props: IRuleProps) {
+export class Rule extends React.Component<RuleProps> {
+  constructor(props: RuleProps) {
     super(props);
 
     this.removeRule = this.removeRule.bind(this);
@@ -55,7 +55,7 @@ export class Rule extends React.Component<IRuleProps> {
         parentProps: { ...this.props },
         ...element,
         value: this.setValue(element),
-      } as IRuleElementAttributes),
+      } as RuleElementAttributes),
     );
   }
 
@@ -67,7 +67,7 @@ export class Rule extends React.Component<IRuleProps> {
     return currentValue;
   }
 
-  private assignOnChange(element: ControlElement): THandleOnChange {
+  private assignOnChange(element: ControlElement): HandleOnChange {
     switch (element.name) {
       case this.props.rules.removeRuleAction.name:
         return this.removeRule;
@@ -84,7 +84,7 @@ export class Rule extends React.Component<IRuleProps> {
     onRemove(rule.id);
   }
 
-  private onElementChange(property: string): TOnElementChange {
+  private onElementChange(property: string): OnElementChange {
     const { rule, onPropChange } = this.props;
 
     return (value: any): void => onPropChange(property, value, rule.id);

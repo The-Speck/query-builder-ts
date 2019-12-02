@@ -1,20 +1,20 @@
 import classnames from 'classnames';
 import * as React from 'react';
 import {
-  ClassNames,
+  Condition,
   ControlElement,
-  IRule,
-  IRuleGroup,
+  HandleOnChange,
+  OnAdd,
+  OnElementChange,
+  OnPropChange,
+  OnRemove,
+  QueryBuilderClassNames,
+  RuleCondition,
   RuleElements,
+  RuleGroupCondition,
   RuleGroupElements,
-  TCondition,
-  THandleOnChange,
-  TOnAdd,
-  TOnElementChange,
-  TOnPropChange,
-  TOnRemove,
 } from './models';
-import { IQueryBuilderState } from './QueryBuilder';
+import { QueryBuilderState } from './QueryBuilder';
 import Rule from './Rule';
 import {
   createRule,
@@ -24,25 +24,25 @@ import {
   typeCheck,
 } from './utils';
 
-export interface IRuleGroupProps extends IQueryBuilderState {
-  group: IRuleGroup;
+export interface RuleGroupProps extends QueryBuilderState {
+  group: RuleGroupCondition;
   level: number;
   rules: RuleElements;
   ruleGroups: RuleGroupElements;
-  classNames: ClassNames;
-  onAdd: TOnAdd;
-  onRemove: TOnRemove;
-  onPropChange: TOnPropChange;
+  classNames: QueryBuilderClassNames;
+  onAdd: OnAdd;
+  onRemove: OnRemove;
+  onPropChange: OnPropChange;
 }
 
-export interface IRuleGroupElementAttributes extends React.Attributes {
-  handleOnChange: THandleOnChange;
-  parentProps: IRuleGroupProps;
+export interface RuleGroupElementAttributes extends React.Attributes {
+  handleOnChange: HandleOnChange;
+  parentProps: RuleGroupProps;
   value: any;
 }
 
-export class RuleGroup extends React.Component<IRuleGroupProps> {
-  constructor(props: IRuleGroupProps) {
+export class RuleGroup extends React.Component<RuleGroupProps> {
+  constructor(props: RuleGroupProps) {
     super(props);
 
     this.addRule = this.addRule.bind(this);
@@ -78,28 +78,28 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
         parentProps: { ...this.props },
         ...element,
         value: this.setValue(element),
-      } as IRuleGroupElementAttributes),
+      } as RuleGroupElementAttributes),
     );
   }
 
-  private createChildren(conditions: TCondition[]): React.ReactNode {
-    return conditions.map((condition: TCondition, idx: number) => {
+  private createChildren(conditions: Condition[]): React.ReactNode {
+    return conditions.map((condition: Condition, idx: number) => {
       return isRuleGroup(condition) ? (
         <RuleGroup
           {...this.props}
           key={idx}
-          group={condition as IRuleGroup}
+          group={condition as RuleGroupCondition}
           level={this.props.level + 1}
         />
       ) : (
-        <Rule key={idx} rule={condition as IRule} {...this.props} />
+        <Rule key={idx} rule={condition as RuleCondition} {...this.props} />
       );
     });
   }
 
   // Using '===' because nothing should change if both are true or false.
-  private sortConditions(conditions: TCondition[]): TCondition[] {
-    return conditions.sort((a: TCondition, b: TCondition) =>
+  private sortConditions(conditions: Condition[]): Condition[] {
+    return conditions.sort((a: Condition, b: Condition) =>
       isRuleGroup(a) === isRuleGroup(b) ? 0 : isRuleGroup(a) ? 1 : -1,
     );
   }
@@ -112,7 +112,7 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
     return currentValue;
   }
 
-  private setOnChange({ name }: ControlElement): THandleOnChange {
+  private setOnChange({ name }: ControlElement): HandleOnChange {
     const { ruleGroups } = this.props;
 
     switch (name) {
@@ -153,7 +153,7 @@ export class RuleGroup extends React.Component<IRuleGroupProps> {
     onRemove(group.id);
   }
 
-  private onElementChange(property: string): TOnElementChange {
+  private onElementChange(property: string): OnElementChange {
     const { group, onPropChange } = this.props;
 
     return (value: any): void => onPropChange(property, value, group.id);

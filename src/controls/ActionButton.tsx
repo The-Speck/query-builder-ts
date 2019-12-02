@@ -1,9 +1,9 @@
 import classNames from 'classnames';
 import * as React from 'react';
-import { IControlProps } from '../models';
+import { ControlProps } from '../models';
 import { typeCheck } from '../utils';
 
-export const ActionButton: React.FC<IControlProps> = props => {
+export const ActionButton: React.FC<ControlProps> = props => {
   const { handleOnChange, className, label, condition } = props;
 
   if (condition && !condition(props)) {

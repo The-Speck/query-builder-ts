@@ -1,11 +1,12 @@
 import * as React from 'react';
 import 'react-app-polyfill/ie11';
 import * as ReactDOM from 'react-dom';
-import QueryBuilder from '../.';
-import { IRuleGroup } from '../dist/models';
+import QueryBuilder, { RuleGroupCondition } from '../.';
 
 const App = (): React.ReactElement => {
-  const [query, setQuery] = React.useState<IRuleGroup | undefined>(undefined);
+  const [query, setQuery] = React.useState<RuleGroupCondition | undefined>(
+    undefined,
+  );
   const columns: any[] = ['First Name', 'Last Name', 'Address'];
 
   const PrettyPrintJson = React.useCallback(

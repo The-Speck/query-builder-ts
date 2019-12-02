@@ -1,10 +1,10 @@
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
 import * as React from 'react';
-import { IControlProps } from '../models';
+import { ControlProps } from '../models';
 import { typeCheck } from '../utils';
 
-export const ValueInput: React.FC<IControlProps> = props => {
+export const ValueInput: React.FC<ControlProps> = props => {
   const {
     handleOnChange,
     className,

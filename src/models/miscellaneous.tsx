@@ -1,13 +1,14 @@
-import { TCondition } from '.';
+import { Condition } from '.';
 
-export type THandleOnChange = (args: any) => void;
-export type TOnAdd = (condition: TCondition, groupId: string) => void;
-export type TOnRemove = (conditionId: string) => void;
-export type TOnPropChange = (
+export type HandleOnChange = (args: any) => void;
+export type OnAdd = (condition: Condition, groupId: string) => void;
+export type OnRemove = (conditionId: string) => void;
+export type OnPropChange = (
   key: string,
   value: any,
   conditionId: string,
 ) => void;
-export type TOnElementChange = (value: any) => void;
-export type TClassNameFunction = (arg: any) => string | string[];
-export type TClassName = string | string[] | TClassNameFunction;
+export type OnElementChange = (value: any) => void;
+
+export type ClassNameFunction = (arg: any) => string | string[];
+export type ClassName = string | string[] | ClassNameFunction;

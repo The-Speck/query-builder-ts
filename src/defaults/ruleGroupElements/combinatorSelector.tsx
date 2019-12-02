@@ -3,11 +3,11 @@ import { ControlElement } from '../../models';
 import defaultCombinators from '../elementOptions/combinators';
 import ruleGroupElementsClassNames from './ruleGroupElementsClassNames';
 
-export interface IDefaultCombinatorSelector extends ControlElement {
+export interface CombinatorSelectorElement extends ControlElement {
   defaultValue: string;
 }
 
-export const defaultCombinatorSelector: IDefaultCombinatorSelector = {
+export const defaultCombinatorSelector: CombinatorSelectorElement = {
   component: ValueDropDown,
   name: 'combinator',
   options: defaultCombinators,

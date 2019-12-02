@@ -3,11 +3,11 @@ import { generateValidQuery, isValidQuery, quickUUID } from '.';
 import Defaults from '../defaults';
 import defaultCombinatorSelector from '../defaults/ruleGroupElements/combinatorSelector';
 import {
-  ClassNames,
   ControlElement,
-  IRule,
-  IRuleGroup,
+  QueryBuilderClassNames,
+  RuleCondition,
   RuleElements,
+  RuleGroupCondition,
   RuleGroupElements,
 } from '../models';
 
@@ -18,8 +18,8 @@ const assignColumns = (rules: RuleElements, columns: any[]): void => {
 };
 
 export const createInitialClassNames = (
-  classNames?: ClassNames,
-): ClassNames => {
+  classNames?: QueryBuilderClassNames,
+): QueryBuilderClassNames => {
   const userClassNames = classNames || {};
   const defaultClasNames = Defaults.classNames;
 
@@ -50,15 +50,20 @@ export const createInitialRuleGroupElements = (
 
 export const createInitialQuery = (
   ruleGroups: RuleGroupElements,
-  query?: IRuleGroup,
-): IRuleGroup => {
+  query?: RuleGroupCondition,
+): RuleGroupCondition => {
   return ((isValidQuery(query) && generateValidQuery(query)) ||
-    createRuleGroup(ruleGroups)) as IRuleGroup;
+    createRuleGroup(ruleGroups)) as RuleGroupCondition;
 };
 
-export const createRuleGroup = (ruleGroups: RuleGroupElements): IRuleGroup => {
+export const createRuleGroup = (
+  ruleGroups: RuleGroupElements,
+): RuleGroupCondition => {
   const customRuleGroups = Object.values(ruleGroups).reduce(
-    (acc: Partial<IRuleGroup>, { name, defaultValue }: ControlElement) => {
+    (
+      acc: Partial<RuleGroupCondition>,
+      { name, defaultValue }: ControlElement,
+    ) => {
       if (
         name !== ruleGroups.addGroupAction.name &&
         name !== ruleGroups.addRuleAction.name &&
@@ -81,9 +86,9 @@ export const createRuleGroup = (ruleGroups: RuleGroupElements): IRuleGroup => {
   };
 };
 
-export const createRule = (rules: RuleElements): IRule => {
+export const createRule = (rules: RuleElements): RuleCondition => {
   const customRules = Object.values(rules).reduce(
-    (acc: Partial<IRule>, { name, defaultValue }: ControlElement) => {
+    (acc: Partial<RuleCondition>, { name, defaultValue }: ControlElement) => {
       if (name !== rules.removeRuleAction.name) {
         acc[name] = defaultValue;
       }
