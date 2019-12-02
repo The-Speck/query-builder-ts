@@ -1,0 +1,24 @@
+# development settings
+.gitignore
+.prettierrc
+jest.config.js
+tsconfig.json
+tsdxconfig.json
+tslint.json
+.vscode
+
+# development folders
+example
+node_modules
+src
+test
+
+# Other Random stuff
+*.log
+.DS_Store
+.cache
+.rts2_cache_cjs
+.rts2_cache_esm
+.rts2_cache_umd
+.rts2_cache_system
+coverage
