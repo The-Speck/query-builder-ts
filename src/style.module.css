@@ -30,6 +30,10 @@
   cursor: pointer;
 }
 
+.comboBoxContainer {
+  display: inline-block;
+}
+
 .dropdown {
   height: 1.6em;
 }

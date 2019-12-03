@@ -28,6 +28,10 @@ export const ValueComboBox: React.FC<ControlProps> = props => {
   const [inputValue, setInputValue] = React.useState<string>(mappedInputValue);
   const [showOptions, setShowOptions] = React.useState(false);
 
+  React.useEffect(() => {
+    setInputValue(mappedInputValue);
+  }, [value]);
+
   const toggleShowOptions = React.useCallback(
     () => setShowOptions(!showOptions),
     [showOptions],
@@ -43,7 +47,7 @@ export const ValueComboBox: React.FC<ControlProps> = props => {
 
   const debounceWrapper = React.useCallback(
     debounce(mappedHandleOnChange, debounceTime || 500),
-    [inputValue],
+    [mappedHandleOnChange],
   );
 
   const handleOnChangeWrapper = React.useCallback(
@@ -63,9 +67,12 @@ export const ValueComboBox: React.FC<ControlProps> = props => {
     [mappedHandleOnChange],
   );
 
-  const filteredOptionsList = React.useCallback(() => {
+  const filteredOptionsList = React.useMemo(() => {
     const availableOptions = options || [];
-    return availableOptions
+    const mappedOptions = mapInput
+      ? availableOptions.map((o: any) => mapInput(o, props))
+      : availableOptions;
+    return mappedOptions
       .filter(
         (option: any) =>
           option.toLowerCase().indexOf(inputValue.toLowerCase()) > -1,
@@ -73,7 +80,7 @@ export const ValueComboBox: React.FC<ControlProps> = props => {
       .map((option: any, idx: number) => (
         <li
           key={idx}
-          className={classnames(typeCheck(className, 'li'))}
+          className={classnames(typeCheck(className, 'li', props))}
           onMouseDown={(): void => handleOnSelect(option)}>
           {option}
         </li>
@@ -81,23 +88,23 @@ export const ValueComboBox: React.FC<ControlProps> = props => {
   }, [inputValue, options, handleOnSelect]);
 
   return (
-    <>
+    <div className={classnames(typeCheck(className, 'container', props))}>
       <input
-        className={classnames(typeCheck(className, 'input'))}
+        className={classnames(typeCheck(className, 'input', props))}
         onChange={handleOnChangeWrapper}
-        type={typeCheck(inputType)}
+        type={typeCheck(inputType, value, props)}
         onFocus={toggleShowOptions}
         onBlur={toggleShowOptions}
         value={inputValue}
       />
       {showOptions ? (
-        <div className={typeCheck(className, 'container')}>
-          <ul className={typeCheck(className, 'ul')}>
-            {filteredOptionsList()}
+        <div className={typeCheck(className, 'dropdownContainer', props)}>
+          <ul className={typeCheck(className, 'ul', props)}>
+            {filteredOptionsList}
           </ul>
         </div>
       ) : null}
-    </>
+    </div>
   );
 };
 
