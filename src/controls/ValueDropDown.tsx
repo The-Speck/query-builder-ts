@@ -32,7 +32,7 @@ export const ValueDropDown: React.FC<ControlProps> = props => {
       <option
         key={idx}
         value={option.name}
-        className={classnames(typeCheck(className, 'option'))}>
+        className={classnames(typeCheck(className, 'option', props))}>
         {option.label}
       </option>
     ));
@@ -49,7 +49,7 @@ export const ValueDropDown: React.FC<ControlProps> = props => {
 
   return (
     <select
-      className={classnames(typeCheck(className, 'select'))}
+      className={classnames(typeCheck(className, 'select', props))}
       onChange={handleOnChangeWrapper}
       value={mappedInputValue}>
       {dropdownOptions}

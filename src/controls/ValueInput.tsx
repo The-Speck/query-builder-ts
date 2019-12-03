@@ -27,6 +27,10 @@ export const ValueInput: React.FC<ControlProps> = props => {
 
   const [inputValue, setInputValue] = React.useState(mappedInputValue);
 
+  React.useEffect(() => {
+    setInputValue(mappedInputValue);
+  }, [value]);
+
   const mappedHandleOnChange = React.useCallback(
     (outputValue: any) =>
       mapOutput
@@ -37,7 +41,7 @@ export const ValueInput: React.FC<ControlProps> = props => {
 
   const debounceWrapper = React.useCallback(
     debounce(mappedHandleOnChange, debounceTime || 500),
-    [inputValue],
+    [mappedHandleOnChange],
   );
 
   const handleOnChangeWrapper = React.useCallback(
@@ -46,14 +50,14 @@ export const ValueInput: React.FC<ControlProps> = props => {
       setInputValue(newValue);
       debounceWrapper(newValue);
     },
-    [],
+    [debounceWrapper],
   );
 
   return (
     <input
-      className={classnames(typeCheck(className, 'input'))}
+      className={classnames(typeCheck(className, 'input', props))}
       onChange={handleOnChangeWrapper}
-      type={typeCheck(inputType)}
+      type={typeCheck(inputType, value, props)}
       value={inputValue}
     />
   );

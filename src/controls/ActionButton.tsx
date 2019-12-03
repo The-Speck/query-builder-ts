@@ -12,7 +12,7 @@ export const ActionButton: React.FC<ControlProps> = props => {
 
   return (
     <button
-      className={classNames(typeCheck(className, 'button'))}
+      className={classNames(typeCheck(className, 'button', props))}
       onClick={handleOnChange}>
       {label}
     </button>
