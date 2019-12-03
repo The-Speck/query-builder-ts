@@ -19,7 +19,7 @@ export interface ControlElement {
   label?: string;
   position?: number;
   condition?: ConditionFunction;
-  defaultValue?: string;
+  defaultValue?: any;
   mapInput?: MappingFunction;
   mapOutput?: MappingFunction;
 }

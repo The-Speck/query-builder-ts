@@ -4,7 +4,8 @@ export const ruleElementsClassNames = {
   combinators: '',
   columns: {
     input: '',
-    container: style.filteredOptionsContainer,
+    dropdownContainer: style.filteredOptionsContainer,
+    container: style.comboBoxContainer,
     ul: style.filteredOptionsList,
     li: style.filteredOptionsItem,
   },

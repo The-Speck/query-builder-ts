@@ -1,13 +1,20 @@
 import * as React from 'react';
 import 'react-app-polyfill/ie11';
 import * as ReactDOM from 'react-dom';
-import QueryBuilder, { RuleGroupCondition } from '../.';
+import QueryBuilder, {
+  ControlProps,
+  RuleGroupCondition,
+  ValueComboBox,
+  ValueDropDown,
+  ValueInput,
+} from '../.';
+import '../src/style.module.css';
 
 const App = (): React.ReactElement => {
   const [query, setQuery] = React.useState<RuleGroupCondition | undefined>(
     undefined,
   );
-  const columns: any[] = ['First Name', 'Last Name', 'Address'];
+  // const columns: any[] = ['First Name', 'Last Name', 'Address'];
 
   const PrettyPrintJson = React.useCallback(
     () =>
@@ -18,6 +25,13 @@ const App = (): React.ReactElement => {
       ) : null,
     [query],
   );
+
+  const columns = [
+    { databaseName: 'firstName', displayName: 'First Name', type: 'string' },
+    { databaseName: 'lastName', displayName: 'Last Name', type: 'string' },
+    { databaseName: 'address', displayName: 'Address', type: 'string' },
+    { databaseName: 'age', displayName: 'Age', type: 'number' },
+  ];
 
   return (
     <div
@@ -32,10 +46,77 @@ const App = (): React.ReactElement => {
           width: '100%',
           maxWidth: '90rem',
         }}>
-        <QueryBuilder
+        {/* <QueryBuilder
           columns={columns}
           query={query}
           onQueryChange={setQuery}
+        /> */}
+        <QueryBuilder
+          onQueryChange={setQuery}
+          rules={{
+            columnSelector: {
+              component: ValueComboBox,
+              name: 'column',
+              className: {
+                input: '',
+                dropdownContainer: 'filteredOptionsContainer',
+                container: 'comboBoxContainer',
+                ul: 'filteredOptionsList',
+                li: 'filteredOptionsItem',
+              },
+              options: columns,
+              position: 1,
+              defaultValue: {},
+              mapInput: (value, props) => value.displayName || '',
+              mapOutput: (value, props) =>
+                columns.find(c => c.displayName === value) || '',
+            },
+            valueInput: {
+              component: ValueInput,
+              name: 'value',
+              className: '',
+              label: 'Value',
+              position: 3,
+              defaultValue: '',
+              inputType: (value, props) => props.parentProps.rule.column.type,
+              condition: ({ parentProps }: ControlProps): boolean =>
+                (parentProps as any).rule.op !== 'null' &&
+                (parentProps as any).rule.op !== 'notNull' &&
+                (parentProps as any).rule.type !== 'column',
+            },
+            valueSelector: {
+              component: ValueComboBox,
+              name: 'value',
+              className: {
+                input: '',
+                dropdownContainer: 'filteredOptionsContainer',
+                container: 'comboBoxContainer',
+                ul: 'filteredOptionsList',
+                li: 'filteredOptionsItem',
+              },
+              position: 3,
+              defaultValue: '',
+              options: columns,
+              condition: ({ parentProps }: ControlProps): boolean =>
+                (parentProps as any).rule.op !== 'null' &&
+                (parentProps as any).rule.op !== 'notNull' &&
+                (parentProps as any).rule.type === 'column',
+              mapInput: (value, props) => value.displayName || '',
+              mapOutput: (value, props) =>
+                columns.find(c => c.displayName === value) || '',
+            },
+            typeSelector: {
+              component: ValueDropDown,
+              name: 'type',
+              options: [
+                { name: 'column', label: 'Column' },
+                { name: 'value', label: 'Value' },
+              ],
+              className: 'dropdown',
+              position: 4,
+              defaultValue: 'value',
+            },
+          }}
         />
       </div>
       {PrettyPrintJson()}

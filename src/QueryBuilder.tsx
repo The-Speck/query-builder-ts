@@ -24,8 +24,8 @@ import {
 
 export interface QueryBuilderProps {
   columns?: any[];
-  rules?: RuleElements;
-  ruleGroups?: RuleGroupElements;
+  rules?: Partial<RuleElements>;
+  ruleGroups?: Partial<RuleGroupElements>;
   query?: RuleGroupCondition;
   classNames?: QueryBuilderClassNames;
   onQueryChange?: (query: RuleGroupCondition) => void;

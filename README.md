@@ -190,7 +190,7 @@ The columns passed as props to the `QueryBuilder` component are assigned the `co
   columnSelector: {
     component: ValueComboBox,
     name: 'column',
-    className: ruleElementsClassNames.columns,
+    className: '',
     position: 1,
     defaultValue: '',
   },
@@ -209,7 +209,7 @@ The columns passed as props to the `QueryBuilder` component are assigned the `co
       { name: '<=', label: '<=' },
       { name: '>=', label: '>=' },
     ],
-    className: ruleElementsClassNames.operators,
+    className: '',
     position: 2,
     defaultValue: '=',
   },
@@ -228,7 +228,7 @@ The columns passed as props to the `QueryBuilder` component are assigned the `co
     component: ActionButton,
     name: 'removeRule',
     label: 'x',
-    className: ruleElementsClassNames.removeRule,
+    className: '',
     position: 99,
   },
 }
@@ -240,7 +240,7 @@ The columns passed as props to the `QueryBuilder` component are assigned the `co
   {
     component: React.FunctionComponent<any> | React.ComponentClass<any>;
     name: Name;
-    className?: string | string[] | (arg: any) => string | string[];
+    className?: string | string[] | (...arg: any[]) => string | string[];
     options?: any[];
     label?: string;
     position?: number;

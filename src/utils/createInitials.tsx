@@ -28,7 +28,7 @@ export const createInitialClassNames = (
 
 export const createInitialRuleElements = (
   columns?: any[],
-  rules?: RuleElements,
+  rules?: Partial<RuleElements>,
 ): RuleElements => {
   const userRuleElements = rules || {};
   const defaultRuleElements = Defaults.ruleElements;
@@ -40,7 +40,7 @@ export const createInitialRuleElements = (
 };
 
 export const createInitialRuleGroupElements = (
-  ruleGroups?: RuleGroupElements,
+  ruleGroups?: Partial<RuleGroupElements>,
 ): RuleGroupElements => {
   const userRuleGroupElements = ruleGroups || {};
   const defaultRuleGroupElements = Defaults.ruleGroupElements;

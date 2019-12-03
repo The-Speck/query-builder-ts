@@ -10,8 +10,8 @@ export type OnPropChange = (
 ) => void;
 export type OnElementChange = (value: any) => void;
 
-export type ClassNameFunction = (arg: any) => string | string[];
+export type ClassNameFunction = (...arg: any[]) => string | string[];
 export type ClassName = string | string[] | ClassNameFunction;
 
-export type InputTypeFunction = (props: ControlProps) => string;
+export type InputTypeFunction = (value: any, props: ControlProps) => string;
 export type InputType = string | InputTypeFunction;
