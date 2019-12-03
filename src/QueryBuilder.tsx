@@ -23,7 +23,7 @@ import {
 } from './utils';
 
 export interface QueryBuilderProps {
-  columns: any[];
+  columns?: any[];
   rules?: RuleElements;
   ruleGroups?: RuleGroupElements;
   query?: RuleGroupCondition;

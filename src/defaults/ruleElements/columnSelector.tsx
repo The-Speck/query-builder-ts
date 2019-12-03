@@ -1,10 +1,10 @@
 import { ValueComboBox } from '../../controls';
-import { ControlElement } from '../../models';
+import { ControlElement, InputType } from '../../models';
 import ruleElementsClassNames from './ruleElementsClassNames';
 
 export interface ComboBoxControlElement extends ControlElement {
   debounceTime?: number;
-  inputType?: string;
+  inputType?: InputType;
 }
 
 export const defaultColumnSelector: ComboBoxControlElement = {

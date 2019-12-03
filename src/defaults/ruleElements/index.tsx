@@ -7,7 +7,7 @@ import defaultValueInput from './valueInput';
 export const defaultRuleElements: RuleElements = {
   columnSelector: defaultColumnSelector,
   operatorSelector: defaultOperatorSelector,
-  valueEditor: defaultValueInput,
+  valueInput: defaultValueInput,
   removeRuleAction: defaultRemoveRuleAction,
 };
 

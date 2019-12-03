@@ -12,8 +12,9 @@ export const ValueComboBox: React.FC<ControlProps> = props => {
     value,
     mapInput,
     mapOutput,
-    options = [],
-    debounceTime = 500,
+    options,
+    debounceTime,
+    inputType = 'text',
   } = props;
 
   if (condition && !condition(props)) {
@@ -41,8 +42,8 @@ export const ValueComboBox: React.FC<ControlProps> = props => {
   );
 
   const debounceWrapper = React.useCallback(
-    debounce(mappedHandleOnChange, debounceTime),
-    [],
+    debounce(mappedHandleOnChange, debounceTime || 500),
+    [inputValue],
   );
 
   const handleOnChangeWrapper = React.useCallback(
@@ -63,7 +64,8 @@ export const ValueComboBox: React.FC<ControlProps> = props => {
   );
 
   const filteredOptionsList = React.useCallback(() => {
-    return options
+    const availableOptions = options || [];
+    return availableOptions
       .filter(
         (option: any) =>
           option.toLowerCase().indexOf(inputValue.toLowerCase()) > -1,
@@ -83,7 +85,7 @@ export const ValueComboBox: React.FC<ControlProps> = props => {
       <input
         className={classnames(typeCheck(className, 'input'))}
         onChange={handleOnChangeWrapper}
-        type={'text'}
+        type={typeCheck(inputType)}
         onFocus={toggleShowOptions}
         onBlur={toggleShowOptions}
         value={inputValue}

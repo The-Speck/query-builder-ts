@@ -11,8 +11,8 @@ import {
   RuleGroupElements,
 } from '../models';
 
-const assignColumns = (rules: RuleElements, columns: any[]): void => {
-  if (rules.columnSelector && !rules.columnSelector.options) {
+const assignColumns = (rules: RuleElements, columns?: any[]): void => {
+  if (columns && rules.columnSelector && !rules.columnSelector.options) {
     rules.columnSelector.options = columns;
   }
 };
@@ -27,7 +27,7 @@ export const createInitialClassNames = (
 };
 
 export const createInitialRuleElements = (
-  columns: any[],
+  columns?: any[],
   rules?: RuleElements,
 ): RuleElements => {
   const userRuleElements = rules || {};

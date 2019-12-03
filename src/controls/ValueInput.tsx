@@ -12,8 +12,8 @@ export const ValueInput: React.FC<ControlProps> = props => {
     value,
     mapInput,
     mapOutput,
+    debounceTime,
     inputType = 'text',
-    debounceTime = 500,
   } = props;
 
   if (condition && !condition(props)) {
@@ -36,7 +36,7 @@ export const ValueInput: React.FC<ControlProps> = props => {
   );
 
   const debounceWrapper = React.useCallback(
-    debounce(mappedHandleOnChange, debounceTime),
+    debounce(mappedHandleOnChange, debounceTime || 500),
     [inputValue],
   );
 
@@ -53,7 +53,7 @@ export const ValueInput: React.FC<ControlProps> = props => {
     <input
       className={classnames(typeCheck(className, 'input'))}
       onChange={handleOnChangeWrapper}
-      type={inputType}
+      type={typeCheck(inputType)}
       value={inputValue}
     />
   );

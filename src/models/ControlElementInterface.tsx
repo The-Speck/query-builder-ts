@@ -4,7 +4,7 @@ import { ClassName } from './miscellaneous';
 export type ReservedNames = 'conditions' | 'combinator' | 'id';
 export type ConditionFunction = (props: any) => boolean;
 export type Name = Exclude<string, ReservedNames>;
-export type MappingFunction = (inputValue: any, props: ControlProps) => any;
+export type MappingFunction = (value: any, props: ControlProps) => any;
 
 export interface ClassNames {
   [element: string]: ClassName;

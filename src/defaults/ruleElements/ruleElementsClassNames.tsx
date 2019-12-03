@@ -8,7 +8,7 @@ export const ruleElementsClassNames = {
     ul: style.filteredOptionsList,
     li: style.filteredOptionsItem,
   },
-  operators: style.operator,
+  operators: style.dropdown,
   value: '',
   removeRule: '',
 };
