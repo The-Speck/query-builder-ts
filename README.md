@@ -46,9 +46,144 @@ const handleOnQueryChange = query => {
 return <QueryBuilder columns={columns} onQueryChange={handleOnQueryChange} />;
 ```
 
-#### Default Rule Elements
+---
 
-The columns passed as props to the `QueryBuilder` component are assigned the `columnSelector` but it is not required if you want to customize the elements. The `name` attribute for the elements is required and corresponds to the key name in the query condition. The `component` corresponds to the component that will render. These are available as imports.
+## Advanced Customization Example
+
+User created elements will deep merge with the default elements. Columns may be provided directly to the elements as options and can be any array type. `mapInput` and `mapOutput` allow for the transformation of the values passed in and out, respectively. `condition` allows the user to hide components.
+
+```jsx
+import QueryBuilder from 'react-querybuilder-ts';
+
+const columns = [
+  { databaseName: 'firstName', displayName: 'First Name', type: 'string' },
+  { databaseName: 'lastName', displayName: 'Last Name', type: 'string' },
+  { databaseName: 'address', displayName: 'Address', type: 'string' },
+  { databaseName: 'age', displayName: 'Age', type: 'number' },
+];
+
+const handleOnQueryChange = query => {
+  console.log(query);
+};
+
+return (
+  <QueryBuilder
+    onQueryChange={setQuery}
+    rules={{
+      columnSelector: {
+        component: ValueComboBox,
+        name: 'column',
+        className: {
+          input: '',
+          container: 'filteredOptionsContainer',
+          ul: 'filteredOptionsList',
+          li: 'filteredOptionsItem',
+        },
+        options: columns,
+        position: 1,
+        defaultValue: {},
+        mapInput: (value, props) => value.displayName || '',
+        mapOutput: (value, props) =>
+          columns.find(c => c.displayName === value) || '',
+      },
+      valueInput: {
+        component: ValueInput,
+        name: 'value',
+        className: '',
+        label: 'Value',
+        position: 3,
+        defaultValue: '',
+        inputType: (value, props) => props.parentProps.rule.column.type,
+        condition: ({ parentProps }: ControlProps): boolean =>
+          parentProps.rule.op !== 'null' &&
+          parentProps.rule.op !== 'notNull' &&
+          parentProps.rule.type !== 'column',
+      },
+      valueSelector: {
+        component: ValueComboBox,
+        name: 'value',
+        className: {
+          input: '',
+          container: 'filteredOptionsContainer',
+          ul: 'filteredOptionsList',
+          li: 'filteredOptionsItem',
+        },
+        position: 3,
+        defaultValue: '',
+        options: columns,
+        condition: ({ parentProps }: ControlProps): boolean =>
+          parentProps.rule.op !== 'null' &&
+          parentProps.rule.op !== 'notNull' &&
+          parentProps.rule.type === 'column',
+        mapInput: (value, props) => value.displayName || '',
+        mapOutput: (value, props) =>
+          columns.find(c => c.displayName === value) || '',
+      },
+      typeSelector: {
+        component: ValueDropDown,
+        name: 'type',
+        options: [
+          { name: 'column', label: 'Column' },
+          { name: 'value', label: 'Value' },
+        ],
+        className: 'dropdown',
+        position: 4,
+        defaultValue: 'value',
+      },
+    }}
+  />
+);
+```
+
+Output:
+![Custom](./assets/query-builder-custom.png)
+
+### API
+
+The columns passed as props to the `QueryBuilder` component are assigned the `columnSelector` but it is not required if you want to customize the elements. The `name` attribute for the elements is required and corresponds to the key name in the query condition. The `component` corresponds to the component that will render. These are available as imports. The default export is a React Component `QueryBuilder` with default controls `ValueComboBox`, `ValueInput`, `ValueDropDown` and `ActionButton`. Users are not restricted to the default provided components. Types are also exposed for Typescript users.
+
+#### Default Rule Group Elements
+
+```tsx
+{
+  combinatorSelector: {
+    component: ValueDropDown,
+    name: 'combinator',
+    options: [
+      { name: 'and', label: 'AND' },
+      { name: 'or', label: 'OR' },
+    ],
+    className: '',
+    position: 1,
+    defaultValue: '='
+  },
+  addRuleAction: {
+    component: ActionButton,
+    name: 'addRule',
+    label: '+Rule',
+    className: '',
+    position: 97,
+  },
+  addGroupAction: {
+    component: ActionButton,
+    name: 'addGroup',
+    label: '+Group',
+    className: '',
+    position: 98,
+  },
+  removeGroupAction: {
+    component: ActionButton,
+    name: 'removeGroup',
+    label: 'X',
+    className: '',
+    position: 99,
+    condition: ({ parentProps }: ControlProps): boolean =>
+      (parentProps as RuleGroupProps).level > 0
+  },
+}
+```
+
+#### Default Rule Elements
 
 ```tsx
 {
@@ -81,7 +216,7 @@ The columns passed as props to the `QueryBuilder` component are assigned the `co
   valueInput: {
     component: ValueInput,
     name: 'value',
-    className: ruleElementsClassNames.value,
+    className: '',
     label: 'Value',
     position: 3,
     defaultValue: '',
@@ -99,55 +234,13 @@ The columns passed as props to the `QueryBuilder` component are assigned the `co
 }
 ```
 
-#### Default Rule Group Elements
-
-```tsx
-{
-  combinatorSelector: {
-    component: ValueDropDown,
-    name: 'combinator',
-    options: defaultCombinators,
-    className: ruleGroupElementsClassNames.combinators,
-    position: 1,
-    defaultValue: defaultCombinators[0].name, // '='
-  },
-  addRuleAction: {
-    component: ActionButton,
-    name: 'addRule',
-    label: '+Rule',
-    className: ruleGroupElementsClassNames.addRule,
-    position: 97,
-  },
-  addGroupAction: {
-    component: ActionButton,
-    name: 'addGroup',
-    label: '+Group',
-    className: ruleGroupElementsClassNames.addGroup,
-    position: 98,
-  },
-  removeGroupAction: {
-    component: ActionButton,
-    name: 'removeGroup',
-    label: 'X',
-    className: ruleGroupElementsClassNames.removeGroup,
-    position: 99,
-    condition: ({ parentProps }: ControlProps): boolean =>
-      (parentProps as RuleGroupProps).level > 0
-  },
-}
-```
-
----
-
-## Advanced Customization Example
-
-#### Build your own component
+#### Build your own Element
 
 ```tsx
   {
     component: React.FunctionComponent<any> | React.ComponentClass<any>;
     name: Name;
-    className?: ControlElementClassNames;
+    className?: string | string[] | (arg: any) => string | string[];
     options?: any[];
     label?: string;
     position?: number;
@@ -156,83 +249,6 @@ The columns passed as props to the `QueryBuilder` component are assigned the `co
     mapInput?: (value: any, props: ControlProps) => any;
     mapOutput?: (value: any, props: ControlProps) => any;
     debounceTime?: number; // For ValueComboBox and ValueInput
-    inputType?: string; // For ValueComboBox and ValueInput
+    inputType?: string | (value: any, props: ControlProps) => string; // For ValueComboBox and ValueInput
   }
-```
-
-User created elements will deep merge with the default elements.
-
-```jsx
-import QueryBuilder from 'react-querybuilder-ts';
-
-const columns = [
-  { databaseName: 'firstName', displayName: 'First Name', type: 'string' },
-  { databaseName: 'lastName', displayName: 'Last Name', type: 'string' },
-  { databaseName: 'address', displayName: 'Address', type: 'string' },
-  { databaseName: 'age', displayName: 'Age', type: 'number' },
-];
-
-const handleOnQueryChange = query => {
-  console.log(query);
-};
-
-return (
-  <QueryBuilder
-    onQueryChange={handleOnQueryChange}
-    rules={
-      {
-        columnSelector: {
-          component: ValueComboBox,
-          name: 'column',
-          className: {
-            input: '',
-            container: 'filteredOptionsContainer',
-            ul: 'filteredOptionsList',
-            li: 'filteredOptionsItem',
-          },
-          options: columns
-          position: 1,
-          defaultValue: '',
-          mapInput:
-        },
-        valueInput: {
-          component: ValueInput,
-          name: 'value',
-          className: ruleElementsClassNames.value,
-          label: 'Value',
-          position: 3,
-          defaultValue: '',
-          condition: ({ parentProps }: ControlProps): boolean =>
-            (parentProps as RuleProps).rule.op !== 'null' &&
-            (parentProps as RuleProps).rule.op !== 'notNull' &&
-            (parentProps as RuleProps).rule.type !== 'column'
-        },
-        valueSelector: {
-          component: ValueComboBox,
-          name: 'value',
-          className: {
-            input: '',
-            container: 'filteredOptionsContainer',
-            ul: 'filteredOptionsList',
-            li: 'filteredOptionsItem',
-          },
-          position: 3,
-          defaultValue: '',
-          options: columns,
-          condition: condition: ({ parentProps }: ControlProps): boolean =>
-            (parentProps as RuleProps).rule.op !== 'null' &&
-            (parentProps as RuleProps).rule.op !== 'notNull' &&
-            (parentProps as RuleProps).rule.type === 'column'
-        },
-        typeSelector: {
-          component: ValueDropDown,
-          name: 'type',
-          options: [{name: 'column', label: 'Column'}, {name: 'value', label: 'Value'}],
-          className: 'dropdown',
-          position: 4,
-          defaultValue: 'value',
-        }
-      }
-    } />
-);
 ```
