@@ -34,16 +34,20 @@ OR
 ```jsx
 import QueryBuilder from 'react-querybuilder-ts';
 
-const columns = [
-  { name: 'firstName', label: 'First Name' },
-  { name: 'lastName', label: 'Last Name' },
-];
+const App = () => {
+  const columns = [
+    { name: 'firstName', label: 'First Name' },
+    { name: 'lastName', label: 'Last Name' },
+  ];
 
-const handleOnQueryChange = query => {
-  console.log(query);
+  const handleOnQueryChange = query => {
+    console.log(query);
+  };
+
+  return <QueryBuilder columns={columns} onQueryChange={handleOnQueryChange} />;
 };
 
-return <QueryBuilder columns={columns} onQueryChange={handleOnQueryChange} />;
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 ---
@@ -55,84 +59,88 @@ User created elements will deep merge with the default elements. Columns may be 
 ```jsx
 import QueryBuilder from 'react-querybuilder-ts';
 
-const columns = [
-  { databaseName: 'firstName', displayName: 'First Name', type: 'string' },
-  { databaseName: 'lastName', displayName: 'Last Name', type: 'string' },
-  { databaseName: 'address', displayName: 'Address', type: 'string' },
-  { databaseName: 'age', displayName: 'Age', type: 'number' },
-];
+const App = () => {
+  const columns = [
+    { databaseName: 'firstName', displayName: 'First Name', type: 'string' },
+    { databaseName: 'lastName', displayName: 'Last Name', type: 'string' },
+    { databaseName: 'address', displayName: 'Address', type: 'string' },
+    { databaseName: 'age', displayName: 'Age', type: 'number' },
+  ];
 
-const handleOnQueryChange = query => {
-  console.log(query);
+  const handleOnQueryChange = query => {
+    console.log(query);
+  };
+
+  return (
+    <QueryBuilder
+      onQueryChange={setQuery}
+      rules={{
+        columnSelector: {
+          component: ValueComboBox,
+          name: 'column',
+          className: {
+            input: '',
+            container: 'filteredOptionsContainer',
+            ul: 'filteredOptionsList',
+            li: 'filteredOptionsItem',
+          },
+          options: columns,
+          position: 1,
+          defaultValue: {},
+          mapInput: (value, props) => value.displayName || '',
+          mapOutput: (value, props) =>
+            columns.find(c => c.displayName === value) || '',
+        },
+        valueInput: {
+          component: ValueInput,
+          name: 'value',
+          className: '',
+          label: 'Value',
+          position: 3,
+          defaultValue: '',
+          inputType: (value, props) => props.parentProps.rule.column.type,
+          condition: ({ parentProps }: ControlProps): boolean =>
+            parentProps.rule.op !== 'null' &&
+            parentProps.rule.op !== 'notNull' &&
+            parentProps.rule.type !== 'column',
+        },
+        valueSelector: {
+          component: ValueComboBox,
+          name: 'value',
+          className: {
+            input: '',
+            container: 'filteredOptionsContainer',
+            ul: 'filteredOptionsList',
+            li: 'filteredOptionsItem',
+          },
+          position: 3,
+          defaultValue: '',
+          options: columns,
+          condition: ({ parentProps }: ControlProps): boolean =>
+            parentProps.rule.op !== 'null' &&
+            parentProps.rule.op !== 'notNull' &&
+            parentProps.rule.type === 'column',
+          mapInput: (value, props) => value.displayName || '',
+          mapOutput: (value, props) =>
+            columns.find(c => c.displayName === value) || '',
+        },
+        typeSelector: {
+          component: ValueDropDown,
+          name: 'type',
+          options: [
+            { name: 'column', label: 'Column' },
+            { name: 'value', label: 'Value' },
+          ],
+          className: 'dropdown',
+          position: 4,
+          defaultValue: 'value',
+        },
+      }}
+    />
+  );
 };
 
-return (
-  <QueryBuilder
-    onQueryChange={setQuery}
-    rules={{
-      columnSelector: {
-        component: ValueComboBox,
-        name: 'column',
-        className: {
-          input: '',
-          container: 'filteredOptionsContainer',
-          ul: 'filteredOptionsList',
-          li: 'filteredOptionsItem',
-        },
-        options: columns,
-        position: 1,
-        defaultValue: {},
-        mapInput: (value, props) => value.displayName || '',
-        mapOutput: (value, props) =>
-          columns.find(c => c.displayName === value) || '',
-      },
-      valueInput: {
-        component: ValueInput,
-        name: 'value',
-        className: '',
-        label: 'Value',
-        position: 3,
-        defaultValue: '',
-        inputType: (value, props) => props.parentProps.rule.column.type,
-        condition: ({ parentProps }: ControlProps): boolean =>
-          parentProps.rule.op !== 'null' &&
-          parentProps.rule.op !== 'notNull' &&
-          parentProps.rule.type !== 'column',
-      },
-      valueSelector: {
-        component: ValueComboBox,
-        name: 'value',
-        className: {
-          input: '',
-          container: 'filteredOptionsContainer',
-          ul: 'filteredOptionsList',
-          li: 'filteredOptionsItem',
-        },
-        position: 3,
-        defaultValue: '',
-        options: columns,
-        condition: ({ parentProps }: ControlProps): boolean =>
-          parentProps.rule.op !== 'null' &&
-          parentProps.rule.op !== 'notNull' &&
-          parentProps.rule.type === 'column',
-        mapInput: (value, props) => value.displayName || '',
-        mapOutput: (value, props) =>
-          columns.find(c => c.displayName === value) || '',
-      },
-      typeSelector: {
-        component: ValueDropDown,
-        name: 'type',
-        options: [
-          { name: 'column', label: 'Column' },
-          { name: 'value', label: 'Value' },
-        ],
-        className: 'dropdown',
-        position: 4,
-        defaultValue: 'value',
-      },
-    }}
-  />
-);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 Output:
@@ -140,7 +148,7 @@ Output:
 
 ### API
 
-The columns passed as props to the `QueryBuilder` component are assigned the `columnSelector` but it is not required if you want to customize the elements. The `name` attribute for the elements is required and corresponds to the key name in the query condition. The `component` corresponds to the component that will render. These are available as imports. The default export is a React Component `QueryBuilder` with default controls `ValueComboBox`, `ValueInput`, `ValueDropDown` and `ActionButton`. Users are not restricted to the default provided components. Types are also exposed for Typescript users.
+The columns passed as props to the `QueryBuilder` component are assigned the `columnSelector` but it is not required if you want to customize the elements and pass the options directly to the elements. The `name` attribute for the elements is required and corresponds to the key name in the query condition (`conditions` | `combinator` | `id` are reserved names). The `component` corresponds to the component that will render. These are available as imports. The default export is a React Component `QueryBuilder` with default component controls `ValueComboBox`, `ValueInput`, `ValueDropDown` and `ActionButton`. Users are not restricted to the default provided components. Types are also exposed for Typescript users.
 
 #### Default Rule Group Elements
 
@@ -237,18 +245,40 @@ The columns passed as props to the `QueryBuilder` component are assigned the `co
 #### Build your own Element
 
 ```tsx
+  // classname info types for the code below
+  type MultiTypeClassName = string | string[] | (...arg: any[]) => string | string[];
+  interface MultiTypeClassNameObject {
+    [element: string]: MultiTypeClassName;
+  }
+  type ControlElementClassNames = MultiTypeClassNameObject | MultiTypeClassName;
+```
+
+```tsx
   {
     component: React.FunctionComponent<any> | React.ComponentClass<any>;
-    name: Name;
-    className?: string | string[] | (...arg: any[]) => string | string[];
+    name: string; // Except 'conditions' | 'combinator' | 'id'
+    className?: ControlElementClassNames // Object type is used for ComboBox due to nested React elements
     options?: any[];
     label?: string;
     position?: number;
-    condition?: ConditionFunction;
+    condition?: (props: any) => boolean;
     defaultValue?: string;
     mapInput?: (value: any, props: ControlProps) => any;
     mapOutput?: (value: any, props: ControlProps) => any;
     debounceTime?: number; // For ValueComboBox and ValueInput
     inputType?: string | (value: any, props: ControlProps) => string; // For ValueComboBox and ValueInput
+  }
+```
+
+#### Modify Overall Query Builder ClassNames
+
+```tsx
+  {
+    queryBuilder?: MultiTypeClassName;
+
+    ruleGroup?: MultiTypeClassName;
+    ruleGroupRow?: MultiTypeClassName;
+
+    ruleRow?: MultiTypeClassName;
   }
 ```
