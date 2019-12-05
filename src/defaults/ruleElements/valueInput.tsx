@@ -1,14 +1,9 @@
 import { ValueInput } from '../../controls';
-import { ControlElement, ControlProps, InputType } from '../../models';
+import { ControlElement, ControlProps } from '../../models';
 import { RuleProps } from '../../Rule';
 import ruleElementsClassNames from './ruleElementsClassNames';
 
-export interface InputControlElement extends ControlElement {
-  debounceTime?: number;
-  inputType?: InputType;
-}
-
-export const defaultValueInput: InputControlElement = {
+export const defaultValueInput: ControlElement = {
   component: ValueInput,
   name: 'value',
   className: ruleElementsClassNames.value,

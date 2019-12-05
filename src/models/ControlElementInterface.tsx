@@ -1,5 +1,4 @@
-import { ControlProps } from './ControlPropsInterface';
-import { MultiTypeClassName } from './miscellaneous';
+import { ControlProps, InputType, MultiTypeClassName } from '.';
 
 export type ReservedNames = 'conditions' | 'combinator' | 'id';
 export type ConditionFunction = (props: any) => boolean;
@@ -24,4 +23,6 @@ export interface ControlElement {
   defaultValue?: any;
   mapInput?: MappingFunction;
   mapOutput?: MappingFunction;
+  debounceTime?: number;
+  inputType?: InputType;
 }

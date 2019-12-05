@@ -1,13 +1,8 @@
 import { ValueComboBox } from '../../controls';
-import { ControlElement, InputType } from '../../models';
+import { ControlElement } from '../../models';
 import ruleElementsClassNames from './ruleElementsClassNames';
 
-export interface ComboBoxControlElement extends ControlElement {
-  debounceTime?: number;
-  inputType?: InputType;
-}
-
-export const defaultColumnSelector: ComboBoxControlElement = {
+export const defaultColumnSelector: ControlElement = {
   component: ValueComboBox,
   name: 'column',
   className: ruleElementsClassNames.columns,
