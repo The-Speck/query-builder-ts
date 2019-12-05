@@ -1,8 +1,8 @@
-import { IRuleGroup } from '../../src/models';
+import { RuleGroupCondition } from '../../src/models';
 import * as find from '../../src/utils/findCondition';
 
 describe('it', () => {
-  let query: IRuleGroup;
+  let query: RuleGroupCondition;
 
   beforeEach(() => {
     query = {
@@ -57,7 +57,7 @@ describe('it', () => {
         },
       ]);
       const result = find.findCondition('1', query);
-      expect((result as IRuleGroup).id).toBe('1');
+      expect((result as RuleGroupCondition).id).toBe('1');
       spy.mockRestore();
     });
 

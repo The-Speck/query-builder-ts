@@ -3,13 +3,13 @@ import Adapter from 'enzyme-adapter-react-16';
 import * as React from 'react';
 import QueryBuilder from '../src/index';
 import {
-  ClassNames,
-  IRuleGroup,
+  QueryBuilderClassNames,
   RuleElements,
+  RuleGroupCondition,
   RuleGroupElements,
 } from '../src/models';
-import { IQueryBuilderProps } from '../src/QueryBuilder';
-import { IRuleGroupProps } from '../src/RuleGroup';
+import { QueryBuilderProps } from '../src/QueryBuilder';
+import { RuleGroupProps } from '../src/RuleGroup';
 import {
   createInitialClassNames,
   createInitialQuery,
@@ -31,7 +31,7 @@ jest.mock('../src/utils', () => {
     conditions: [],
   };
   return {
-    createInitialClassNames: jest.fn((_: ClassNames) => ({
+    createInitialClassNames: jest.fn((_: QueryBuilderClassNames) => ({
       queryBuilder: 'queryBuilder',
     })),
     createInitialRuleElements: jest.fn((_1: any[], _2: RuleElements) => 'rule'),
@@ -42,20 +42,20 @@ jest.mock('../src/utils', () => {
       (_1: RuleGroupElements, _2: RuleElements) => condition,
     ),
     typeCheck: jest.fn(),
-    findCondition: jest.fn((conditionId: string, query: IRuleGroup) =>
+    findCondition: jest.fn((conditionId: string, query: RuleGroupCondition) =>
       conditionId ? query : null,
     ),
     findConditionIdxAndParentGroup: jest.fn(
-      (conditionId: string, query: IRuleGroup) =>
+      (conditionId: string, query: RuleGroupCondition) =>
         conditionId ? [0, query] : [],
     ),
-    isRuleGroup: jest.fn((_: IRuleGroup) => true),
+    isRuleGroup: jest.fn((_: RuleGroupCondition) => true),
     isNumber: jest.fn((_: number) => true),
   };
 });
 
 describe('it', () => {
-  let props: IQueryBuilderProps;
+  let props: QueryBuilderProps;
   let wrapper: ShallowWrapper;
 
   beforeEach(() => {
@@ -75,7 +75,7 @@ describe('it', () => {
       expect(ruleGroup.exists()).toBeTruthy();
     });
     it('ruleGroup with query', () => {
-      const query: IRuleGroup = wrapper.state('query');
+      const query: RuleGroupCondition = wrapper.state('query');
       expect(query.id).toBe('1');
     });
     it('calls typeCheck when rendering root', () => {
@@ -101,7 +101,7 @@ describe('it', () => {
   describe('assigns on', () => {
     it('add', () => {
       const ruleGroup = wrapper.find('RuleGroup');
-      const onAdd = (ruleGroup.props() as IRuleGroupProps).onAdd;
+      const onAdd = (ruleGroup.props() as RuleGroupProps).onAdd;
       onAdd(
         {
           id: '2',
@@ -113,7 +113,9 @@ describe('it', () => {
       expect(findCondition).toHaveBeenCalled();
       expect(isRuleGroup).toHaveBeenCalled();
       expect(props.onQueryChange).toHaveBeenCalled();
-      expect((wrapper.state('query') as IRuleGroup).conditions[0].id).toBe('2');
+      expect(
+        (wrapper.state('query') as RuleGroupCondition).conditions[0].id,
+      ).toBe('2');
     });
     it('remove', () => {
       wrapper.setState({
@@ -128,28 +130,32 @@ describe('it', () => {
         ],
       });
       const ruleGroup = wrapper.find('RuleGroup');
-      const onRemove = (ruleGroup.props() as IRuleGroupProps).onRemove;
+      const onRemove = (ruleGroup.props() as RuleGroupProps).onRemove;
       onRemove('2');
       expect(findConditionIdxAndParentGroup).toHaveBeenCalled();
       expect(isNumber).toHaveBeenCalled();
       expect(isRuleGroup).toHaveBeenCalled();
       expect(props.onQueryChange).toHaveBeenCalled();
-      expect((wrapper.state('query') as IRuleGroup).conditions.length).toBe(0);
+      expect(
+        (wrapper.state('query') as RuleGroupCondition).conditions.length,
+      ).toBe(0);
     });
     it('prop change', () => {
       const ruleGroup = wrapper.find('RuleGroup');
-      const onPropChange = (ruleGroup.props() as IRuleGroupProps).onPropChange;
+      const onPropChange = (ruleGroup.props() as RuleGroupProps).onPropChange;
       onPropChange('combinator', 'or', '1');
       expect(findCondition).toHaveBeenCalled();
       expect(props.onQueryChange).toHaveBeenCalled();
-      expect((wrapper.state('query') as IRuleGroup).combinator).toBe('or');
+      expect((wrapper.state('query') as RuleGroupCondition).combinator).toBe(
+        'or',
+      );
     });
   });
 
   describe('throws ConditionNotFound on', () => {
     it('onAdd', () => {
       const ruleGroup = wrapper.find('RuleGroup');
-      const onAdd = (ruleGroup.props() as IRuleGroupProps).onAdd;
+      const onAdd = (ruleGroup.props() as RuleGroupProps).onAdd;
       const onAddError = (): void =>
         onAdd(
           {
@@ -163,13 +169,13 @@ describe('it', () => {
     });
     it('onRemove', () => {
       const ruleGroup = wrapper.find('RuleGroup');
-      const onRemove = (ruleGroup.props() as IRuleGroupProps).onRemove;
+      const onRemove = (ruleGroup.props() as RuleGroupProps).onRemove;
       const onRemoveError = (): void => onRemove('');
       expect(onRemoveError).toThrowError();
     });
     it('onPropChange', () => {
       const ruleGroup = wrapper.find('RuleGroup');
-      const onPropChange = (ruleGroup.props() as IRuleGroupProps).onPropChange;
+      const onPropChange = (ruleGroup.props() as RuleGroupProps).onPropChange;
       const onPropChangeError = (): void => onPropChange('a', 'b', '');
       expect(onPropChangeError).toThrowError();
     });

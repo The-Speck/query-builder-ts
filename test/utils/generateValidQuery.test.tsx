@@ -1,4 +1,4 @@
-import { IRuleGroup, TCondition } from '../../src/models';
+import { Condition, RuleGroupCondition } from '../../src/models';
 import { generateValidQuery } from '../../src/utils';
 
 describe('it', () => {
@@ -31,9 +31,11 @@ describe('it', () => {
 
   it('generates valid query', () => {
     const validQuery = generateValidQuery(query);
-    const checkIds = (condition: TCondition): boolean => {
+    const checkIds = (condition: Condition): boolean => {
       return condition.id && condition.conditions
-        ? condition.conditions.every((c: IRuleGroup) => c.id && checkIds(c))
+        ? condition.conditions.every(
+            (c: RuleGroupCondition) => c.id && checkIds(c),
+          )
         : true;
     };
     expect(checkIds(validQuery)).toBeTruthy();

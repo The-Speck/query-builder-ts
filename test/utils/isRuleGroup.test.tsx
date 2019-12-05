@@ -1,13 +1,13 @@
-import { TCondition } from '../../src/models';
+import { Condition } from '../../src/models';
 import { isRuleGroup } from '../../src/utils';
 
 describe('it', () => {
   it('return true if condition is rule group', () => {
-    const query: TCondition = { id: '1', combinator: 'and', conditions: [] };
+    const query: Condition = { id: '1', combinator: 'and', conditions: [] };
     expect(isRuleGroup(query)).toBeTruthy();
   });
   it('return false if condition is not rule group', () => {
-    const query: TCondition = {
+    const query: Condition = {
       id: '1',
       firstName: 'Johnny',
       lastName: 'appleseed',

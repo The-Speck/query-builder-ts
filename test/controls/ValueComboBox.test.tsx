@@ -29,7 +29,7 @@ describe('it', () => {
       props.mapInput = jest.fn((arg: any) => arg + '1');
       wrapper = shallow(<ValueComboBox {...props} />);
       wrapper.exists();
-      expect(props.mapInput).toBeCalledTimes(1);
+      expect(props.mapInput).toBeCalledTimes(4);
       const input = wrapper.find('input');
       expect(input.prop('value')).toBe('value1');
     });

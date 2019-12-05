@@ -4,7 +4,7 @@ import {
   ValueDropDown,
   ValueInput,
 } from '../../src';
-import { TClassNameFunction } from '../../src/models';
+import { ClassNameFunction } from '../../src/models';
 import {
   createInitialClassNames,
   createInitialRuleElements,
@@ -22,7 +22,7 @@ describe('it', () => {
       expect(classNames.hasOwnProperty('ruleGroup')).toBeTruthy();
       expect(classNames.hasOwnProperty('ruleGroupRow')).toBeTruthy();
       expect(classNames.hasOwnProperty('ruleRow')).toBeTruthy();
-      expect((classNames.ruleGroup as TClassNameFunction)({ level: 0 })).toBe(
+      expect((classNames.ruleGroup as ClassNameFunction)({ level: 0 })).toBe(
         '',
       );
     });
@@ -32,12 +32,12 @@ describe('it', () => {
       const ruleElements = createInitialRuleElements(columns);
       expect(ruleElements.hasOwnProperty('columnSelector')).toBeTruthy();
       expect(ruleElements.hasOwnProperty('operatorSelector')).toBeTruthy();
-      expect(ruleElements.hasOwnProperty('valueEditor')).toBeTruthy();
+      expect(ruleElements.hasOwnProperty('valueInput')).toBeTruthy();
       expect(ruleElements.hasOwnProperty('removeRuleAction')).toBeTruthy();
       expect(ruleElements.columnSelector.options).toStrictEqual(columns);
       expect(
-        ruleElements.valueEditor.condition &&
-          ruleElements.valueEditor.condition({
+        ruleElements.valueInput.condition &&
+          ruleElements.valueInput.condition({
             parentProps: { rule: { op: 'null' } },
           }),
       ).toBeFalsy();
@@ -83,14 +83,14 @@ describe('it', () => {
       const rules = {
         columnSelector: { component: ValueComboBox, name: 'column1' },
         operatorSelector: { component: ValueDropDown, name: 'op1' },
-        valueEditor: { component: ValueInput, name: 'value1' },
+        valueInput: { component: ValueInput, name: 'value1' },
         otherSelector: { component: ValueComboBox, name: 'someOtherSelector' },
         removeRuleAction: { component: ActionButton, name: 'removeRule1' },
       };
       const ruleElements = createInitialRuleElements(columns, rules);
       expect(ruleElements.columnSelector.name).toBe('column1');
       expect(ruleElements.operatorSelector.name).toBe('op1');
-      expect(ruleElements.valueEditor.name).toBe('value1');
+      expect(ruleElements.valueInput.name).toBe('value1');
       expect(ruleElements.removeRuleAction.name).toBe('removeRule1');
       expect(ruleElements.otherSelector.name).toBe('someOtherSelector');
       expect(ruleElements.columnSelector.options).toStrictEqual(columns);
@@ -152,7 +152,7 @@ describe('it', () => {
         name: 'op',
         defaultValue: '=',
       },
-      valueEditor: {
+      valueInput: {
         component: ValueInput,
         name: 'value',
         defaultValue: 'nothing',

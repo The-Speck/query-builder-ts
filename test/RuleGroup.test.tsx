@@ -2,10 +2,10 @@ import { configure, mount, ReactWrapper } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import * as React from 'react';
 import { ActionButton, ValueComboBox, ValueDropDown, ValueInput } from '../src';
-import { RuleElements, TCondition } from '../src/models';
+import { Condition, RuleElements } from '../src/models';
 import RuleGroup, {
-  IRuleGroupElementAttributes,
-  IRuleGroupProps,
+  RuleGroupElementAttributes,
+  RuleGroupProps,
 } from '../src/RuleGroup';
 
 configure({ adapter: new Adapter() });
@@ -30,14 +30,14 @@ jest.mock('../src/controls', () => {
     ),
     createRule: jest.fn(() => {}),
     createRuleGroup: jest.fn(() => {}),
-    isRuleGroup: jest.fn((condition: TCondition) =>
+    isRuleGroup: jest.fn((condition: Condition) =>
       condition.hasOwnProperty('conditions'),
     ),
   };
 });
 
 describe('it', () => {
-  let props: IRuleGroupProps;
+  let props: RuleGroupProps;
   let wrapper: ReactWrapper;
 
   beforeEach(() => {
@@ -157,9 +157,7 @@ describe('it', () => {
       const combinator = wrapper.find('#combinator0');
       (combinator
         .parent()
-        .props() as IRuleGroupElementAttributes).handleOnChange(
-        'valueDropDown',
-      );
+        .props() as RuleGroupElementAttributes).handleOnChange('valueDropDown');
       expect(props.onPropChange).toBeCalledTimes(1);
     });
 
@@ -171,7 +169,7 @@ describe('it', () => {
       const actionButton = wrapper.find('#removeGroup0');
       (actionButton
         .parent()
-        .props() as IRuleGroupElementAttributes).handleOnChange(event);
+        .props() as RuleGroupElementAttributes).handleOnChange(event);
       expect(props.onRemove).toBeCalledTimes(1);
       expect(event.preventDefault).toBeCalledTimes(1);
       expect(event.stopPropagation).toBeCalledTimes(1);
@@ -185,7 +183,7 @@ describe('it', () => {
       const actionButton = wrapper.find('#addRule0');
       (actionButton
         .parent()
-        .props() as IRuleGroupElementAttributes).handleOnChange(event);
+        .props() as RuleGroupElementAttributes).handleOnChange(event);
       expect(props.onAdd).toBeCalledTimes(1);
       expect(event.preventDefault).toBeCalledTimes(1);
       expect(event.stopPropagation).toBeCalledTimes(1);
@@ -199,7 +197,7 @@ describe('it', () => {
       const actionButton = wrapper.find('#addGroup0');
       (actionButton
         .parent()
-        .props() as IRuleGroupElementAttributes).handleOnChange(event);
+        .props() as RuleGroupElementAttributes).handleOnChange(event);
       expect(props.onAdd).toBeCalledTimes(1);
       expect(event.preventDefault).toBeCalledTimes(1);
       expect(event.stopPropagation).toBeCalledTimes(1);

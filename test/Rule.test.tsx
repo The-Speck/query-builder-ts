@@ -3,7 +3,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import * as React from 'react';
 import { ActionButton, ValueComboBox, ValueDropDown, ValueInput } from '../src';
 import { RuleElements } from '../src/models';
-import Rule, { IRuleElementAttributes, IRuleProps } from '../src/Rule';
+import Rule, { RuleElementAttributes, RuleProps } from '../src/Rule';
 
 configure({ adapter: new Adapter() });
 
@@ -21,7 +21,7 @@ jest.mock('../src/controls', () => {
 });
 
 describe('it', () => {
-  let props: IRuleProps;
+  let props: RuleProps;
   let wrapper: ShallowWrapper;
 
   beforeEach(() => {
@@ -96,13 +96,13 @@ describe('it', () => {
       const valueComboBox = wrapper.find('ValueComboBox');
       const valueDropDown = wrapper.find('ValueDropDown');
       const valueInput = wrapper.find('ValueInput');
-      (valueComboBox.props() as IRuleElementAttributes).handleOnChange(
+      (valueComboBox.props() as RuleElementAttributes).handleOnChange(
         'valueComboBox',
       );
-      (valueDropDown.props() as IRuleElementAttributes).handleOnChange(
+      (valueDropDown.props() as RuleElementAttributes).handleOnChange(
         'valueDropDown',
       );
-      (valueInput.props() as IRuleElementAttributes).handleOnChange(
+      (valueInput.props() as RuleElementAttributes).handleOnChange(
         'valueInput',
       );
       expect(props.onPropChange).toBeCalledTimes(3);
@@ -114,7 +114,7 @@ describe('it', () => {
         stopPropagation: jest.fn(),
       };
       const actionButton = wrapper.find('ActionButton');
-      (actionButton.props() as IRuleElementAttributes).handleOnChange(event);
+      (actionButton.props() as RuleElementAttributes).handleOnChange(event);
       expect(props.onRemove).toBeCalledTimes(1);
       expect(event.preventDefault).toBeCalledTimes(1);
       expect(event.stopPropagation).toBeCalledTimes(1);
