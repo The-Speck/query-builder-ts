@@ -11,7 +11,7 @@ export type OnPropChange = (
 export type OnElementChange = (value: any) => void;
 
 export type ClassNameFunction = (...arg: any[]) => string | string[];
-export type ClassName = string | string[] | ClassNameFunction;
+export type MultiTypeClassName = string | string[] | ClassNameFunction;
 
 export type InputTypeFunction = (value: any, props: ControlProps) => string;
 export type InputType = string | InputTypeFunction;

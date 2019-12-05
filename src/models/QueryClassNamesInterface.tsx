@@ -1,10 +1,10 @@
-import { ClassName } from '.';
+import { MultiTypeClassName } from '.';
 
 export interface QueryBuilderClassNames {
-  queryBuilder?: ClassName;
+  queryBuilder?: MultiTypeClassName;
 
-  ruleGroup?: ClassName;
-  ruleGroupRow?: ClassName;
+  ruleGroup?: MultiTypeClassName;
+  ruleGroupRow?: MultiTypeClassName;
 
-  ruleRow?: ClassName;
+  ruleRow?: MultiTypeClassName;
 }
