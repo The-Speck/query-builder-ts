@@ -9,7 +9,15 @@ describe('it', () => {
     expect(result[1]).toBe(args[1]);
     expect(result[2]).toBe(args[2]);
   });
-  it('returns value if not a function', () => {
+
+  it('returns keyed value if object using next argument as key', () => {
+    const value = { key: 'value' };
+    const key = 'key';
+    const result = typeCheck(value, key);
+    expect(result).toBe(value[key]);
+  });
+
+  it('returns value if string', () => {
     const value = 'value';
     const result = typeCheck(value);
     expect(result).toBe(value);
