@@ -23,10 +23,6 @@ To run a demo of the react-querybuilder being used, clone the project and run ya
 - In the example directory `yarn install`and `yarn start`
 - Open brower and go to `http://localhost:1234/`
 
-OR
-
-[See live demo](https://The-Speck.github.io/react-querybuilder-ts/)
-
 # Usage
 
 ## Minimal Default Example
