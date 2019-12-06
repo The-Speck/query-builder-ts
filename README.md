@@ -1,5 +1,7 @@
 # React Query Builder TS
 
+Highly dynamic React Query Builder Component written in typescript.
+
 ## Credits
 
 This Typescript Query builder component is heavily inspired by sapientglobalmarkets' Query Builder:
@@ -25,7 +27,7 @@ To run a demo of the react-querybuilder being used, clone the project and run ya
 
 OR
 
-[See live demo](https://The-Speck.github.io/react-querybuilder-ts/)
+[See live demo](https://the-speck.github.io/query-builder-ts/)
 
 # Usage
 
