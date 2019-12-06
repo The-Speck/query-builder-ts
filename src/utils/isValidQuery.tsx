@@ -1,5 +1,5 @@
-import { isRuleGroup } from '.';
 import { RuleGroupCondition } from '../models';
+import { isRuleGroup } from './isRuleGroup';
 
 export const isValidQuery = (
   query?: RuleGroupCondition,

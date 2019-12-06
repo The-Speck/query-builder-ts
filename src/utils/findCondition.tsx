@@ -1,5 +1,6 @@
-import { isNumber, isRuleGroup } from '.';
 import { Condition, RuleGroupCondition } from '../models';
+import { isNumber } from './isNumber';
+import { isRuleGroup } from './isRuleGroup';
 
 export const findCondition = (
   id: string,

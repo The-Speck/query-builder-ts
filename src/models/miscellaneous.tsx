@@ -1,4 +1,5 @@
-import { Condition, ControlProps } from '.';
+import { Condition } from './ConditionInterface';
+import { ControlProps } from './ControlPropsInterface';
 
 export type HandleOnChange = (args: any) => void;
 export type OnAdd = (condition: Condition, groupId: string) => void;

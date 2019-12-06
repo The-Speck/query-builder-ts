@@ -1,5 +1,6 @@
-import { isRuleGroup, quickUUID } from '.';
 import { Condition } from '../models';
+import { isRuleGroup } from './isRuleGroup';
+import { quickUUID } from './quickUUID';
 
 export const generateValidQuery = (query: Condition): Condition => {
   if (isRuleGroup(query)) {

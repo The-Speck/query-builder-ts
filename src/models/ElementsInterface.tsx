@@ -1,4 +1,4 @@
-import { ControlElement } from '.';
+import { ControlElement } from './ControlElementInterface';
 
 export interface RuleElements {
   removeRuleAction: ControlElement;

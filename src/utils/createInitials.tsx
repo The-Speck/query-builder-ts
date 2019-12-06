@@ -1,5 +1,4 @@
 import merge from 'lodash/merge';
-import { generateValidQuery, isValidQuery, quickUUID } from '.';
 import Defaults from '../defaults';
 import defaultCombinatorSelector from '../defaults/ruleGroupElements/combinatorSelector';
 import {
@@ -10,6 +9,9 @@ import {
   RuleGroupCondition,
   RuleGroupElements,
 } from '../models';
+import { generateValidQuery } from './generateValidQuery';
+import { isValidQuery } from './isValidQuery';
+import { quickUUID } from './quickUUID';
 
 const assignColumns = (rules: RuleElements, columns?: any[]): void => {
   if (columns && rules.columnSelector && !rules.columnSelector.options) {

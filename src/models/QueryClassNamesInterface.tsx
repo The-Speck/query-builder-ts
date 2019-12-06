@@ -1,4 +1,4 @@
-import { MultiTypeClassName } from '.';
+import { MultiTypeClassName } from './miscellaneous';
 
 export interface QueryBuilderClassNames {
   queryBuilder?: MultiTypeClassName;

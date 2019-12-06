@@ -1,8 +1,9 @@
-import { ControlProps, InputType, MultiTypeClassName } from '.';
+import { ControlProps } from './ControlPropsInterface';
+import { InputType, MultiTypeClassName } from './miscellaneous';
 
 export type ReservedNames = 'conditions' | 'combinator' | 'id';
 export type ConditionFunction = (props: any) => boolean;
-export type Name = Exclude<string, ReservedNames>;
+export type ControlName = Exclude<string, ReservedNames>;
 export type MappingFunction = (value: any, props: ControlProps) => any;
 
 export interface MultiTypeClassNameObject {
@@ -14,7 +15,7 @@ export type ControlElementClassNames =
 
 export interface ControlElement {
   component: React.FunctionComponent<any> | React.ComponentClass<any>;
-  name: Name;
+  name: ControlName;
   className?: ControlElementClassNames;
   options?: any[];
   label?: string;
