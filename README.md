@@ -10,7 +10,7 @@ This Typescript Query builder component is heavily inspired by sapientglobalmark
 
 ## Getting Started
 
-![Overview](./assets/query-builder-overview.png)
+![Overview](assets/query-builder-overview.png)
 
 ```shell
 npm install react-querybuilder-ts --save
@@ -146,7 +146,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 Output:
-![Custom](./assets/query-builder-custom.png)
+![Custom](assets/query-builder-custom.png)
 
 ### API
 
