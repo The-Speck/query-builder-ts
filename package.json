@@ -49,5 +49,9 @@
     "classnames": "^2.2.6",
     "lodash": "^4.17.15",
     "lodash-es": "^4.17.15"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/The-Speck/query-builder-ts"
   }
 }
