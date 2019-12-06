@@ -4,7 +4,7 @@
   "license": "MIT",
   "author": "Speck",
   "main": "dist/index.js",
-  "module": "dist/query-builder.esm.js",
+  "module": "dist/query-builder-ts.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist"
