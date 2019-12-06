@@ -23,6 +23,10 @@ To run a demo of the react-querybuilder being used, clone the project and run ya
 - In the example directory `yarn install`and `yarn start`
 - Open brower and go to `http://localhost:1234/`
 
+OR
+
+[See live demo](https://The-Speck.github.io/react-querybuilder-ts/)
+
 # Usage
 
 ## Minimal Default Example
@@ -278,3 +282,7 @@ The columns passed as props to the `QueryBuilder` component are assigned the `co
     ruleRow?: MultiTypeClassName;
   }
 ```
+
+## Things You Should Know
+
+- All the classes and styling are very basic. This library assumes you'll apply your own styling to fit your application.
