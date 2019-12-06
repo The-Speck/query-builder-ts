@@ -1,5 +1,4 @@
 import * as React from 'react';
-import 'react-app-polyfill/ie11';
 import QueryBuilder, {
   ControlProps,
   RuleGroupCondition,
@@ -7,7 +6,6 @@ import QueryBuilder, {
   ValueDropDown,
   ValueInput,
 } from '../.';
-import '../src/style.module.css';
 
 export default (): React.ReactElement => {
   const [query, setQuery] = React.useState<RuleGroupCondition | undefined>(
