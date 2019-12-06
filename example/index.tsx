@@ -2,8 +2,8 @@ import * as React from 'react';
 import 'react-app-polyfill/ie11';
 import * as ReactDOM from 'react-dom';
 import '../src/style.module.css';
-import ComplexQueryBuilder from './ComplexQueryBuilder';
-import SimpleQuerybuilder from './SimpleQuerybuilder';
+import ComplexQueryBuilder from './query_builders/ComplexQueryBuilder';
+import SimpleQuerybuilder from './query_builders/SimpleQuerybuilder';
 
 const SIMPLE = 'simple';
 const COMPLEX = 'complex';

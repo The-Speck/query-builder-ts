@@ -5,7 +5,7 @@ import QueryBuilder, {
   ValueComboBox,
   ValueDropDown,
   ValueInput,
-} from '../.';
+} from '../../.';
 
 export default (): React.ReactElement => {
   const [query, setQuery] = React.useState<RuleGroupCondition | undefined>(

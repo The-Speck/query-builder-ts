@@ -1,5 +1,5 @@
 import * as React from 'react';
-import QueryBuilder, { RuleGroupCondition } from '../.';
+import QueryBuilder, { RuleGroupCondition } from '../../.';
 
 export default (): React.ReactElement => {
   const [query, setQuery] = React.useState<RuleGroupCondition | undefined>(
