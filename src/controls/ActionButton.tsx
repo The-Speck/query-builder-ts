@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import classnames from 'classnames';
 import * as React from 'react';
 import { ControlProps } from '../models';
 import { typeCheck } from '../utils';
@@ -12,7 +12,7 @@ export const ActionButton: React.FC<ControlProps> = props => {
 
   return (
     <button
-      className={classNames(typeCheck(className, 'button', props))}
+      className={classnames(typeCheck(className, 'button', props))}
       onClick={handleOnChange}>
       {label}
     </button>

@@ -98,8 +98,11 @@ export const ValueComboBox: React.FC<ControlProps> = props => {
         value={inputValue}
       />
       {showOptions ? (
-        <div className={typeCheck(className, 'dropdownContainer', props)}>
-          <ul className={typeCheck(className, 'ul', props)}>
+        <div
+          className={classnames(
+            typeCheck(className, 'dropdownContainer', props),
+          )}>
+          <ul className={classnames(typeCheck(className, 'ul', props))}>
             {filteredOptionsList}
           </ul>
         </div>
