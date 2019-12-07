@@ -1,6 +1,5 @@
 import merge from 'lodash/merge';
 import Defaults from '../defaults';
-import defaultCombinatorSelector from '../defaults/ruleGroupElements/combinatorSelector';
 import {
   ControlElement,
   QueryBuilderClassNames,
@@ -82,9 +81,6 @@ export const createRuleGroup = (
     ...customRuleGroups,
     id: `g-${quickUUID()}`,
     conditions: [],
-    combinator:
-      ruleGroups.combinatorSelector.defaultValue ||
-      defaultCombinatorSelector.defaultValue,
   };
 };
 
