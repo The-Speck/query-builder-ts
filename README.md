@@ -287,4 +287,4 @@ The columns passed as props to the `QueryBuilder` component are assigned the `co
 
 ## Things You Should Know
 
-- All the classes and styling are very basic. This library assumes you'll apply your own styling to fit your application.
+- All the css classes and styling are very basic and minimal. This library assumes you'll apply your own styling to fit your application.
