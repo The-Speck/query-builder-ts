@@ -150,7 +150,7 @@ Output:
 
 ### API
 
-The columns passed as props to the `QueryBuilder` component are assigned the `columnSelector` but it is not required if you want to customize the elements and pass the options directly to the elements. The `name` attribute for the elements is required and corresponds to the key name in the query condition (`conditions` | `combinator` | `id` are reserved names). The `component` corresponds to the component that will render. These are available as imports. The default export is a React Component `QueryBuilder` with default component controls `ValueComboBox`, `ValueInput`, `ValueDropDown` and `ActionButton`. Users are not restricted to the default provided components. Types are also exposed for Typescript users.
+The columns passed as props to the `QueryBuilder` component are assigned the `columnSelector` but it is not required if you want to customize the elements and pass the options directly to the elements. The `name` attribute for the elements is required and corresponds to the key name in the query condition (see below for reserved names). The `component` corresponds to the component that will render. These are available as imports. The default export is a React Component `QueryBuilder` with default component controls `ValueComboBox`, `ValueInput`, `ValueDropDown` and `ActionButton`. Users are not restricted to the default provided components. Types are also exposed for Typescript users.
 
 #### Default Rule Group Elements
 
@@ -192,6 +192,10 @@ The columns passed as props to the `QueryBuilder` component are assigned the `co
   },
 }
 ```
+
+Required: `addRuleAction`, `addGroupAction`, `removeGroupAction`
+
+Reserved Names: `conditions`, `id`
 
 #### Default Rule Elements
 
@@ -243,6 +247,10 @@ The columns passed as props to the `QueryBuilder` component are assigned the `co
   },
 }
 ```
+
+Required: `removeRuleAction`
+
+Reserved Names: `id`
 
 #### Build your own Element
 
