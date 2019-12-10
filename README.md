@@ -82,7 +82,8 @@ const App = () => {
           name: 'column',
           className: {
             input: '',
-            container: 'filteredOptionsContainer',
+            dropdownContainer: 'filteredOptionsContainer',
+            container: 'comboBoxContainer',
             ul: 'filteredOptionsList',
             li: 'filteredOptionsItem',
           },
@@ -111,7 +112,8 @@ const App = () => {
           name: 'value',
           className: {
             input: '',
-            container: 'filteredOptionsContainer',
+            dropdownContainer: 'filteredOptionsContainer',
+            container: 'comboBoxContainer',
             ul: 'filteredOptionsList',
             li: 'filteredOptionsItem',
           },
