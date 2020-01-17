@@ -17,7 +17,7 @@
     "test:coverage": "tsdx test --env=jsdom --coverage",
     "lint": "tsdx lint",
     "remove:packages": "del node_modules",
-    "version": "auto-changelog -p && git add CHANGELOG.md"
+    "version:patch": "npm version patch && auto-changelog -p"
   },
   "peerDependencies": {
     "react": ">=16"
