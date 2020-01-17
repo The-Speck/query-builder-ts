@@ -9,6 +9,7 @@ export type MappingFunction = (value: any, props: ControlProps) => any;
 export interface MultiTypeClassNameObject {
   [element: string]: MultiTypeClassName;
 }
+
 export type ControlElementClassNames =
   | MultiTypeClassNameObject
   | MultiTypeClassName;
