@@ -16,7 +16,8 @@
     "test:watch": "tsdx test --env=jsdom --watch",
     "test:coverage": "tsdx test --env=jsdom --coverage",
     "lint": "tsdx lint",
-    "remove:packages": "del node_modules"
+    "remove:packages": "del node_modules",
+    "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "peerDependencies": {
     "react": ">=16"
@@ -29,6 +30,7 @@
     "@types/lodash": "^4.14.144",
     "@types/react": "^16.9.13",
     "@types/react-dom": "^16.9.3",
+    "auto-changelog": "^1.16.2",
     "autoprefixer": "^9.7.2",
     "cssnano": "^4.1.10",
     "enzyme": "^3.10.0",
