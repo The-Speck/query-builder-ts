@@ -1,6 +1,6 @@
 {
   "name": "query-builder-ts",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "license": "MIT",
   "author": "Speck",
   "main": "dist/index.js",
