@@ -28,14 +28,18 @@ export const ValueDropDown: React.FC<ControlProps> = props => {
     if (isNil(options)) {
       return [];
     }
-    return options.map((option: any, idx: number) => (
-      <option
-        key={idx}
-        value={option.name}
-        className={classnames(typeCheck(className, 'option', props))}>
-        {option.label}
-      </option>
-    ));
+    return options.map((option: any, idx: number) => {
+      const mappedOption = mapInput ? mapInput(option, props) : option;
+
+      return (
+        <option
+          key={idx}
+          value={mappedOption.name}
+          className={classnames(typeCheck(className, 'option', props))}>
+          {mappedOption.label}
+        </option>
+      );
+    });
   }, [options]);
 
   const handleOnChangeWrapper = React.useCallback(
