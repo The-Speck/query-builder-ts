@@ -1,14 +1,21 @@
-import { RuleElements } from '../../models';
+import { ControlElement } from '../../models';
 import defaultColumnSelector from './columnSelector';
 import defaultOperatorSelector from './operatorSelector';
 import defaultRemoveRuleAction from './removeRuleAction';
 import defaultValueInput from './valueInput';
 
-export const defaultRuleElements: RuleElements = {
-  columnSelector: defaultColumnSelector,
-  operatorSelector: defaultOperatorSelector,
-  valueInput: defaultValueInput,
-  removeRuleAction: defaultRemoveRuleAction,
+export interface DefaultRuleElements {
+  COLUMN: ControlElement;
+  OPERATOR: ControlElement;
+  VALUE: ControlElement;
+  REMOVE: ControlElement;
+}
+
+export const DEFAULT_RULE: DefaultRuleElements = {
+  COLUMN: defaultColumnSelector,
+  OPERATOR: defaultOperatorSelector,
+  VALUE: defaultValueInput,
+  REMOVE: defaultRemoveRuleAction,
 };
 
-export default defaultRuleElements;
+export default DEFAULT_RULE;

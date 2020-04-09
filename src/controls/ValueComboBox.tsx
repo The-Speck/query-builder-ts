@@ -1,12 +1,19 @@
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
 import * as React from 'react';
-import { ControlProps } from '../models';
+import { ControlElementProps, InputType, SystemControlProps } from '../models';
 import { typeCheck } from '../utils';
 
-export const ValueComboBox: React.FC<ControlProps> = props => {
+export interface ValueComboBoxControlProps extends ControlElementProps {
+  debounceTime?: number;
+  inputType?: InputType;
+}
+
+export type ValueComboBoxProps = ValueComboBoxControlProps & SystemControlProps;
+
+export const ValueComboBox: React.FC<ValueComboBoxProps> = props => {
   const {
-    handleOnChange,
+    onChange,
     className,
     condition,
     value,
@@ -15,22 +22,24 @@ export const ValueComboBox: React.FC<ControlProps> = props => {
     options,
     debounceTime,
     inputType = 'text',
+    defaultValue,
   } = props;
 
   if (condition && !condition(props)) {
     return null;
   }
 
+  const incomingValue = value || defaultValue;
   const mappedInputValue = React.useMemo(
-    () => (mapInput ? mapInput(value, props) : value),
-    [mapInput, value],
+    () => (mapInput ? mapInput(incomingValue, props) : incomingValue),
+    [mapInput, incomingValue],
   );
   const [inputValue, setInputValue] = React.useState<string>(mappedInputValue);
   const [showOptions, setShowOptions] = React.useState(false);
 
   React.useEffect(() => {
     setInputValue(mappedInputValue);
-  }, [value]);
+  }, [incomingValue]);
 
   const toggleShowOptions = React.useCallback(
     () => setShowOptions(!showOptions),
@@ -40,9 +49,9 @@ export const ValueComboBox: React.FC<ControlProps> = props => {
   const mappedHandleOnChange = React.useCallback(
     (outputValue: any) =>
       mapOutput
-        ? handleOnChange(mapOutput(outputValue, props))
-        : handleOnChange(outputValue),
-    [handleOnChange, mapOutput],
+        ? onChange(mapOutput(outputValue, props))
+        : onChange(outputValue),
+    [onChange, mapOutput],
   );
 
   const debounceWrapper = React.useCallback(

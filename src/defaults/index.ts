@@ -1,11 +1,11 @@
-import defaultClassNames from './elementOptions/classNames';
-import defaultRuleElements from './ruleElements';
-import defaultRuleGroupElements from './ruleGroupElements';
+import CLASSNAMES from './elementOptions/classNames';
+import RULE from './ruleElements';
+import RULE_GROUP from './ruleGroupElements';
 
 export const Defaults = {
-  ruleElements: defaultRuleElements,
-  ruleGroupElements: defaultRuleGroupElements,
-  classNames: defaultClassNames,
+  RULE,
+  RULE_GROUP,
+  CLASSNAMES,
 };
 
 export default Defaults;

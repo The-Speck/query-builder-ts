@@ -1,20 +1,18 @@
 import classnames from 'classnames';
 import merge from 'lodash/merge';
 import * as React from 'react';
+import Defaults from './defaults';
 import { ConditionNotFound } from './error';
 import {
   Condition,
+  ControlElement,
   QueryBuilderClassNames,
-  RuleElements,
   RuleGroupCondition,
-  RuleGroupElements,
 } from './models';
 import RuleGroup from './RuleGroup';
 import {
   createInitialClassNames,
   createInitialQuery,
-  createInitialRuleElements,
-  createInitialRuleGroupElements,
   findCondition,
   findConditionIdxAndParentGroup,
   isNumber,
@@ -24,8 +22,8 @@ import {
 
 export interface QueryBuilderProps {
   columns?: any[];
-  rules?: Partial<RuleElements>;
-  ruleGroups?: Partial<RuleGroupElements>;
+  rules?: ControlElement[];
+  ruleGroups?: ControlElement[];
   query?: RuleGroupCondition;
   classNames?: QueryBuilderClassNames;
   onQueryChange?: (query: RuleGroupCondition) => void;
@@ -40,18 +38,16 @@ export class QueryBuilder extends React.Component<
   QueryBuilderState
 > {
   private classNames: QueryBuilderClassNames;
-  private rules: RuleElements;
-  private ruleGroups: RuleGroupElements;
+  private rules: ControlElement[];
+  private ruleGroups: ControlElement[];
 
   constructor(props: QueryBuilderProps) {
     super(props);
 
-    const { columns, classNames, rules, ruleGroups } = props;
-
+    const { classNames, rules, ruleGroups } = props;
+    this.rules = rules || Object.values(Defaults.RULE);
+    this.ruleGroups = ruleGroups || Object.values(Defaults.RULE_GROUP);
     this.classNames = createInitialClassNames(classNames);
-    this.rules = createInitialRuleElements(columns, rules);
-    this.ruleGroups = createInitialRuleGroupElements(ruleGroups);
-
     this.state = this.initializeState();
 
     this.onAdd = this.onAdd.bind(this);
@@ -71,6 +67,7 @@ export class QueryBuilder extends React.Component<
           level={0}
           rules={this.rules}
           ruleGroups={this.ruleGroups}
+          columns={this.props.columns}
           classNames={this.classNames}
           onAdd={this.onAdd}
           onRemove={this.onRemove}

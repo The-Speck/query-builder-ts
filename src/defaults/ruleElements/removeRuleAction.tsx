@@ -1,13 +1,19 @@
-import { ActionButton } from '../../controls';
-import { ControlElement } from '../../models';
+import { ActionButton, ActionButtonControlProps } from '../../controls';
+import { ActionTypes, ControlElement } from '../../models';
 import ruleElementsClassNames from './ruleElementsClassNames';
 
-export const defaultRemoveRuleAction: ControlElement = {
+export interface DefaultRemoveRuleAction extends ControlElement {
+  props: ActionButtonControlProps;
+}
+
+export const defaultRemoveRuleAction: DefaultRemoveRuleAction = {
   component: ActionButton,
-  name: 'removeRule',
-  label: 'x',
-  className: ruleElementsClassNames.removeRule,
+  name: ActionTypes.REMOVE_RULE,
   position: 99,
+  props: {
+    label: 'x',
+    className: ruleElementsClassNames.removeRule,
+  },
 };
 
 export default defaultRemoveRuleAction;

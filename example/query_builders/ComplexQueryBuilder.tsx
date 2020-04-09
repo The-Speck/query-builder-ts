@@ -1,6 +1,7 @@
 import * as React from 'react';
 import QueryBuilder, {
-  ControlProps,
+  BaseControlProps,
+  DEFAULT_RULE,
   RuleGroupCondition,
   ValueComboBox,
   ValueDropDown,
@@ -44,73 +45,86 @@ export default (): React.ReactElement => {
         }}>
         <QueryBuilder
           onQueryChange={setQuery}
-          rules={{
-            columnSelector: {
+          rules={[
+            {
               component: ValueComboBox,
               name: 'column',
-              className: {
-                input: '',
-                dropdownContainer: 'filteredOptionsContainer',
-                container: 'comboBoxContainer',
-                ul: 'filteredOptionsList',
-                li: 'filteredOptionsItem',
-              },
-              options: columns,
               position: 1,
-              defaultValue: {},
-              mapInput: (value: any, props: any): string =>
-                value.displayName || '',
-              mapOutput: (value: string, props: any): any =>
-                columns.find((c: any) => c.displayName === value) || '',
+              props: {
+                className: {
+                  input: '',
+                  dropdownContainer: 'filteredOptionsContainer',
+                  container: 'comboBoxContainer',
+                  ul: 'filteredOptionsList',
+                  li: 'filteredOptionsItem',
+                },
+                options: columns,
+                defaultValue: {},
+                mapInput: (value: any, props: any): string =>
+                  value.displayName || '',
+                mapOutput: (value: string, props: any): any =>
+                  columns.find((c: any) => c.displayName === value) || '',
+              },
             },
-            valueInput: {
+            DEFAULT_RULE.OPERATOR,
+            {
               component: ValueInput,
               name: 'value',
-              className: '',
-              label: 'Value',
               position: 3,
-              defaultValue: '',
-              inputType: (value: any, props: any): string =>
-                props.parentProps.rule.column.type,
-              condition: ({ parentProps }: ControlProps): boolean =>
-                (parentProps as any).rule.op !== 'null' &&
-                (parentProps as any).rule.op !== 'notNull' &&
-                (parentProps as any).rule.type !== 'column',
+              props: {
+                className: '',
+                label: 'Value',
+                defaultValue: '',
+                inputType: (value: any, props: any): string =>
+                  props.parentProps.rule.column.type,
+                condition: ({ parentProps }: BaseControlProps): boolean =>
+                  (parentProps as any).rule.op !== 'null' &&
+                  (parentProps as any).rule.op !== 'notNull' &&
+                  (parentProps as any).rule.type !== 'column',
+              },
             },
-            valueSelector: {
+            {
               component: ValueComboBox,
               name: 'value',
-              className: {
-                input: '',
-                dropdownContainer: 'filteredOptionsContainer',
-                container: 'comboBoxContainer',
-                ul: 'filteredOptionsList',
-                li: 'filteredOptionsItem',
-              },
               position: 3,
-              defaultValue: '',
-              options: columns,
-              condition: ({ parentProps }: ControlProps): boolean =>
-                (parentProps as any).rule.op !== 'null' &&
-                (parentProps as any).rule.op !== 'notNull' &&
-                (parentProps as any).rule.type === 'column',
-              mapInput: (value: any, props: any): string =>
-                value.displayName || '',
-              mapOutput: (value: string, props: any): any =>
-                columns.find((c: any) => c.displayName === value) || value,
+              props: {
+                className: {
+                  input: '',
+                  dropdownContainer: 'filteredOptionsContainer',
+                  container: 'comboBoxContainer',
+                  ul: 'filteredOptionsList',
+                  li: 'filteredOptionsItem',
+                },
+                defaultValue: '',
+                options: columns,
+                condition: ({ parentProps }: BaseControlProps): boolean =>
+                  (parentProps as any).rule.op !== 'null' &&
+                  (parentProps as any).rule.op !== 'notNull' &&
+                  (parentProps as any).rule.type === 'column',
+                mapInput: (value: any, props: any): string =>
+                  value.displayName || '',
+                mapOutput: (value: string, props: any): any =>
+                  columns.find((c: any) => c.displayName === value) || value,
+              },
             },
-            typeSelector: {
+            {
               component: ValueDropDown,
               name: 'type',
-              options: [
-                { name: 'column', label: 'Column' },
-                { name: 'value', label: 'Value' },
-              ],
-              className: 'dropdown',
               position: 4,
-              defaultValue: 'value',
+              props: {
+                defaultValue: 'value',
+                options: [
+                  { name: 'column', label: 'Column' },
+                  { name: 'value', label: 'Value' },
+                ],
+                className: 'dropdown',
+                condition: ({ parentProps }: BaseControlProps): boolean =>
+                  (parentProps as any).rule.op !== 'null' &&
+                  (parentProps as any).rule.op !== 'notNull',
+              },
             },
-          }}
+            DEFAULT_RULE.REMOVE,
+          ]}
         />
       </div>
       {PrettyPrintJson()}

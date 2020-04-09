@@ -1,12 +1,20 @@
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
 import * as React from 'react';
-import { ControlProps } from '../models';
+import { ControlElementProps, InputType, SystemControlProps } from '../models';
 import { typeCheck } from '../utils';
 
-export const ValueInput: React.FC<ControlProps> = props => {
+export interface ValueInputControlProps extends ControlElementProps {
+  debounceTime?: number;
+  inputType?: InputType;
+  label?: string;
+}
+
+export type ValueInputProps = ValueInputControlProps & SystemControlProps;
+
+export const ValueInput: React.FC<ValueInputProps> = props => {
   const {
-    handleOnChange,
+    onChange,
     className,
     condition,
     value,
@@ -14,29 +22,31 @@ export const ValueInput: React.FC<ControlProps> = props => {
     mapOutput,
     debounceTime,
     inputType = 'text',
+    label,
+    defaultValue,
   } = props;
 
   if (condition && !condition(props)) {
     return null;
   }
 
+  const incomingValue = value || defaultValue;
   const mappedInputValue = React.useMemo(
-    () => (mapInput ? mapInput(value, props) : value),
-    [mapInput, value],
+    () => (mapInput ? mapInput(incomingValue, props) : incomingValue),
+    [mapInput, incomingValue],
   );
 
   const [inputValue, setInputValue] = React.useState(mappedInputValue);
-
   React.useEffect(() => {
     setInputValue(mappedInputValue);
-  }, [value]);
+  }, [incomingValue]);
 
   const mappedHandleOnChange = React.useCallback(
     (outputValue: any) =>
       mapOutput
-        ? handleOnChange(mapOutput(outputValue, props))
-        : handleOnChange(outputValue),
-    [handleOnChange, mapOutput],
+        ? onChange(mapOutput(outputValue, props))
+        : onChange(outputValue),
+    [onChange, mapOutput],
   );
 
   const debounceWrapper = React.useCallback(
@@ -59,6 +69,7 @@ export const ValueInput: React.FC<ControlProps> = props => {
       onChange={handleOnChangeWrapper}
       type={typeCheck(inputType, value, props)}
       value={inputValue}
+      placeholder={label}
     />
   );
 };

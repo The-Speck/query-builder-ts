@@ -1,10 +1,16 @@
 import classnames from 'classnames';
 import * as React from 'react';
-import { ControlProps } from '../models';
+import { ControlElementProps, SystemControlProps } from '../models';
 import { typeCheck } from '../utils';
 
-export const ActionButton: React.FC<ControlProps> = props => {
-  const { handleOnChange, className, label, condition } = props;
+export interface ActionButtonControlProps extends ControlElementProps {
+  label?: string;
+}
+
+export type ActionButtonProps = ActionButtonControlProps & SystemControlProps;
+
+export const ActionButton: React.FC<ActionButtonProps> = props => {
+  const { onChange, className, label, condition } = props;
 
   if (condition && !condition(props)) {
     return null;
@@ -13,7 +19,7 @@ export const ActionButton: React.FC<ControlProps> = props => {
   return (
     <button
       className={classnames(typeCheck(className, 'button', props))}
-      onClick={handleOnChange}>
+      onClick={onChange}>
       {label}
     </button>
   );

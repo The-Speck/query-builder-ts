@@ -1,30 +1,28 @@
-import { ControlProps } from './ControlPropsInterface';
-import { InputType, MultiTypeClassName } from './miscellaneous';
+import { MultiTypeCallback } from '.';
+import { ControlElementProps, ControlProps } from './ControlPropsInterface';
 
-export type ReservedNames = 'conditions' | 'combinator' | 'id';
-export type ConditionFunction = (props: any) => boolean;
+export type ReservedNames = 'conditions' | 'combinator' | 'id' | ActionTypes;
+
 export type ControlName = Exclude<string, ReservedNames>;
-export type MappingFunction = (value: any, props: ControlProps) => any;
+export type InputTypeFunction = (
+  value: any,
+  props: ControlProps,
+) => React.InputHTMLAttributes<HTMLInputElement>;
+export type InputType =
+  | React.InputHTMLAttributes<HTMLInputElement>
+  | InputTypeFunction;
 
-export interface MultiTypeClassNameObject {
-  [element: string]: MultiTypeClassName;
+export enum ActionTypes {
+  ADD_GROUP = 'ADD_GROUP',
+  ADD_RULE = 'ADD_RULE',
+  REMOVE_GROUP = 'REMOVE_GROUP',
+  REMOVE_RULE = 'REMOVE_RULE',
 }
-
-export type ControlElementClassNames =
-  | MultiTypeClassNameObject
-  | MultiTypeClassName;
 
 export interface ControlElement {
   component: React.FunctionComponent<any> | React.ComponentClass<any>;
+  position: number;
+  props: ControlElementProps;
   name: ControlName;
-  className?: ControlElementClassNames;
-  options?: any[];
-  label?: string;
-  position?: number;
-  condition?: ConditionFunction;
-  defaultValue?: any;
-  mapInput?: MappingFunction;
-  mapOutput?: MappingFunction;
-  debounceTime?: number;
-  inputType?: InputType;
+  isColumn?: MultiTypeCallback<boolean>;
 }

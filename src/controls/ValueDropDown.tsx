@@ -7,21 +7,23 @@ import { typeCheck } from '../utils';
 export const ValueDropDown: React.FC<ControlProps> = props => {
   const {
     options,
-    handleOnChange,
+    onChange,
     className,
     condition,
     value,
     mapInput,
     mapOutput,
+    defaultValue,
   } = props;
 
   if (condition && !condition(props)) {
     return null;
   }
 
+  const incomingValue = value || defaultValue;
   const mappedInputValue = React.useMemo(
-    () => (mapInput ? mapInput(value, props) : value),
-    [mapInput, value],
+    () => (mapInput ? mapInput(incomingValue, props) : incomingValue),
+    [mapInput, incomingValue],
   );
 
   const dropdownOptions = React.useMemo(() => {
@@ -46,9 +48,9 @@ export const ValueDropDown: React.FC<ControlProps> = props => {
     (event: React.FormEvent<HTMLSelectElement>): void => {
       const newValue = event.currentTarget.value;
       const mappedOutValue = mapOutput ? mapOutput(newValue, props) : newValue;
-      handleOnChange(mappedOutValue);
+      onChange(mappedOutValue);
     },
-    [handleOnChange, mapOutput],
+    [onChange, mapOutput],
   );
 
   return (

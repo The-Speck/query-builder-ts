@@ -1,31 +1,30 @@
 import classnames from 'classnames';
+import isNil from 'lodash/isNil';
 import * as React from 'react';
 import {
+  ActionTypes,
   ControlElement,
-  HandleOnChange,
+  ControlProps,
+  OnChange,
   OnElementChange,
   OnPropChange,
   OnRemove,
   QueryBuilderClassNames,
   RuleCondition,
-  RuleElements,
 } from './models';
 import { QueryBuilderState } from './QueryBuilder';
-import { createSortedElements, typeCheck } from './utils';
+import { sortElements, typeCheck } from './utils';
 
 export interface RuleProps extends QueryBuilderState {
+  columns?: any[];
   rule: RuleCondition;
-  rules: RuleElements;
+  rules: ControlElement[];
   classNames: QueryBuilderClassNames;
   onRemove: OnRemove;
   onPropChange: OnPropChange;
 }
 
-export interface RuleElementAttributes extends React.Attributes {
-  handleOnChange: HandleOnChange;
-  parentProps: RuleProps;
-  value: any;
-}
+interface RuleElementAttributes extends React.Attributes, ControlProps {}
 
 export class Rule extends React.Component<RuleProps> {
   constructor(props: RuleProps) {
@@ -46,33 +45,39 @@ export class Rule extends React.Component<RuleProps> {
   }
 
   private createComponents(): React.ReactNode {
-    const elements = createSortedElements(this.props.rules);
+    const elements = sortElements(this.props.rules);
 
     return elements.map((element: ControlElement, idx: number) =>
       React.createElement(element.component, {
+        ...element.props,
+        element,
         key: idx,
-        handleOnChange: this.assignOnChange(element),
+        onChange: this.assignOnChange(element),
         parentProps: { ...this.props },
-        ...element,
-        value: this.setValue(element),
+        options: this.extractOptions(element),
+        value: this.props.rule[element.name],
       } as RuleElementAttributes),
     );
   }
 
-  private setValue(element: ControlElement): any {
-    const currentValue = (this.props.rule as any)[element.name];
-    if (currentValue === undefined) {
-      return element.defaultValue;
+  private extractOptions(element: ControlElement): any[] | undefined {
+    if (element.isColumn) {
+      return (
+        element.props && (element.props.options || this.props.columns || [])
+      );
     }
-    return currentValue;
+    return element.props && element.props.options;
   }
 
-  private assignOnChange(element: ControlElement): HandleOnChange {
-    switch (element.name) {
-      case this.props.rules.removeRuleAction.name:
+  private assignOnChange({ name }: ControlElement): OnChange | undefined {
+    switch (name) {
+      case ActionTypes.REMOVE_RULE:
         return this.removeRule;
       default:
-        return this.onElementChange(element.name);
+        if (!isNil(name)) {
+          return this.onElementChange(name);
+        }
+        return undefined;
     }
   }
 

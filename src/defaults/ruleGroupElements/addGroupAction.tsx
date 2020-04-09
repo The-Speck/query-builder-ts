@@ -1,13 +1,19 @@
-import { ActionButton } from '../../controls';
-import { ControlElement } from '../../models';
+import { ActionButton, ActionButtonControlProps } from '../../controls';
+import { ActionTypes, ControlElement } from '../../models';
 import ruleGroupElementsClassNames from './ruleGroupElementsClassNames';
 
-export const defaultAddGroupAction: ControlElement = {
+export interface DefaultAddGroupAction extends ControlElement {
+  props: ActionButtonControlProps;
+}
+
+export const defaultAddGroupAction: DefaultAddGroupAction = {
   component: ActionButton,
-  name: 'addGroup',
-  label: '+Group',
-  className: ruleGroupElementsClassNames.addGroup,
+  name: ActionTypes.ADD_GROUP,
   position: 98,
+  props: {
+    label: '+Group',
+    className: ruleGroupElementsClassNames.addGroup,
+  },
 };
 
 export default defaultAddGroupAction;

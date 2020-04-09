@@ -1,45 +1,43 @@
 import classnames from 'classnames';
+import isNil from 'lodash/isNil';
 import * as React from 'react';
 import {
+  ActionTypes,
   Condition,
   ControlElement,
-  HandleOnChange,
+  ControlProps,
   OnAdd,
+  OnChange,
   OnElementChange,
   OnPropChange,
   OnRemove,
   QueryBuilderClassNames,
   RuleCondition,
-  RuleElements,
   RuleGroupCondition,
-  RuleGroupElements,
 } from './models';
 import { QueryBuilderState } from './QueryBuilder';
 import Rule from './Rule';
 import {
   createRule,
   createRuleGroup,
-  createSortedElements,
   isRuleGroup,
+  sortElements,
   typeCheck,
 } from './utils';
 
 export interface RuleGroupProps extends QueryBuilderState {
+  columns?: any[];
   group: RuleGroupCondition;
   level: number;
-  rules: RuleElements;
-  ruleGroups: RuleGroupElements;
+  rules: ControlElement[];
+  ruleGroups: ControlElement[];
   classNames: QueryBuilderClassNames;
   onAdd: OnAdd;
   onRemove: OnRemove;
   onPropChange: OnPropChange;
 }
 
-export interface RuleGroupElementAttributes extends React.Attributes {
-  handleOnChange: HandleOnChange;
-  parentProps: RuleGroupProps;
-  value: any;
-}
+interface RuleGroupElementAttributes extends React.Attributes, ControlProps {}
 
 export class RuleGroup extends React.Component<RuleGroupProps> {
   constructor(props: RuleGroupProps) {
@@ -69,17 +67,28 @@ export class RuleGroup extends React.Component<RuleGroupProps> {
   }
 
   private createComponents(): React.ReactNode {
-    const elements = createSortedElements(this.props.ruleGroups);
+    const elements = sortElements(this.props.ruleGroups);
 
     return elements.map((element: ControlElement, idx: number) =>
       React.createElement(element.component, {
+        ...element.props,
+        element,
         key: idx,
-        handleOnChange: this.setOnChange(element),
+        onChange: this.assignOnChange(element),
         parentProps: { ...this.props },
-        ...element,
-        value: this.setValue(element),
+        options: this.extractOptions(element),
+        value: this.props.group[element.name],
       } as RuleGroupElementAttributes),
     );
+  }
+
+  private extractOptions(element: ControlElement): any[] | undefined {
+    if (element.isColumn) {
+      return (
+        element.props && (element.props.options || this.props.columns || [])
+      );
+    }
+    return element.props && element.props.options;
   }
 
   private createChildren(conditions: Condition[]): React.ReactNode {
@@ -104,26 +113,19 @@ export class RuleGroup extends React.Component<RuleGroupProps> {
     );
   }
 
-  private setValue(element: ControlElement): any {
-    const currentValue = (this.props.group as any)[element.name];
-    if (currentValue === undefined) {
-      return element.defaultValue;
-    }
-    return currentValue;
-  }
-
-  private setOnChange({ name }: ControlElement): HandleOnChange {
-    const { ruleGroups } = this.props;
-
+  private assignOnChange({ name }: ControlElement): OnChange | undefined {
     switch (name) {
-      case ruleGroups.addGroupAction.name:
+      case ActionTypes.ADD_GROUP:
         return this.addGroup;
-      case ruleGroups.addRuleAction.name:
+      case ActionTypes.ADD_RULE:
         return this.addRule;
-      case ruleGroups.removeGroupAction.name:
+      case ActionTypes.REMOVE_GROUP:
         return this.removeGroup;
       default:
-        return this.onElementChange(name);
+        if (!isNil(name)) {
+          return this.onElementChange(name);
+        }
+        return undefined;
     }
   }
 

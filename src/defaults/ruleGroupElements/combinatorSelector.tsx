@@ -1,19 +1,21 @@
 import { ValueDropDown } from '../../controls';
-import { ControlElement } from '../../models';
+import { ControlElement, ControlElementProps } from '../../models';
 import defaultCombinators from '../elementOptions/combinators';
 import ruleGroupElementsClassNames from './ruleGroupElementsClassNames';
 
-export interface CombinatorSelectorElement extends ControlElement {
-  defaultValue: string;
+export interface DefaultCombinatorSelector extends ControlElement {
+  props: ControlElementProps;
 }
 
-export const defaultCombinatorSelector: CombinatorSelectorElement = {
+export const defaultCombinatorSelector: DefaultCombinatorSelector = {
   component: ValueDropDown,
   name: 'combinator',
-  options: defaultCombinators,
-  className: ruleGroupElementsClassNames.combinators,
   position: 1,
-  defaultValue: defaultCombinators[0].name,
+  props: {
+    options: defaultCombinators,
+    defaultValue: defaultCombinators[0].name,
+    className: ruleGroupElementsClassNames.combinators,
+  },
 };
 
 export default defaultCombinatorSelector;
