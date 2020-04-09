@@ -55,6 +55,12 @@ export class QueryBuilder extends React.Component<
     this.onPropChange = this.onPropChange.bind(this);
   }
 
+  componentDidUpdate(prevProps: Readonly<QueryBuilderProps>): void {
+    if (prevProps !== this.props) {
+      this.setState(this.initializeState());
+    }
+  }
+
   render(): React.ReactElement {
     return (
       <div
