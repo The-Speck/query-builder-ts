@@ -1,10 +1,10 @@
-import { MultiTypeClassName } from './miscellaneous';
+import { MultiTypeCallback } from './miscellaneous';
 
 export interface QueryBuilderClassNames {
-  queryBuilder?: MultiTypeClassName;
+  queryBuilder?: MultiTypeCallback<string | string[]>;
 
-  ruleGroup?: MultiTypeClassName;
-  ruleGroupRow?: MultiTypeClassName;
+  ruleGroup?: MultiTypeCallback<string | string[]>;
+  ruleGroupRow?: MultiTypeCallback<string | string[]>;
 
-  ruleRow?: MultiTypeClassName;
+  ruleRow?: MultiTypeCallback<string | string[]>;
 }
