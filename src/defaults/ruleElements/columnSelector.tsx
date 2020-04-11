@@ -1,15 +1,14 @@
-import { ControlElement } from '../..';
+import { RuleElement } from '../..';
 import { ValueComboBox, ValueInputControlProps } from '../../controls';
 import ruleElementsClassNames from './ruleElementsClassNames';
 
-export interface DefaultColumnSelector extends ControlElement {
+export interface DefaultColumnSelector extends RuleElement {
   props: ValueInputControlProps;
 }
 
 export const defaultColumnSelector: DefaultColumnSelector = {
   component: ValueComboBox,
   name: 'column',
-  position: 1,
   props: {
     options: [],
     defaultValue: '',

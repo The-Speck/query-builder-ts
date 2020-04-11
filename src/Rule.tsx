@@ -3,7 +3,6 @@ import isNil from 'lodash/isNil';
 import * as React from 'react';
 import {
   ActionTypes,
-  ControlElement,
   ControlProps,
   OnChange,
   OnElementChange,
@@ -11,6 +10,7 @@ import {
   OnRemove,
   QueryBuilderClassNames,
   RuleCondition,
+  RuleElement,
 } from './models';
 import { QueryBuilderState } from './QueryBuilder';
 import { typeCheck } from './utils';
@@ -18,7 +18,7 @@ import { typeCheck } from './utils';
 export interface RuleProps extends QueryBuilderState {
   columns?: any[];
   rule: RuleCondition;
-  rules: ControlElement[];
+  rules: RuleElement[];
   classNames: QueryBuilderClassNames;
   onRemove: OnRemove;
   onPropChange: OnPropChange;
@@ -45,7 +45,7 @@ export class Rule extends React.Component<RuleProps> {
   }
 
   private createComponents(): React.ReactNode {
-    return this.props.rules.map((element: ControlElement, idx: number) =>
+    return this.props.rules.map((element: RuleElement, idx: number) =>
       React.createElement(element.component, {
         ...element.props,
         element,
@@ -58,7 +58,7 @@ export class Rule extends React.Component<RuleProps> {
     );
   }
 
-  private extractOptions(element: ControlElement): any[] | undefined {
+  private extractOptions(element: RuleElement): any[] | undefined {
     if (element.isColumn) {
       return (
         element.props && (element.props.options || this.props.columns || [])
@@ -67,7 +67,7 @@ export class Rule extends React.Component<RuleProps> {
     return element.props && element.props.options;
   }
 
-  private assignOnChange({ name }: ControlElement): OnChange | undefined {
+  private assignOnChange({ name }: RuleElement): OnChange | undefined {
     switch (name) {
       case ActionTypes.REMOVE_RULE:
         return this.removeRule;

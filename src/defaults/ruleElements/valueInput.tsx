@@ -1,16 +1,15 @@
 import { ValueInput, ValueInputControlProps } from '../../controls';
-import { ControlElement, ControlProps } from '../../models';
+import { ControlProps, RuleElement } from '../../models';
 import { RuleProps } from '../../Rule';
 import ruleElementsClassNames from './ruleElementsClassNames';
 
-export interface DefaultValueInput extends ControlElement {
+export interface DefaultValueInput extends RuleElement {
   props: ValueInputControlProps;
 }
 
 export const defaultValueInput: DefaultValueInput = {
   component: ValueInput,
   name: 'value',
-  position: 3,
   props: {
     label: 'Value',
     condition: ({ parentProps }: ControlProps): boolean =>

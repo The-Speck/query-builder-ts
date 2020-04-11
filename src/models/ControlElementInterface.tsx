@@ -19,9 +19,12 @@ export enum ActionTypes {
   REMOVE_RULE = 'REMOVE_RULE',
 }
 
-export interface ControlElement {
+export interface RuleGroupElement {
   component: React.FunctionComponent<any> | React.ComponentClass<any>;
   name: ControlName;
   props?: ControlElementProps;
+}
+
+export interface RuleElement extends RuleGroupElement {
   isColumn?: MultiTypeCallback<boolean>;
 }

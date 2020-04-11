@@ -5,9 +5,10 @@ import Defaults from './defaults';
 import { ConditionNotFound } from './error';
 import {
   Condition,
-  ControlElement,
   QueryBuilderClassNames,
+  RuleElement,
   RuleGroupCondition,
+  RuleGroupElement,
 } from './models';
 import RuleGroup from './RuleGroup';
 import {
@@ -22,8 +23,8 @@ import {
 
 export interface QueryBuilderProps {
   columns?: any[];
-  rules?: ControlElement[];
-  ruleGroups?: ControlElement[];
+  rules?: RuleElement[];
+  ruleGroups?: RuleGroupElement[];
   query?: RuleGroupCondition;
   classNames?: QueryBuilderClassNames;
   onQueryChange?: (query: RuleGroupCondition) => void;
@@ -38,8 +39,8 @@ export class QueryBuilder extends React.Component<
   QueryBuilderProps,
   QueryBuilderState
 > {
-  private rules: ControlElement[];
-  private ruleGroups: ControlElement[];
+  private rules: RuleElement[];
+  private ruleGroups: RuleGroupElement[];
 
   constructor(props: QueryBuilderProps) {
     super(props);

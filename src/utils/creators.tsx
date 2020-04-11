@@ -1,10 +1,11 @@
 import isNil from 'lodash/isNil';
 import Defaults from '../defaults';
 import {
-  ControlElement,
   QueryBuilderClassNames,
   RuleCondition,
+  RuleElement,
   RuleGroupCondition,
+  RuleGroupElement,
 } from '../models';
 import { generateValidQuery } from './generateValidQuery';
 import { isValidQuery } from './isValidQuery';
@@ -20,7 +21,7 @@ export const createClassNames = (
 };
 
 export const createQuery = (
-  ruleGroups: ControlElement[],
+  ruleGroups: RuleGroupElement[],
   query?: RuleGroupCondition,
 ): RuleGroupCondition => {
   return ((isValidQuery(query) && generateValidQuery(query)) ||
@@ -28,10 +29,10 @@ export const createQuery = (
 };
 
 export const createRuleGroup = (
-  ruleGroups: ControlElement[],
+  ruleGroups: RuleElement[],
 ): RuleGroupCondition => {
   const customRuleGroups = ruleGroups.reduce(
-    (acc: Partial<RuleGroupCondition>, { name, props }: ControlElement) => {
+    (acc: Partial<RuleGroupCondition>, { name, props }: RuleGroupElement) => {
       const defaultValue = props && props.defaultValue;
       if (!isNil(name)) {
         acc[name] = defaultValue;
@@ -48,9 +49,9 @@ export const createRuleGroup = (
   };
 };
 
-export const createRule = (rules: ControlElement[]): RuleCondition => {
+export const createRule = (rules: RuleElement[]): RuleCondition => {
   const customRules = rules.reduce(
-    (acc: Partial<RuleCondition>, { name, props }: ControlElement) => {
+    (acc: Partial<RuleCondition>, { name, props }: RuleElement) => {
       const defaultValue = props && props.defaultValue;
       if (!isNil(name)) {
         acc[name] = defaultValue;

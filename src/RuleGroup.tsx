@@ -4,7 +4,6 @@ import * as React from 'react';
 import {
   ActionTypes,
   Condition,
-  ControlElement,
   ControlProps,
   OnAdd,
   OnChange,
@@ -13,7 +12,9 @@ import {
   OnRemove,
   QueryBuilderClassNames,
   RuleCondition,
+  RuleElement,
   RuleGroupCondition,
+  RuleGroupElement,
 } from './models';
 import { QueryBuilderState } from './QueryBuilder';
 import Rule from './Rule';
@@ -23,8 +24,8 @@ export interface RuleGroupProps extends QueryBuilderState {
   columns?: any[];
   group: RuleGroupCondition;
   level: number;
-  rules: ControlElement[];
-  ruleGroups: ControlElement[];
+  rules: RuleElement[];
+  ruleGroups: RuleGroupElement[];
   classNames: QueryBuilderClassNames;
   onAdd: OnAdd;
   onRemove: OnRemove;
@@ -61,7 +62,7 @@ export class RuleGroup extends React.Component<RuleGroupProps> {
   }
 
   private createComponents(): React.ReactNode {
-    return this.props.ruleGroups.map((element: ControlElement, idx: number) =>
+    return this.props.ruleGroups.map((element: RuleGroupElement, idx: number) =>
       React.createElement(element.component, {
         ...element.props,
         element,
@@ -95,7 +96,7 @@ export class RuleGroup extends React.Component<RuleGroupProps> {
     );
   }
 
-  private assignOnChange({ name }: ControlElement): OnChange | undefined {
+  private assignOnChange({ name }: RuleGroupElement): OnChange | undefined {
     switch (name) {
       case ActionTypes.ADD_GROUP:
         return this.addGroup;

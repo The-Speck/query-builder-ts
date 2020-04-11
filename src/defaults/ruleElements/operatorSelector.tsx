@@ -1,16 +1,15 @@
 import { ValueDropDown } from '../../controls';
-import { ControlElement, ControlElementProps } from '../../models';
+import { ControlElementProps, RuleElement } from '../../models';
 import defaultOperators from '../elementOptions/operators';
 import ruleElementsClassNames from './ruleElementsClassNames';
 
-export interface DefaultOperatorSelector extends ControlElement {
+export interface DefaultOperatorSelector extends RuleElement {
   props: ControlElementProps;
 }
 
 export const defaultOperatorSelector: DefaultOperatorSelector = {
   component: ValueDropDown,
   name: 'op',
-  position: 2,
   props: {
     defaultValue: '=',
     options: defaultOperators,
