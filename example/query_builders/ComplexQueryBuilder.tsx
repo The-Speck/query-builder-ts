@@ -1,7 +1,7 @@
 import * as React from 'react';
 import QueryBuilder, {
-  BaseControlProps,
-  DEFAULT_RULE,
+  ControlProps,
+  Defaults,
   RuleGroupCondition,
   ValueComboBox,
   ValueDropDown,
@@ -44,6 +44,7 @@ export default (): React.ReactElement => {
           maxWidth: '90rem',
         }}>
         <QueryBuilder
+          // query={query}
           onQueryChange={setQuery}
           rules={[
             {
@@ -66,7 +67,7 @@ export default (): React.ReactElement => {
                   columns.find((c: any) => c.displayName === value) || '',
               },
             },
-            DEFAULT_RULE.OPERATOR,
+            Defaults.RULE.OPERATOR,
             {
               component: ValueInput,
               name: 'value',
@@ -77,7 +78,7 @@ export default (): React.ReactElement => {
                 defaultValue: '',
                 inputType: (value: any, props: any): string =>
                   props.parentProps.rule.column.type,
-                condition: ({ parentProps }: BaseControlProps): boolean =>
+                condition: ({ parentProps }: ControlProps): boolean =>
                   (parentProps as any).rule.op !== 'null' &&
                   (parentProps as any).rule.op !== 'notNull' &&
                   (parentProps as any).rule.type !== 'column',
@@ -97,7 +98,7 @@ export default (): React.ReactElement => {
                 },
                 defaultValue: '',
                 options: columns,
-                condition: ({ parentProps }: BaseControlProps): boolean =>
+                condition: ({ parentProps }: ControlProps): boolean =>
                   (parentProps as any).rule.op !== 'null' &&
                   (parentProps as any).rule.op !== 'notNull' &&
                   (parentProps as any).rule.type === 'column',
@@ -118,12 +119,12 @@ export default (): React.ReactElement => {
                   { name: 'value', label: 'Value' },
                 ],
                 className: 'dropdown',
-                condition: ({ parentProps }: BaseControlProps): boolean =>
+                condition: ({ parentProps }: ControlProps): boolean =>
                   (parentProps as any).rule.op !== 'null' &&
                   (parentProps as any).rule.op !== 'notNull',
               },
             },
-            DEFAULT_RULE.REMOVE,
+            Defaults.RULE.REMOVE,
           ]}
         />
       </div>
