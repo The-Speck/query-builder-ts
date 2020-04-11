@@ -76,8 +76,8 @@ const App = () => {
   return (
     <QueryBuilder
       onQueryChange={setQuery}
-      rules={{
-        columnSelector: {
+      rules={[
+        {
           component: ValueComboBox,
           name: 'column',
           className: {
@@ -94,7 +94,8 @@ const App = () => {
           mapOutput: (value, props) =>
             columns.find(c => c.displayName === value) || '',
         },
-        valueInput: {
+        DEFAULT_RULE.OPERATOR,
+        {
           component: ValueInput,
           name: 'value',
           className: '',
@@ -107,7 +108,7 @@ const App = () => {
             parentProps.rule.op !== 'notNull' &&
             parentProps.rule.type !== 'column',
         },
-        valueSelector: {
+        {
           component: ValueComboBox,
           name: 'value',
           className: {
@@ -128,7 +129,7 @@ const App = () => {
           mapOutput: (value, props) =>
             columns.find(c => c.displayName === value) || '',
         },
-        typeSelector: {
+        {
           component: ValueDropDown,
           name: 'type',
           options: [
@@ -139,7 +140,7 @@ const App = () => {
           position: 4,
           defaultValue: 'value',
         },
-      }}
+      ]}
     />
   );
 };

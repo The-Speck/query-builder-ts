@@ -4,17 +4,14 @@ import * as React from 'react';
 import QueryBuilder from '../src/index';
 import {
   QueryBuilderClassNames,
-  RuleElements,
   RuleGroupCondition,
-  RuleGroupElements,
+  RuleGroupElement,
 } from '../src/models';
 import { QueryBuilderProps } from '../src/QueryBuilder';
 import { RuleGroupProps } from '../src/RuleGroup';
 import {
-  createInitialClassNames,
-  createInitialQuery,
-  createInitialRuleElements,
-  createInitialRuleGroupElements,
+  createClassNames,
+  createQuery,
   findCondition,
   findConditionIdxAndParentGroup,
   isNumber,
@@ -31,17 +28,12 @@ jest.mock('../src/utils', () => {
     conditions: [],
   };
   return {
-    createInitialClassNames: jest.fn((_: QueryBuilderClassNames) => ({
+    createClassNames: jest.fn((_: QueryBuilderClassNames) => ({
       queryBuilder: 'queryBuilder',
     })),
-    createInitialRuleElements: jest.fn((_1: any[], _2: RuleElements) => 'rule'),
-    createInitialRuleGroupElements: jest.fn(
-      (_: RuleGroupElements) => 'ruleGroups',
+    createQuery: jest.fn(
+      (_1: RuleGroupElement, _2: RuleGroupCondition) => condition,
     ),
-    createInitialQuery: jest.fn(
-      (_1: RuleGroupElements, _2: RuleElements) => condition,
-    ),
-    typeCheck: jest.fn(),
     findCondition: jest.fn((conditionId: string, query: RuleGroupCondition) =>
       conditionId ? query : null,
     ),
@@ -49,8 +41,9 @@ jest.mock('../src/utils', () => {
       (conditionId: string, query: RuleGroupCondition) =>
         conditionId ? [0, query] : [],
     ),
-    isRuleGroup: jest.fn((_: RuleGroupCondition) => true),
     isNumber: jest.fn((_: number) => true),
+    isRuleGroup: jest.fn((_: RuleGroupCondition) => true),
+    typeCheck: jest.fn(),
   };
 });
 
@@ -85,16 +78,10 @@ describe('it', () => {
 
   describe('creates', () => {
     it('class names', () => {
-      expect(createInitialClassNames).toHaveBeenCalled();
-    });
-    it('rule elements', () => {
-      expect(createInitialRuleElements).toHaveBeenCalled();
-    });
-    it('rule group elements', () => {
-      expect(createInitialRuleGroupElements).toHaveBeenCalled();
+      expect(createClassNames).toHaveBeenCalled();
     });
     it('initialized state', () => {
-      expect(createInitialQuery).toHaveBeenCalled();
+      expect(createQuery).toHaveBeenCalled();
     });
   });
 
