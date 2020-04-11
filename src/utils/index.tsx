@@ -1,4 +1,4 @@
-export * from './createInitials';
+export * from './creators';
 export * from './findCondition';
 export * from './generateValidQuery';
 export * from './isNumber';

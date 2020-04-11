@@ -11,8 +11,8 @@ import {
 } from './models';
 import RuleGroup from './RuleGroup';
 import {
-  createInitialClassNames,
-  createInitialQuery,
+  createClassNames,
+  createQuery,
   findCondition,
   findConditionIdxAndParentGroup,
   isNumber,
@@ -31,23 +31,22 @@ export interface QueryBuilderProps {
 
 export interface QueryBuilderState {
   query: RuleGroupCondition;
+  classNames: QueryBuilderClassNames;
 }
 
 export class QueryBuilder extends React.Component<
   QueryBuilderProps,
   QueryBuilderState
 > {
-  private classNames: QueryBuilderClassNames;
   private rules: ControlElement[];
   private ruleGroups: ControlElement[];
 
   constructor(props: QueryBuilderProps) {
     super(props);
 
-    const { classNames, rules, ruleGroups } = props;
+    const { rules, ruleGroups } = props;
     this.rules = rules || Object.values(Defaults.RULE);
     this.ruleGroups = ruleGroups || Object.values(Defaults.RULE_GROUP);
-    this.classNames = createInitialClassNames(classNames);
     this.state = this.initializeState();
 
     this.onAdd = this.onAdd.bind(this);
@@ -57,24 +56,36 @@ export class QueryBuilder extends React.Component<
 
   componentDidUpdate(prevProps: Readonly<QueryBuilderProps>): void {
     if (prevProps !== this.props) {
-      this.setState(this.initializeState());
+      let query = this.state.query;
+      let classNames = this.state.classNames;
+
+      if (!this.props.query) {
+        query = createQuery(this.ruleGroups, this.state.query);
+      } else if (this.props.query !== prevProps.query) {
+        query = createQuery(this.ruleGroups, this.props.query);
+      }
+      if (this.props.classNames !== prevProps.classNames) {
+        classNames = createClassNames(this.props.classNames);
+      }
+
+      this.setState({ query, classNames });
     }
   }
 
   render(): React.ReactElement {
+    const { query, classNames } = this.state;
+
     return (
       <div
-        className={classnames(
-          typeCheck(this.classNames.queryBuilder, this.props),
-        )}>
+        className={classnames(typeCheck(classNames.queryBuilder, this.props))}>
         <RuleGroup
-          query={this.state.query}
-          group={this.state.query}
+          query={query}
+          group={query}
           level={0}
           rules={this.rules}
           ruleGroups={this.ruleGroups}
           columns={this.props.columns}
-          classNames={this.classNames}
+          classNames={classNames}
           onAdd={this.onAdd}
           onRemove={this.onRemove}
           onPropChange={this.onPropChange}
@@ -128,10 +139,12 @@ export class QueryBuilder extends React.Component<
   }
 
   private initializeState(): QueryBuilderState {
-    const query = createInitialQuery(this.ruleGroups, this.props.query);
+    const query = createQuery(this.ruleGroups, this.props.query);
+    const classNames = createClassNames(this.props.classNames);
 
     return {
       query,
+      classNames,
     };
   }
 }

@@ -10,7 +10,7 @@ import { generateValidQuery } from './generateValidQuery';
 import { isValidQuery } from './isValidQuery';
 import { quickUUID } from './quickUUID';
 
-export const createInitialClassNames = (
+export const createClassNames = (
   classNames?: QueryBuilderClassNames,
 ): QueryBuilderClassNames => {
   const userClassNames = classNames || {};
@@ -19,7 +19,7 @@ export const createInitialClassNames = (
   return { ...defaultClasNames, ...userClassNames };
 };
 
-export const createInitialQuery = (
+export const createQuery = (
   ruleGroups: ControlElement[],
   query?: RuleGroupCondition,
 ): RuleGroupCondition => {
