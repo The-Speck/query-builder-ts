@@ -33,7 +33,9 @@ export interface RuleGroupProps extends QueryBuilderState {
   onPropChange: OnPropChange;
 }
 
-interface RuleGroupElementAttributes extends React.Attributes, ControlProps {}
+export interface RuleGroupElementAttributes
+  extends React.Attributes,
+    ControlProps {}
 
 export class RuleGroup extends React.Component<RuleGroupProps> {
   constructor(props: RuleGroupProps) {

@@ -2,7 +2,7 @@ import { configure, mount, ReactWrapper } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import * as React from 'react';
 import { ActionButton, ValueComboBox, ValueDropDown, ValueInput } from '../src';
-import { Condition, RuleElements } from '../src/models';
+import { ActionTypes, Condition } from '../src/models';
 import RuleGroup, {
   RuleGroupElementAttributes,
   RuleGroupProps,
@@ -25,9 +25,6 @@ jest.mock('../src/controls', () => {
       <div id={props.name + props.parentProps.level}>ValueInput</div>
     ),
     typeCheck: jest.fn(),
-    createSortedElements: jest.fn((rules: RuleElements) =>
-      Object.values(rules),
-    ),
     createRule: jest.fn(() => {}),
     createRuleGroup: jest.fn(() => {}),
     isRuleGroup: jest.fn((condition: Condition) =>
@@ -57,46 +54,54 @@ describe('it', () => {
       query,
       group: query,
       level: 0,
-      rules: {
-        columnSelector: {
+      rules: [
+        {
           component: ValueComboBox,
           name: 'column',
-          defaultValue: '',
+          props: {
+            defaultValue: '',
+          },
         },
-        operatorSelector: {
+        {
           component: ValueDropDown,
           name: 'op',
-          defaultValue: '=',
+          props: {
+            defaultValue: '=',
+          },
         },
-        valueEditor: {
+        {
           component: ValueInput,
           name: 'value',
-          defaultValue: 'default value',
+          props: {
+            defaultValue: 'default value',
+          },
         },
-        removeRuleAction: {
+        {
           component: ActionButton,
           name: 'removeRule',
         },
-      },
-      ruleGroups: {
-        combinatorSelector: {
+      ],
+      ruleGroups: [
+        {
           component: ValueDropDown,
           name: 'combinator',
-          defaultValue: 'and',
+          props: {
+            defaultValue: 'and',
+          },
         },
-        addRuleAction: {
+        {
           component: ActionButton,
-          name: 'addRule',
+          name: ActionTypes.ADD_RULE,
         },
-        addGroupAction: {
+        {
           component: ActionButton,
-          name: 'addGroup',
+          name: ActionTypes.ADD_GROUP,
         },
-        removeGroupAction: {
+        {
           component: ActionButton,
-          name: 'removeGroup',
+          name: ActionTypes.REMOVE_GROUP,
         },
-      },
+      ],
       classNames: {
         ruleGroup: 'ruleGroup',
         ruleGroupRow: 'ruleGroupRow',
