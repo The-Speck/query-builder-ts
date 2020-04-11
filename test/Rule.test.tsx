@@ -1,8 +1,13 @@
 import { configure, shallow, ShallowWrapper } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import * as React from 'react';
-import { ActionButton, ValueComboBox, ValueDropDown, ValueInput } from '../src';
-import { RuleElements } from '../src/models';
+import {
+  ActionButton,
+  ActionTypes,
+  ValueComboBox,
+  ValueDropDown,
+  ValueInput,
+} from '../src';
 import Rule, { RuleElementAttributes, RuleProps } from '../src/Rule';
 
 configure({ adapter: new Adapter() });
@@ -14,9 +19,6 @@ jest.mock('../src/controls', () => {
     ValueDropDown: (): React.ReactElement => <div>ValueDropDown</div>,
     ValueInput: (): React.ReactElement => <div>ValueInput</div>,
     typeCheck: jest.fn(),
-    createSortedElements: jest.fn((rules: RuleElements) =>
-      Object.values(rules),
-    ),
   };
 });
 
@@ -31,30 +33,39 @@ describe('it', () => {
       op: '=',
       value: undefined,
     };
+    const columns = ['column1', 'column2'];
     props = {
+      columns,
       rule,
       query: { id: '1', combinator: 'and', conditions: [rule] },
-      rules: {
-        columnSelector: {
+      rules: [
+        {
           component: ValueComboBox,
           name: 'column',
-          defaultValue: '',
+          isColumn: true,
+          props: {
+            defaultValue: '',
+          },
         },
-        operatorSelector: {
+        {
           component: ValueDropDown,
           name: 'op',
-          defaultValue: '=',
+          props: {
+            defaultValue: '=',
+          },
         },
-        valueEditor: {
+        {
           component: ValueInput,
           name: 'value',
-          defaultValue: 'default value',
+          props: {
+            defaultValue: 'default value',
+          },
         },
-        removeRuleAction: {
+        {
           component: ActionButton,
-          name: 'removeRule',
+          name: ActionTypes.REMOVE_RULE,
         },
-      },
+      ],
       classNames: {
         ruleRow: 'ruleRow',
       },
@@ -86,25 +97,28 @@ describe('it', () => {
     const valueInput = wrapper.find('ValueInput');
     const actionButton = wrapper.find('ActionButton');
     expect(valueComboBox.props().value).toBe(props.rule.column);
+    expect((valueComboBox.props() as RuleElementAttributes).options).toBe(
+      props.columns,
+    );
     expect(valueDropDown.props().value).toBe(props.rule.op);
-    expect(valueInput.props().value).toBe(props.rules.valueEditor.defaultValue);
+    expect(valueInput.props().defaultValue).toBe(
+      props.rules[2]!.props!.defaultValue,
+    );
     expect(actionButton.props().value).toBe(undefined);
   });
 
-  describe('assigns handleOnChange via', () => {
+  describe('assigns onChange via', () => {
     it('onElementChange with onPropChange callback', () => {
       const valueComboBox = wrapper.find('ValueComboBox');
       const valueDropDown = wrapper.find('ValueDropDown');
       const valueInput = wrapper.find('ValueInput');
-      (valueComboBox.props() as RuleElementAttributes).handleOnChange(
+      (valueComboBox.props() as RuleElementAttributes).onChange(
         'valueComboBox',
       );
-      (valueDropDown.props() as RuleElementAttributes).handleOnChange(
+      (valueDropDown.props() as RuleElementAttributes).onChange(
         'valueDropDown',
       );
-      (valueInput.props() as RuleElementAttributes).handleOnChange(
-        'valueInput',
-      );
+      (valueInput.props() as RuleElementAttributes).onChange('valueInput');
       expect(props.onPropChange).toBeCalledTimes(3);
     });
 
@@ -114,7 +128,7 @@ describe('it', () => {
         stopPropagation: jest.fn(),
       };
       const actionButton = wrapper.find('ActionButton');
-      (actionButton.props() as RuleElementAttributes).handleOnChange(event);
+      (actionButton.props() as RuleElementAttributes).onChange(event);
       expect(props.onRemove).toBeCalledTimes(1);
       expect(event.preventDefault).toBeCalledTimes(1);
       expect(event.stopPropagation).toBeCalledTimes(1);
