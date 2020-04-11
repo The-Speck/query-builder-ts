@@ -3,6 +3,7 @@ import isNil from 'lodash/isNil';
 import * as React from 'react';
 import {
   ActionTypes,
+  ControlElementProps,
   ControlProps,
   OnChange,
   OnElementChange,
@@ -24,7 +25,7 @@ export interface RuleProps extends QueryBuilderState {
   onPropChange: OnPropChange;
 }
 
-interface RuleElementAttributes extends React.Attributes, ControlProps {}
+export interface RuleElementAttributes extends React.Attributes, ControlProps {}
 
 export class Rule extends React.Component<RuleProps> {
   constructor(props: RuleProps) {
@@ -50,7 +51,7 @@ export class Rule extends React.Component<RuleProps> {
         ...element.props,
         element,
         key: idx,
-        onChange: this.assignOnChange(element),
+        onChange: this.assignOnChangeWrapper(element),
         parentProps: { ...this.props },
         options: this.extractOptions(element),
         value: this.props.rule[element.name],
@@ -67,13 +68,16 @@ export class Rule extends React.Component<RuleProps> {
     return element.props && element.props.options;
   }
 
-  private assignOnChange({ name }: RuleElement): OnChange | undefined {
+  private assignOnChangeWrapper({
+    name,
+    props,
+  }: RuleElement): OnChange | undefined {
     switch (name) {
       case ActionTypes.REMOVE_RULE:
         return this.removeRule;
       default:
         if (!isNil(name)) {
-          return this.onElementChange(name);
+          return this.onElementChange(name, props);
         }
         return undefined;
     }
@@ -87,10 +91,17 @@ export class Rule extends React.Component<RuleProps> {
     onRemove(rule.id);
   }
 
-  private onElementChange(property: string): OnElementChange {
+  private onElementChange(
+    property: string,
+    props?: ControlElementProps,
+  ): OnElementChange {
     const { rule, onPropChange } = this.props;
+    const onChange = props && props.onChange;
 
-    return (value: any): void => onPropChange(property, value, rule.id);
+    return (value: any): void => {
+      onChange && onChange(value);
+      onPropChange(property, value, rule.id);
+    };
   }
 }
 

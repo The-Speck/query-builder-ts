@@ -4,6 +4,7 @@ import * as React from 'react';
 import {
   ActionTypes,
   Condition,
+  ControlElementProps,
   ControlProps,
   OnAdd,
   OnChange,
@@ -67,7 +68,7 @@ export class RuleGroup extends React.Component<RuleGroupProps> {
         ...element.props,
         element,
         key: idx,
-        onChange: this.assignOnChange(element),
+        onChange: this.assignOnChangeWrapper(element),
         parentProps: { ...this.props },
         value: this.props.group[element.name],
       } as RuleGroupElementAttributes),
@@ -96,7 +97,10 @@ export class RuleGroup extends React.Component<RuleGroupProps> {
     );
   }
 
-  private assignOnChange({ name }: RuleGroupElement): OnChange | undefined {
+  private assignOnChangeWrapper({
+    name,
+    props,
+  }: RuleGroupElement): OnChange | undefined {
     switch (name) {
       case ActionTypes.ADD_GROUP:
         return this.addGroup;
@@ -106,7 +110,7 @@ export class RuleGroup extends React.Component<RuleGroupProps> {
         return this.removeGroup;
       default:
         if (!isNil(name)) {
-          return this.onElementChange(name);
+          return this.onElementChange(name, props);
         }
         return undefined;
     }
@@ -138,10 +142,17 @@ export class RuleGroup extends React.Component<RuleGroupProps> {
     onRemove(group.id);
   }
 
-  private onElementChange(property: string): OnElementChange {
+  private onElementChange(
+    property: string,
+    props?: ControlElementProps,
+  ): OnElementChange {
     const { group, onPropChange } = this.props;
+    const onChange = props && props.onChange;
 
-    return (value: any): void => onPropChange(property, value, group.id);
+    return (value: any): void => {
+      onChange && onChange(value);
+      onPropChange(property, value, group.id);
+    };
   }
 }
 

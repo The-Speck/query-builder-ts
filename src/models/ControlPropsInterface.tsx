@@ -20,6 +20,7 @@ export interface ControlElementProps {
   defaultValue?: any;
   mapInput?: MappingFunction;
   mapOutput?: MappingFunction;
+  onChange?: OnChange;
   [key: string]: any;
 }
 
