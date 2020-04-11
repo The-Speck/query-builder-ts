@@ -68,19 +68,9 @@ export class RuleGroup extends React.Component<RuleGroupProps> {
         key: idx,
         onChange: this.assignOnChange(element),
         parentProps: { ...this.props },
-        options: this.extractOptions(element),
         value: this.props.group[element.name],
       } as RuleGroupElementAttributes),
     );
-  }
-
-  private extractOptions(element: ControlElement): any[] | undefined {
-    if (element.isColumn) {
-      return (
-        element.props && (element.props.options || this.props.columns || [])
-      );
-    }
-    return element.props && element.props.options;
   }
 
   private createChildren(conditions: Condition[]): React.ReactNode {
