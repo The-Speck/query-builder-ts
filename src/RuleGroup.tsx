@@ -17,13 +17,7 @@ import {
 } from './models';
 import { QueryBuilderState } from './QueryBuilder';
 import Rule from './Rule';
-import {
-  createRule,
-  createRuleGroup,
-  isRuleGroup,
-  sortElements,
-  typeCheck,
-} from './utils';
+import { createRule, createRuleGroup, isRuleGroup, typeCheck } from './utils';
 
 export interface RuleGroupProps extends QueryBuilderState {
   columns?: any[];
@@ -67,9 +61,7 @@ export class RuleGroup extends React.Component<RuleGroupProps> {
   }
 
   private createComponents(): React.ReactNode {
-    const elements = sortElements(this.props.ruleGroups);
-
-    return elements.map((element: ControlElement, idx: number) =>
+    return this.props.ruleGroups.map((element: ControlElement, idx: number) =>
       React.createElement(element.component, {
         ...element.props,
         element,

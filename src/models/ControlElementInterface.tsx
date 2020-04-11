@@ -21,7 +21,6 @@ export enum ActionTypes {
 
 export interface ControlElement {
   component: React.FunctionComponent<any> | React.ComponentClass<any>;
-  position: number;
   props: ControlElementProps;
   name: ControlName;
   isColumn?: MultiTypeCallback<boolean>;

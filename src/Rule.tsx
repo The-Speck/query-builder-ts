@@ -13,7 +13,7 @@ import {
   RuleCondition,
 } from './models';
 import { QueryBuilderState } from './QueryBuilder';
-import { sortElements, typeCheck } from './utils';
+import { typeCheck } from './utils';
 
 export interface RuleProps extends QueryBuilderState {
   columns?: any[];
@@ -45,9 +45,7 @@ export class Rule extends React.Component<RuleProps> {
   }
 
   private createComponents(): React.ReactNode {
-    const elements = sortElements(this.props.rules);
-
-    return elements.map((element: ControlElement, idx: number) =>
+    return this.props.rules.map((element: ControlElement, idx: number) =>
       React.createElement(element.component, {
         ...element.props,
         element,

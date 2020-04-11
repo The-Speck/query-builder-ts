@@ -5,5 +5,4 @@ export * from './isNumber';
 export * from './isRuleGroup';
 export * from './isValidQuery';
 export * from './quickUUID';
-export * from './sortElements';
 export * from './typeCheck';
