@@ -15,9 +15,10 @@ describe('it', () => {
 
   beforeEach(() => {
     props = {
-      handleOnChange: jest.fn(),
+      onChange: jest.fn(),
       className: 'ValueComboBox',
       value: 'value',
+      defaultValue: '',
       debounceTime: 1,
       options: ['First Name', 'Last Name', 'Address'],
     };
@@ -75,7 +76,7 @@ describe('it', () => {
     });
   });
 
-  describe('calls handleOnChange', () => {
+  describe('calls onChange', () => {
     it('with mapOutput', () => {
       props.condition = jest.fn(() => true);
       props.mapOutput = jest.fn((arg: any) => arg.replace('g', '3'));
@@ -84,8 +85,8 @@ describe('it', () => {
         .find('input')
         .simulate('change', { currentTarget: { value: 'abcdefg' } });
       expect(props.mapOutput).toHaveBeenCalledTimes(1);
-      expect(props.handleOnChange).toHaveBeenCalledTimes(1);
-      expect(props.handleOnChange).toHaveBeenCalledWith('abcdef3');
+      expect(props.onChange).toHaveBeenCalledTimes(1);
+      expect(props.onChange).toHaveBeenCalledWith('abcdef3');
     });
 
     it('without mapOutput', () => {
@@ -94,8 +95,8 @@ describe('it', () => {
       wrapper
         .find('input')
         .simulate('change', { currentTarget: { value: 'abcdefg' } });
-      expect(props.handleOnChange).toHaveBeenCalledTimes(1);
-      expect(props.handleOnChange).toHaveBeenCalledWith('abcdefg');
+      expect(props.onChange).toHaveBeenCalledTimes(1);
+      expect(props.onChange).toHaveBeenCalledWith('abcdefg');
     });
   });
 
@@ -108,7 +109,7 @@ describe('it', () => {
     wrapper.find('input').simulate('focus');
     const uList = wrapper.find('ul');
     expect(uList.children().length).toBe(1);
-    expect(props.handleOnChange).toHaveBeenCalledTimes(1);
-    expect(props.handleOnChange).toHaveBeenCalledWith('Address');
+    expect(props.onChange).toHaveBeenCalledTimes(1);
+    expect(props.onChange).toHaveBeenCalledWith('Address');
   });
 });
