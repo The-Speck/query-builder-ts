@@ -39,15 +39,9 @@ export class QueryBuilder extends React.Component<
   QueryBuilderProps,
   QueryBuilderState
 > {
-  private rules: RuleElement[];
-  private ruleGroups: RuleGroupElement[];
-
   constructor(props: QueryBuilderProps) {
     super(props);
 
-    const { rules, ruleGroups } = props;
-    this.rules = rules || Object.values(Defaults.RULE);
-    this.ruleGroups = ruleGroups || Object.values(Defaults.RULE_GROUP);
     this.state = this.initializeState();
 
     this.onAdd = this.onAdd.bind(this);
@@ -61,9 +55,9 @@ export class QueryBuilder extends React.Component<
       let classNames = this.state.classNames;
 
       if (!this.props.query) {
-        query = createQuery(this.ruleGroups, this.state.query);
+        query = createQuery(this.getRuleGroups(), this.state.query);
       } else if (this.props.query !== prevProps.query) {
-        query = createQuery(this.ruleGroups, this.props.query);
+        query = createQuery(this.getRuleGroups(), this.props.query);
       }
       if (this.props.classNames !== prevProps.classNames) {
         classNames = createClassNames(this.props.classNames);
@@ -83,8 +77,8 @@ export class QueryBuilder extends React.Component<
           query={query}
           group={query}
           level={0}
-          rules={this.rules}
-          ruleGroups={this.ruleGroups}
+          rules={this.getRules()}
+          ruleGroups={this.getRuleGroups()}
           columns={this.props.columns}
           classNames={classNames}
           onAdd={this.onAdd}
@@ -131,6 +125,14 @@ export class QueryBuilder extends React.Component<
     }
   }
 
+  private getRules(): RuleElement[] {
+    return this.props.rules || Object.values(Defaults.RULE);
+  }
+
+  private getRuleGroups(): RuleGroupElement[] {
+    return this.props.ruleGroups || Object.values(Defaults.RULE_GROUP);
+  }
+
   private updateQuery(query: RuleGroupCondition): void {
     const { onQueryChange } = this.props;
     this.setState(
@@ -140,7 +142,7 @@ export class QueryBuilder extends React.Component<
   }
 
   private initializeState(): QueryBuilderState {
-    const query = createQuery(this.ruleGroups, this.props.query);
+    const query = createQuery(this.getRuleGroups(), this.props.query);
     const classNames = createClassNames(this.props.classNames);
 
     return {
