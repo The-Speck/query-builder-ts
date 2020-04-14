@@ -1,5 +1,5 @@
 import { ActionButton, ActionButtonControlProps } from '../../controls';
-import { ActionTypes, RuleGroupElement } from '../../models';
+import { ControlActions, RuleGroupElement } from '../../models';
 import ruleGroupElementsClassNames from './ruleGroupElementsClassNames';
 
 export interface DefaultAddGroupAction extends RuleGroupElement {
@@ -8,7 +8,7 @@ export interface DefaultAddGroupAction extends RuleGroupElement {
 
 export const defaultAddGroupAction: DefaultAddGroupAction = {
   component: ActionButton,
-  name: ActionTypes.ADD_GROUP,
+  name: ControlActions.ADD_GROUP,
   props: {
     label: '+Group',
     className: ruleGroupElementsClassNames.addGroup,

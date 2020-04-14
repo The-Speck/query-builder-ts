@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import isNil from 'lodash/isNil';
 import * as React from 'react';
 import {
-  ActionTypes,
+  ControlActions,
   ControlElementProps,
   ControlProps,
   OnChange,
@@ -73,7 +73,7 @@ export class Rule extends React.Component<RuleProps> {
     props,
   }: RuleElement): OnChange | undefined {
     switch (name) {
-      case ActionTypes.REMOVE_RULE:
+      case ControlActions.REMOVE_RULE:
         return this.removeRule;
       default:
         if (!isNil(name)) {

@@ -1,5 +1,5 @@
 import { ActionButton, ActionButtonControlProps } from '../../controls';
-import { ActionTypes, ControlProps, RuleGroupElement } from '../../models';
+import { ControlActions, ControlProps, RuleGroupElement } from '../../models';
 import { RuleGroupProps } from '../../RuleGroup';
 import ruleGroupElementsClassNames from './ruleGroupElementsClassNames';
 
@@ -9,7 +9,7 @@ export interface DefaultRemoveGroupAction extends RuleGroupElement {
 
 export const defaultRemoveGroupAction: DefaultRemoveGroupAction = {
   component: ActionButton,
-  name: ActionTypes.REMOVE_GROUP,
+  name: ControlActions.REMOVE_GROUP,
   props: {
     label: 'X',
     condition: ({ parentProps }: ControlProps): boolean =>

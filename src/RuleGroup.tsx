@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import isNil from 'lodash/isNil';
 import * as React from 'react';
 import {
-  ActionTypes,
+  ControlActions,
   Condition,
   ControlElementProps,
   ControlProps,
@@ -104,11 +104,11 @@ export class RuleGroup extends React.Component<RuleGroupProps> {
     props,
   }: RuleGroupElement): OnChange | undefined {
     switch (name) {
-      case ActionTypes.ADD_GROUP:
+      case ControlActions.ADD_GROUP:
         return this.addGroup;
-      case ActionTypes.ADD_RULE:
+      case ControlActions.ADD_RULE:
         return this.addRule;
-      case ActionTypes.REMOVE_GROUP:
+      case ControlActions.REMOVE_GROUP:
         return this.removeGroup;
       default:
         if (!isNil(name)) {

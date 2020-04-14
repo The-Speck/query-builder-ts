@@ -1,7 +1,7 @@
 import { MultiTypeCallback } from '.';
 import { ControlElementProps, ControlProps } from './ControlPropsInterface';
 
-export type ReservedNames = 'conditions' | 'combinator' | 'id' | ActionTypes;
+export type ReservedNames = 'conditions' | 'combinator' | 'id' | ControlActions;
 
 export type ControlName = Exclude<string, ReservedNames>;
 export type InputTypeFunction = (
@@ -12,7 +12,7 @@ export type InputType =
   | React.InputHTMLAttributes<HTMLInputElement>
   | InputTypeFunction;
 
-export enum ActionTypes {
+export enum ControlActions {
   ADD_GROUP = 'ADD_GROUP',
   ADD_RULE = 'ADD_RULE',
   REMOVE_GROUP = 'REMOVE_GROUP',
