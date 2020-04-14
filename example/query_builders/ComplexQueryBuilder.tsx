@@ -44,13 +44,12 @@ export default (): React.ReactElement => {
           maxWidth: '90rem',
         }}>
         <QueryBuilder
-          // query={query}
+          query={query}
           onQueryChange={setQuery}
           rules={[
             {
               component: ValueComboBox,
               name: 'column',
-              position: 1,
               props: {
                 className: {
                   input: '',
@@ -71,7 +70,6 @@ export default (): React.ReactElement => {
             {
               component: ValueInput,
               name: 'value',
-              position: 3,
               props: {
                 className: '',
                 label: 'Value',
@@ -87,7 +85,6 @@ export default (): React.ReactElement => {
             {
               component: ValueComboBox,
               name: 'value',
-              position: 3,
               props: {
                 className: {
                   input: '',
@@ -111,7 +108,6 @@ export default (): React.ReactElement => {
             {
               component: ValueDropDown,
               name: 'type',
-              position: 4,
               props: {
                 defaultValue: 'value',
                 options: [
