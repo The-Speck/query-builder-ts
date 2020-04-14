@@ -2,7 +2,7 @@ import { configure, mount, ReactWrapper } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import * as React from 'react';
 import { ActionButton, ValueComboBox, ValueDropDown, ValueInput } from '../src';
-import { ActionTypes, Condition } from '../src/models';
+import { Condition, ControlActions } from '../src/models';
 import RuleGroup, {
   RuleGroupElementAttributes,
   RuleGroupProps,
@@ -13,16 +13,16 @@ configure({ adapter: new Adapter() });
 jest.mock('../src/controls', () => {
   return {
     ActionButton: (props: any): React.ReactElement => (
-      <div id={props.name + props.parentProps.level}>ActionButton</div>
+      <div id={props.element.name + props.parentProps.level}>ActionButton</div>
     ),
     ValueComboBox: (props: any): React.ReactElement => (
-      <div id={props.name + props.parentProps.level}>ValueComboBox</div>
+      <div id={props.element.name + props.parentProps.level}>ValueComboBox</div>
     ),
     ValueDropDown: (props: any): React.ReactElement => (
-      <div id={props.name + props.parentProps.level}>ValueDropDown</div>
+      <div id={props.element.name + props.parentProps.level}>ValueDropDown</div>
     ),
     ValueInput: (props: any): React.ReactElement => (
-      <div id={props.name + props.parentProps.level}>ValueInput</div>
+      <div id={props.element.name + props.parentProps.level}>ValueInput</div>
     ),
     typeCheck: jest.fn(),
     createRule: jest.fn(() => {}),
@@ -78,7 +78,7 @@ describe('it', () => {
         },
         {
           component: ActionButton,
-          name: 'removeRule',
+          name: ControlActions.REMOVE_RULE,
         },
       ],
       ruleGroups: [
@@ -91,15 +91,15 @@ describe('it', () => {
         },
         {
           component: ActionButton,
-          name: ActionTypes.ADD_RULE,
+          name: ControlActions.ADD_RULE,
         },
         {
           component: ActionButton,
-          name: ActionTypes.ADD_GROUP,
+          name: ControlActions.ADD_GROUP,
         },
         {
           component: ActionButton,
-          name: ActionTypes.REMOVE_GROUP,
+          name: ControlActions.REMOVE_GROUP,
         },
       ],
       classNames: {
@@ -120,9 +120,9 @@ describe('it', () => {
 
     it('main rule group elements', () => {
       const combinator = wrapper.find('#combinator0');
-      const addRule = wrapper.find('#addRule0');
-      const addGroup = wrapper.find('#addGroup0');
-      const removeGroup = wrapper.find('#removeGroup0');
+      const addRule = wrapper.find(`#${ControlActions.ADD_RULE}0`);
+      const addGroup = wrapper.find(`#${ControlActions.ADD_GROUP}0`);
+      const removeGroup = wrapper.find(`#${ControlActions.REMOVE_GROUP}0`);
       expect(combinator.exists()).toBeTruthy();
       expect(addRule.exists()).toBeTruthy();
       expect(addGroup.exists()).toBeTruthy();
@@ -148,21 +148,21 @@ describe('it', () => {
 
   it('sets values', () => {
     const combinator = wrapper.find('#combinator0');
-    const addRule = wrapper.find('#addRule0');
-    const addGroup = wrapper.find('#addGroup0');
-    const removeGroup = wrapper.find('#removeGroup0');
+    const addRule = wrapper.find(`#${ControlActions.ADD_RULE}0`);
+    const addGroup = wrapper.find(`#${ControlActions.ADD_GROUP}0`);
+    const removeGroup = wrapper.find(`#${ControlActions.REMOVE_GROUP}0`);
     expect(combinator.parent().props().value).toBe(props.group.combinator);
     expect(addRule.parent().props().value).toBe(undefined);
     expect(addGroup.parent().props().value).toBe(undefined);
     expect(removeGroup.parent().props().value).toBe(undefined);
   });
 
-  describe('assigns handleOnChange via', () => {
+  describe('assigns onChange via', () => {
     it('onElementChange with onPropChange callback', () => {
       const combinator = wrapper.find('#combinator0');
-      (combinator
-        .parent()
-        .props() as RuleGroupElementAttributes).handleOnChange('valueDropDown');
+      (combinator.parent().props() as RuleGroupElementAttributes).onChange(
+        'valueDropDown',
+      );
       expect(props.onPropChange).toBeCalledTimes(1);
     });
 
@@ -171,10 +171,10 @@ describe('it', () => {
         preventDefault: jest.fn(),
         stopPropagation: jest.fn(),
       };
-      const actionButton = wrapper.find('#removeGroup0');
-      (actionButton
-        .parent()
-        .props() as RuleGroupElementAttributes).handleOnChange(event);
+      const actionButton = wrapper.find(`#${ControlActions.REMOVE_GROUP}0`);
+      (actionButton.parent().props() as RuleGroupElementAttributes).onChange(
+        event,
+      );
       expect(props.onRemove).toBeCalledTimes(1);
       expect(event.preventDefault).toBeCalledTimes(1);
       expect(event.stopPropagation).toBeCalledTimes(1);
@@ -185,10 +185,10 @@ describe('it', () => {
         preventDefault: jest.fn(),
         stopPropagation: jest.fn(),
       };
-      const actionButton = wrapper.find('#addRule0');
-      (actionButton
-        .parent()
-        .props() as RuleGroupElementAttributes).handleOnChange(event);
+      const actionButton = wrapper.find(`#${ControlActions.ADD_RULE}0`);
+      (actionButton.parent().props() as RuleGroupElementAttributes).onChange(
+        event,
+      );
       expect(props.onAdd).toBeCalledTimes(1);
       expect(event.preventDefault).toBeCalledTimes(1);
       expect(event.stopPropagation).toBeCalledTimes(1);
@@ -199,10 +199,10 @@ describe('it', () => {
         preventDefault: jest.fn(),
         stopPropagation: jest.fn(),
       };
-      const actionButton = wrapper.find('#addGroup0');
-      (actionButton
-        .parent()
-        .props() as RuleGroupElementAttributes).handleOnChange(event);
+      const actionButton = wrapper.find(`#${ControlActions.ADD_GROUP}0`);
+      (actionButton.parent().props() as RuleGroupElementAttributes).onChange(
+        event,
+      );
       expect(props.onAdd).toBeCalledTimes(1);
       expect(event.preventDefault).toBeCalledTimes(1);
       expect(event.stopPropagation).toBeCalledTimes(1);

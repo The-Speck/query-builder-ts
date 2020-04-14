@@ -16,7 +16,8 @@ describe('it', () => {
         { label: 'label2', value: 'value2' },
       ],
       value: 'value',
-      handleOnChange: jest.fn(),
+      defaultValue: null,
+      onChange: jest.fn(),
       className: 'ValueDropDown',
     };
   });
@@ -27,7 +28,7 @@ describe('it', () => {
       props.mapInput = jest.fn((arg: any) => arg + '1');
       wrapper = shallow(<ValueDropDown {...props} />);
       wrapper.exists();
-      expect(props.mapInput).toBeCalledTimes(1);
+      expect(props.mapInput).toHaveBeenCalled();
       expect(wrapper.prop('value')).toBe('value1');
     });
 
@@ -45,7 +46,7 @@ describe('it', () => {
     });
   });
 
-  describe('calls handleOnChange', () => {
+  describe('calls onChange', () => {
     it('with mapOutput', () => {
       props.condition = jest.fn(() => true);
       props.mapOutput = jest.fn((arg: any) => arg.replace('2', '3'));
@@ -54,8 +55,8 @@ describe('it', () => {
         .find('select')
         .simulate('change', { currentTarget: { value: 'value2' } });
       expect(props.mapOutput).toHaveBeenCalledTimes(1);
-      expect(props.handleOnChange).toHaveBeenCalledTimes(1);
-      expect(props.handleOnChange).toHaveBeenCalledWith('value3');
+      expect(props.onChange).toHaveBeenCalledTimes(1);
+      expect(props.onChange).toHaveBeenCalledWith('value3');
     });
 
     it('without mapOutput', () => {
@@ -64,8 +65,8 @@ describe('it', () => {
       wrapper
         .find('select')
         .simulate('change', { currentTarget: { value: 'value2' } });
-      expect(props.handleOnChange).toHaveBeenCalledTimes(1);
-      expect(props.handleOnChange).toHaveBeenCalledWith('value2');
+      expect(props.onChange).toHaveBeenCalledTimes(1);
+      expect(props.onChange).toHaveBeenCalledWith('value2');
     });
   });
 });

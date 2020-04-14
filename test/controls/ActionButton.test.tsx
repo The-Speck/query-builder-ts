@@ -11,7 +11,7 @@ describe('it', () => {
 
   beforeEach(() => {
     props = {
-      handleOnChange: jest.fn(),
+      onChange: jest.fn(),
       className: 'ActionButton',
       label: 'Button',
     };
@@ -31,11 +31,11 @@ describe('it', () => {
     });
   });
 
-  it('calls handleOnChange when clicked', () => {
+  it('calls onChange when clicked', () => {
     props.condition = jest.fn(() => true);
     wrapper = shallow(<ActionButton {...props} />);
     const button = wrapper.find('button');
     button.simulate('click');
-    expect(props.handleOnChange).toHaveBeenCalledTimes(1);
+    expect(props.onChange).toHaveBeenCalledTimes(1);
   });
 });
