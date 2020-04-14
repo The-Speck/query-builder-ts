@@ -9,6 +9,6 @@ module.exports = {
     },
     testEnvironment: 'node',
     moduleFileExtensions: ['ts', 'js', 'json', 'node', 'tsx'],
-    setupFilesAfterEnv: ['<rootDir>/test/jest.setup.js'], // doesn't work =[
+    setupFilesAfterEnv: ['<rootDir>/test/jest.setup.js'],
   },
 };
