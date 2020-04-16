@@ -46,9 +46,11 @@ export default (): React.ReactElement => {
         <QueryBuilder
           query={query}
           onQueryChange={setQuery}
+          columns={columns}
           rules={[
             {
               component: ValueComboBox,
+              isColumn: true,
               name: 'column',
               props: {
                 className: {
@@ -58,7 +60,6 @@ export default (): React.ReactElement => {
                   ul: 'filteredOptionsList',
                   li: 'filteredOptionsItem',
                 },
-                options: columns,
                 defaultValue: {},
                 mapInput: (value: any, props: any): string =>
                   value.displayName || '',
