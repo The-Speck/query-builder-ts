@@ -9,6 +9,7 @@ export interface DefaultColumnSelector extends RuleElement {
 export const defaultColumnSelector: DefaultColumnSelector = {
   component: ValueComboBox,
   name: 'column',
+  isColumn: true,
   props: {
     options: [],
     defaultValue: '',
