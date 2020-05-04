@@ -17,6 +17,8 @@ export default (): React.ReactElement => {
     [query],
   );
 
+  // tslint:disable-next-line: no-console
+  console.log(query);
   return (
     <div
       style={{

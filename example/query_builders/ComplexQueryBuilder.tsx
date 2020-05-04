@@ -30,6 +30,8 @@ export default (): React.ReactElement => {
     { databaseName: 'age', displayName: 'Age', type: 'number' },
   ];
 
+  // tslint:disable-next-line: no-console
+  console.log(query);
   return (
     <div
       style={{
