@@ -9,6 +9,11 @@
   "files": [
     "dist"
   ],
+  "steps": [
+    "version",
+    "autolog",
+    "npm publish"
+  ],
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
