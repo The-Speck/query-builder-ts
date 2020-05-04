@@ -1,5 +1,4 @@
 import classnames from 'classnames';
-import isNil from 'lodash/isNil';
 import * as React from 'react';
 import {
   ControlActions,
@@ -14,7 +13,7 @@ import {
   RuleElement,
 } from './models';
 import { QueryBuilderState } from './QueryBuilder';
-import { typeCheck } from './utils';
+import { isValidName, typeCheck } from './utils';
 
 export interface RuleProps extends QueryBuilderState {
   columns?: any[];
@@ -46,16 +45,17 @@ export class Rule extends React.Component<RuleProps> {
   }
 
   private createComponents(): React.ReactNode {
-    return this.props.rules.map((element: RuleElement, idx: number) =>
-      React.createElement(element.component, {
-        ...element.props,
-        element,
-        key: idx,
-        onChange: this.assignOnChangeWrapper(element),
-        parentProps: { ...this.props },
-        options: this.extractOptions(element),
-        value: this.props.rule[element.name],
-      } as RuleElementAttributes),
+    return this.props.rules.map(
+      (element: RuleElement, idx: number): React.ReactNode =>
+        React.createElement(element.component, {
+          ...element.props,
+          element,
+          key: idx,
+          onChange: this.assignOnChangeWrapper(element),
+          parentProps: { ...this.props },
+          options: this.extractOptions(element),
+          value: this.props.rule[element.name],
+        } as RuleElementAttributes),
     );
   }
 
@@ -76,7 +76,7 @@ export class Rule extends React.Component<RuleProps> {
       case ControlActions.REMOVE_RULE:
         return this.removeRule;
       default:
-        if (!isNil(name)) {
+        if (isValidName(name)) {
           return this.onElementChange(name, props);
         }
         return undefined;

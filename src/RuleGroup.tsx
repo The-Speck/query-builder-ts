@@ -1,9 +1,8 @@
 import classnames from 'classnames';
-import isNil from 'lodash/isNil';
 import * as React from 'react';
 import {
-  ControlActions,
   Condition,
+  ControlActions,
   ControlElementProps,
   ControlProps,
   OnAdd,
@@ -19,7 +18,13 @@ import {
 } from './models';
 import { QueryBuilderState } from './QueryBuilder';
 import Rule from './Rule';
-import { createRule, createRuleGroup, isRuleGroup, typeCheck } from './utils';
+import {
+  createRule,
+  createRuleGroup,
+  isRuleGroup,
+  isValidName,
+  typeCheck,
+} from './utils';
 
 export interface RuleGroupProps extends QueryBuilderState {
   columns?: any[];
@@ -65,36 +70,39 @@ export class RuleGroup extends React.Component<RuleGroupProps> {
   }
 
   private createComponents(): React.ReactNode {
-    return this.props.ruleGroups.map((element: RuleGroupElement, idx: number) =>
-      React.createElement(element.component, {
-        ...element.props,
-        element,
-        key: idx,
-        onChange: this.assignOnChangeWrapper(element),
-        parentProps: { ...this.props },
-        value: this.props.group[element.name],
-      } as RuleGroupElementAttributes),
+    return this.props.ruleGroups.map(
+      (element: RuleGroupElement, idx: number): React.ReactNode =>
+        React.createElement(element.component, {
+          ...element.props,
+          element,
+          key: idx,
+          onChange: this.assignOnChangeWrapper(element),
+          parentProps: { ...this.props },
+          value: this.props.group[element.name],
+        } as RuleGroupElementAttributes),
     );
   }
 
   private createChildren(conditions: Condition[]): React.ReactNode {
-    return conditions.map((condition: Condition, idx: number) => {
-      return isRuleGroup(condition) ? (
-        <RuleGroup
-          {...this.props}
-          key={idx}
-          group={condition as RuleGroupCondition}
-          level={this.props.level + 1}
-        />
-      ) : (
-        <Rule key={idx} rule={condition as RuleCondition} {...this.props} />
-      );
-    });
+    return conditions.map(
+      (condition: Condition, idx: number): React.ReactNode => {
+        return isRuleGroup(condition) ? (
+          <RuleGroup
+            {...this.props}
+            key={idx}
+            group={condition as RuleGroupCondition}
+            level={this.props.level + 1}
+          />
+        ) : (
+          <Rule key={idx} rule={condition as RuleCondition} {...this.props} />
+        );
+      },
+    );
   }
 
   // Using '===' because nothing should change if both are true or false.
   private sortConditions(conditions: Condition[]): Condition[] {
-    return conditions.sort((a: Condition, b: Condition) =>
+    return conditions.sort((a: Condition, b: Condition): number =>
       isRuleGroup(a) === isRuleGroup(b) ? 0 : isRuleGroup(a) ? 1 : -1,
     );
   }
@@ -111,7 +119,7 @@ export class RuleGroup extends React.Component<RuleGroupProps> {
       case ControlActions.REMOVE_GROUP:
         return this.removeGroup;
       default:
-        if (!isNil(name)) {
+        if (isValidName(name)) {
           return this.onElementChange(name, props);
         }
         return undefined;
