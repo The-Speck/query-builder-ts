@@ -1,4 +1,3 @@
-import isNil from 'lodash/isNil';
 import Defaults from '../defaults';
 import {
   QueryBuilderClassNames,
@@ -8,6 +7,7 @@ import {
   RuleGroupElement,
 } from '../models';
 import { generateValidQuery } from './generateValidQuery';
+import { isValidName } from './isValidName';
 import { isValidQuery } from './isValidQuery';
 import { quickUUID } from './quickUUID';
 
@@ -32,9 +32,12 @@ export const createRuleGroup = (
   ruleGroups: RuleElement[],
 ): RuleGroupCondition => {
   const customRuleGroups = ruleGroups.reduce(
-    (acc: Partial<RuleGroupCondition>, { name, props }: RuleGroupElement) => {
+    (
+      acc: Partial<RuleGroupCondition>,
+      { name, props }: RuleGroupElement,
+    ): Partial<RuleGroupCondition> => {
       const defaultValue = props && props.defaultValue;
-      if (!isNil(name)) {
+      if (isValidName(name)) {
         acc[name] = defaultValue;
       }
       return acc;
@@ -51,9 +54,12 @@ export const createRuleGroup = (
 
 export const createRule = (rules: RuleElement[]): RuleCondition => {
   const customRules = rules.reduce(
-    (acc: Partial<RuleCondition>, { name, props }: RuleElement) => {
+    (
+      acc: Partial<RuleCondition>,
+      { name, props }: RuleElement,
+    ): Partial<RuleGroupCondition> => {
       const defaultValue = props && props.defaultValue;
-      if (!isNil(name)) {
+      if (isValidName(name)) {
         acc[name] = defaultValue;
       }
       return acc;
