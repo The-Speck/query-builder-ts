@@ -10,8 +10,8 @@
     "dist"
   ],
   "steps": [
-    "version",
     "autolog",
+    "version",
     "npm publish"
   ],
   "scripts": {
