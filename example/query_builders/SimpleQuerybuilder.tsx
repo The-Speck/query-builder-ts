@@ -8,7 +8,7 @@ export default (): React.ReactElement => {
   const columns: any[] = ['First Name', 'Last Name', 'Address'];
 
   const PrettyPrintJson = React.useCallback(
-    () =>
+    (): React.ReactNode =>
       query ? (
         <div>
           <pre>{JSON.stringify(query, null, 2)}</pre>

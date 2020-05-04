@@ -14,7 +14,7 @@ export default (): React.ReactElement => {
   );
 
   const PrettyPrintJson = React.useCallback(
-    () =>
+    (): React.ReactNode =>
       query ? (
         <div>
           <pre>{JSON.stringify(query, null, 2)}</pre>
@@ -66,7 +66,8 @@ export default (): React.ReactElement => {
                 mapInput: (value: any, props: any): string =>
                   value.displayName || '',
                 mapOutput: (value: string, props: any): any =>
-                  columns.find((c: any) => c.displayName === value) || '',
+                  columns.find((c: any): boolean => c.displayName === value) ||
+                  '',
               },
             },
             Defaults.RULE.OPERATOR,
@@ -105,7 +106,8 @@ export default (): React.ReactElement => {
                 mapInput: (value: any, props: any): string =>
                   value.displayName || '',
                 mapOutput: (value: string, props: any): any =>
-                  columns.find((c: any) => c.displayName === value) || value,
+                  columns.find((c: any): boolean => c.displayName === value) ||
+                  value,
               },
             },
             {
