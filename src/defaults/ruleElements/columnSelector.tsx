@@ -11,7 +11,6 @@ export const defaultColumnSelector: DefaultColumnSelector = {
   name: 'column',
   isColumn: true,
   props: {
-    options: [],
     defaultValue: '',
     className: ruleElementsClassNames.columns,
   },
