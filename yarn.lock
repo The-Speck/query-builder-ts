@@ -6392,7 +6392,7 @@ rollup-plugin-terser@^5.1.2:
     "@babel/code-frame" "^7.5.5"
     jest-worker "^24.9.0"
     rollup-pluginutils "^2.8.2"
-    serialize-javascript "^2.1.2"
+    serialize-javascript "^3.1.0"
     terser "^4.6.2"
 
 rollup-plugin-typescript2@^0.26.0:
@@ -6531,10 +6531,10 @@ semver@^7.1.1:
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.3.0.tgz#91f7c70ec944a63e5dc7a74cde2da375d8e0853c"
   integrity sha512-uyvgU/igkrMgNHwLgXvlpD9jEADbJhB0+JXSywoO47JgJ6c16iau9F9cjtc/E5o0PoqRYTiTIAPRKaYe84z6eQ==
 
-serialize-javascript@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-2.1.2.tgz#ecec53b0e0317bdc95ef76ab7074b7384785fa61"
-  integrity sha512-rs9OggEUF0V4jUSecXazOYsLfu7OGK2qIn3c7IPBiffz32XniEp/TX9Xmc9LQfK2nQ2QKHvZ2oygKUGU0lG4jQ==
+serialize-javascript@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-3.1.0.tgz#8bf3a9170712664ef2561b44b691eafe399214ea"
+  integrity sha512-JIJT1DGiWmIKhzRsG91aS6Ze4sFUrYbltlkg2onR5OrnNM02Kl/hnY/T4FN2omvyeBbQmMJv+K4cPOpGzOTFBg==
 
 set-blocking@^2.0.0:
   version "2.0.0"
